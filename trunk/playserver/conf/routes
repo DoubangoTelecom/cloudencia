@@ -3,8 +3,26 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
-GET     /WebSocket           controllers.Application.connectWebSocket()
+GET     /                    		controllers.Application.index()
+GET     /home                  		controllers.Application.home()
+GET     /logout                  	controllers.Application.logout()
+GET     /bootstrap                  controllers.Application.bootstrap()
+GET     /WebSocket           		controllers.Application.connectWebSocket()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file        		controllers.Assets.at(path="/public", file)
+
+
+# Authentication
+GET     /getLogin/:type             controllers.Application.getLogin(type: String)
+GET     /getLogin             		controllers.Application.getLogin(type: String ?= "user")
+POST    /postLogin                 	controllers.Application.postLogin()
+
+# Developers
+GET     /getDevList            		controllers.Application.getDevList()
+GET     /getDevEdit/:id           	controllers.Application.getDevEdit(id: Long)
+GET     /getDevEdit             	controllers.Application.getDevEdit(id: Long ?= -1L)
+POST    /postDevEdit                controllers.Application.postDevEdit()
+
+# User actions
+POST   /Users/Create/:email    		controllers.Users.create(email: String, name: String ?= null)
