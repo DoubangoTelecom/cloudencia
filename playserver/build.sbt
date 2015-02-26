@@ -10,5 +10,7 @@ libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
   cache,
-  javaWs
+  javaWs,
+  "org.apache.commons" % "commons-email" % "1.3.1",
+  "org.xerial" % "sqlite-jdbc" % "3.7.2"
 )
