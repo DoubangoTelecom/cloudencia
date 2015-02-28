@@ -29,8 +29,11 @@ public class User extends Model {
 	@Email
 	public String email;
 	
+	@Required(message = "Friendly name is mandatory field")
+	public String firendlyName;
+	
 	@Required
-	public String name;
+	public String phoneNumber;
 	
 	public String icon;
 	
@@ -56,7 +59,22 @@ public class User extends Model {
 	
 	public static boolean create(User user) {
 		try {
+			boolean fakePhoneNumber = (user.phoneNumber == null || user.phoneNumber.isEmpty());
+			if (fakePhoneNumber) {
+				user.phoneNumber = Tools.randomUniquePhoneNumber(0L);
+			}
 			user.save();
+			if (fakePhoneNumber) {
+				user.phoneNumber = Tools.randomUniquePhoneNumber(user.id);
+				try {
+					user.update();
+				}
+				catch(Exception e) {
+					Logger.error("Failed to update user with id=%ld", user.id);
+					user.delete();
+					throw new Exception(String.format("Failed to update user with id=%ld", user.id));
+				}
+			}
 			return true;
 		}
 		catch(Exception e) {
