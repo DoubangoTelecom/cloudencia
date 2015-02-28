@@ -3,11 +3,14 @@ package controllers;
 import models.CustomWebSocketActor;
 import models.Developer;
 import models.SessionInfo;
+import models.SessionInfo.Type;
+import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import play.mvc.WebSocket;
+import utils.SessionManager;
 import views.html.index;
 import forms.FormEditDeveloper;
 import forms.FormLogin;
@@ -59,7 +62,26 @@ public class Application extends Controller {
 	    	return badRequest(views.html.page_login.render(form));
 	    }
 	    else {
-	    	session("login.name", form.get().getName());
+			if (form.get().type == Type.Dev) {
+				final Developer developer = form.get().getActor() == null ? Developer.findByEmail(form.get().getName()) : (Developer)form.get().getActor();
+				if (developer == null) {
+					return badRequest(views.html.page_login.render(form));// FIXME: message
+				}
+				if (!SessionManager.addObject("login.devObj", developer)) {
+					return badRequest(views.html.page_login.render(form)); // FIXME: message
+				}
+			}
+			else if (form.get().type == Type.Dev) {
+				final User user = form.get().getActor() == null ? User.findByEmail(form.get().getName()) : (User)form.get().getActor();
+				if (user == null) {
+					return badRequest(views.html.page_login.render(form));// FIXME: message
+				}
+				if (!SessionManager.addObject("login.userObj", user)) {
+					return badRequest(views.html.page_login.render(form)); // FIXME: message
+				}
+			}
+			
+			session("login.name", form.get().getName());
 			session("login.password", form.get().getPassword());
 			session("login.type", FormLogin.typeToString(form.get()));
 	        return redirect(controllers.routes.Application.home());
@@ -74,7 +96,7 @@ public class Application extends Controller {
 	
 	@Security.Authenticated(Secured.SecuredAdmin.class)
 	public static Result getDevList() {
-		return ok(views.html.page_dev_list.render());
+		return ok(views.html.page_dev_list.render(Developer.find.all()));
 	}
 	
 	@Security.Authenticated(Secured.SecuredAdmin.class)
@@ -102,7 +124,7 @@ public class Application extends Controller {
 				}
 			}
 			
-			return ok(views.html.page_dev_list.render());
+			return ok(views.html.page_dev_list.render(Developer.find.all()));
 	    }
 	}
 }
