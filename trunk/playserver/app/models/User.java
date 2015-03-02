@@ -1,8 +1,10 @@
 package models;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -25,12 +27,13 @@ public class User extends Model {
 	@Required
 	public long id;
 	
-	@Required
+	@Required(message = "Email is mandatory field")
+	@Column(nullable = false, unique = true)
 	@Email
 	public String email;
 	
 	@Required(message = "Friendly name is mandatory field")
-	public String firendlyName;
+	public String friendlyName;
 	
 	@Required
 	public String phoneNumber;
@@ -85,5 +88,10 @@ public class User extends Model {
 	
 	public static User findByEmail(String email) {
 		return find.where().like("email", "%"+email+"%").findUnique();
+	}
+	
+	public static List<User> findByDeveloper(long developerId) {
+		return find.where().eq("developer_id", Long.toString(developerId)).findList();
+		// return find.where().like("developer_id", "%"+developerId+"%").findList();
 	}
 }

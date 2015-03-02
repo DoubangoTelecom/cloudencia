@@ -1,6 +1,5 @@
 package forms;
 
-import models.BasicResult;
 import models.Developer;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.EmailValidator;

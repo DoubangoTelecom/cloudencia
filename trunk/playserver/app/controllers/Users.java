@@ -41,7 +41,7 @@ public class Users extends Controller {
 		if (user == null) {
 			user = new User();
 			user.email = email;
-			user.firendlyName = name;
+			user.friendlyName = name;
 			if (!User.create(user)) {
 				return new BasicResult(false, "Faile to add new user  with email= " + email);
 			}
