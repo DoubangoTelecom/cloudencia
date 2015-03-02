@@ -54,12 +54,13 @@ create table sip_account (
 
 create table user (
   id                        bigint not null,
-  email                     varchar(255),
-  firendly_name             varchar(255),
+  email                     varchar(255) not null,
+  friendly_name             varchar(255),
   phone_number              varchar(255),
   icon                      varchar(255),
   password                  varchar(255),
   developer_id              bigint,
+  constraint uq_user_email unique (email),
   constraint pk_user primary key (id))
 ;
 

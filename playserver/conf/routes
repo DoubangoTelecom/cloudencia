@@ -24,5 +24,11 @@ GET     /getDevEdit/:id           	controllers.Application.getDevEdit(id: Long)
 GET     /getDevEdit             	controllers.Application.getDevEdit(id: Long ?= -1L)
 POST    /postDevEdit                controllers.Application.postDevEdit()
 
+# Users
+GET     /getUserList            	controllers.Application.getUserList()
+GET     /getUserEdit/:id           	controllers.Application.getUserEdit(id: Long)
+GET     /getUserEdit             	controllers.Application.getUserEdit(id: Long ?= -1L)
+POST    /postUserEdit               controllers.Application.postUserEdit()
+
 # User actions
 POST   /Users/Create/:email    		controllers.Users.create(email: String, name: String ?= null)

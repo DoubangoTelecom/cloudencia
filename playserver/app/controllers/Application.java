@@ -13,6 +13,7 @@ import play.mvc.WebSocket;
 import utils.SessionManager;
 import views.html.index;
 import forms.FormEditDeveloper;
+import forms.FormEditUser;
 import forms.FormLogin;
 
 public class Application extends Controller {
@@ -70,6 +71,7 @@ public class Application extends Controller {
 				if (!SessionManager.addObject("login.devObj", developer)) {
 					return badRequest(views.html.page_login.render(form)); // FIXME: message
 				}
+				session("login.devId", Long.toString(developer.id));
 			}
 			else if (form.get().type == Type.Dev) {
 				final User user = form.get().getActor() == null ? User.findByEmail(form.get().getName()) : (User)form.get().getActor();
@@ -79,6 +81,7 @@ public class Application extends Controller {
 				if (!SessionManager.addObject("login.userObj", user)) {
 					return badRequest(views.html.page_login.render(form)); // FIXME: message
 				}
+				session("login.userId", Long.toString(user.id));
 			}
 			
 			session("login.name", form.get().getName());
@@ -127,4 +130,51 @@ public class Application extends Controller {
 			return ok(views.html.page_dev_list.render(Developer.find.all()));
 	    }
 	}
+
+	
+	
+	/*-----------------
+	 * 
+	 * USERS
+	 * 
+	 ******************/
+	
+	@Security.Authenticated(Secured.SecuredDev.class)
+	public static Result getUserList() {
+		return ok(views.html.page_user_list.render(User.findByDeveloper(Long.parseLong(session("login.devId")))));
+	}
+	
+	@Security.Authenticated(Secured.SecuredDev.class)
+	public static Result getUserEdit(long id) {
+		final Form<FormEditUser> form;
+		final User user = (id == -1L) ? null : User.find.byId(id);
+		form = Form.form(FormEditUser.class).bindFromRequest().fill(new FormEditUser(user));
+		return ok(views.html.page_user_edit.render(form));
+	}
+	
+	@Security.Authenticated(Secured.SecuredDev.class)
+	public static Result postUserEdit() {
+		final Form<FormEditUser> form = Form.form(FormEditUser.class).bindFromRequest();
+		if (form.hasErrors()) {
+	    	return badRequest(views.html.page_user_edit.render(form));
+	    }
+	    else {
+			User user = (form.get().getId() == -1L) ? null : User.find.byId(form.get().getId());
+			if (user == null) {
+				final Developer developer = Developer.find.byId(form.get().getDeveloperId());
+				if (developer == null) {
+					return badRequest(views.html.page_user_edit.render(form));
+				}
+				user = new User();
+				user.email = form.get().getEmail();
+				user.friendlyName = form.get().getFriendlyName();
+				user.developer = developer;
+				if (!User.create(user)) {
+					return badRequest(views.html.page_user_edit.render(form));
+				}
+			}
+			return ok(views.html.page_user_list.render(User.findByDeveloper(form.get().getDeveloperId())));
+	    }
+	}
+	
 }
