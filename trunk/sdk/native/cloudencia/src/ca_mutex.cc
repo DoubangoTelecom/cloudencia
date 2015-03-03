@@ -22,23 +22,23 @@
 
 CAMutex::CAMutex(bool bRecursive /*= true*/)
 {
-	m_phOTMutex = tsk_mutex_create_2(bRecursive ? tsk_true : tsk_false);
+    m_phOTMutex = tsk_mutex_create_2(bRecursive ? tsk_true : tsk_false);
 }
 
 CAMutex::~CAMutex()
 {
-	if (m_phOTMutex) {
-		tsk_mutex_destroy(&m_phOTMutex);
-	}
-	CA_DEBUG_INFO("*** CAMutex destroyed ***");
+    if (m_phOTMutex) {
+        tsk_mutex_destroy(&m_phOTMutex);
+    }
+    CA_DEBUG_INFO("*** CAMutex destroyed ***");
 }
 
 bool CAMutex::lock()
 {
-	return (tsk_mutex_lock(m_phOTMutex) == 0);
+    return (tsk_mutex_lock(m_phOTMutex) == 0);
 }
 
 bool CAMutex::unlock()
 {
-	return (tsk_mutex_unlock(m_phOTMutex) == 0);
+    return (tsk_mutex_unlock(m_phOTMutex) == 0);
 }

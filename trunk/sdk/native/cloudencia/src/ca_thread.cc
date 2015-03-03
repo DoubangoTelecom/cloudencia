@@ -23,34 +23,34 @@
 #include <assert.h>
 
 CAThread::CAThread(CANativeThreadHandle_t* phThread)
-	: m_phThread(phThread)
+    : m_phThread(phThread)
 {
-	CA_ASSERT(phThread != NULL);
+    CA_ASSERT(phThread != NULL);
 }
 
 CAThread::~CAThread()
 {
-	join();
-	CA_DEBUG_INFO("*** CAThread destroyed ***");
+    join();
+    CA_DEBUG_INFO("*** CAThread destroyed ***");
 }
 
 bool CAThread::join()
 {
-	bool bRet = true;
-	if (m_phThread) {
-		CA_DEBUG_INFO("CAThread join ---ENTER---");
-		bRet = (tsk_thread_join(&m_phThread) == 0);
-		CA_DEBUG_INFO("CAThread join ---EXIT---");
-	}
-	return bRet;
+    bool bRet = true;
+    if (m_phThread) {
+        CA_DEBUG_INFO("CAThread join ---ENTER---");
+        bRet = (tsk_thread_join(&m_phThread) == 0);
+        CA_DEBUG_INFO("CAThread join ---EXIT---");
+    }
+    return bRet;
 }
 
 CAObjWrapper<CAThread*> CAThread::newObj(void *(CA_STDCALL *start) (void *), void *arg /*= NULL*/)
 {
-	CANativeThreadHandle_t *phThread = tsk_null;
-	if (tsk_thread_create(&phThread, start, arg) != 0) {
-		return NULL;
-	}
-	return new CAThread(phThread);
+    CANativeThreadHandle_t *phThread = tsk_null;
+    if (tsk_thread_create(&phThread, start, arg) != 0) {
+        return NULL;
+    }
+    return new CAThread(phThread);
 }
 

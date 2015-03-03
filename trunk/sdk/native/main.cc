@@ -47,17 +47,17 @@ int _tmain(int argc, _TCHAR* argv[])
 int main(int argc, char* argv[])
 #endif
 {
-	printf("*******************************************************************\n"
-		"Copyright (C) 2011-2015 Doubango Telecom (VoIP division)\n"
-		"PRODUCT: CLOUDENCIA\n"
-		"HOME PAGE: <void>\n"
-		"CODE SOURCE: <void>\n"
-		"LICENCE: <void>\n"
-		"VERSION: %s\n"
-		"'quit' to quit the application.\n"
-		"*******************************************************************\n\n"
-		, CA_VERSION_STRING);
+    printf("*******************************************************************\n"
+           "Copyright (C) 2011-2015 Doubango Telecom (VoIP division)\n"
+           "PRODUCT: CLOUDENCIA\n"
+           "HOME PAGE: <void>\n"
+           "CODE SOURCE: <void>\n"
+           "LICENCE: <void>\n"
+           "VERSION: %s\n"
+           "'quit' to quit the application.\n"
+           "*******************************************************************\n\n"
+           , CA_VERSION_STRING);
 
-	return 0;
+    return 0;
 }
 

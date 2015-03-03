@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ca_config.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\cloudencia\ca_api.h">
       <Filter>include\cloudencia</Filter>
     </ClInclude>
@@ -45,6 +42,18 @@
     <ClInclude Include="include\cloudencia\ca_common.h">
       <Filter>include\cloudencia</Filter>
     </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_parser_url.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_utils.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ca_config.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_url.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_mutex.cc">
@@ -56,5 +65,19 @@
     <ClCompile Include="src\ca_thread.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ca_parser_url.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_url.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ragel\ca_machine_utils.rl">
+      <Filter>ragel</Filter>
+    </None>
+    <None Include="ragel\ca_parser_url.rl">
+      <Filter>ragel</Filter>
+    </None>
   </ItemGroup>
 </Project>
