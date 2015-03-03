@@ -41,6 +41,21 @@
 #else
 #	define CA_STDCALL
 #endif
+// OSX or iOS
+#if defined(__APPLE__)
+#	define CA_UNDER_APPLE				1
+#endif
+#if TARGET_OS_MAC
+#	define CA_UNDER_MAC					1
+#endif
+#if TARGET_OS_IPHONE
+#	define CA_UNDER_IPHONE				1
+#endif
+#if TARGET_IPHONE_SIMULATOR
+#	define CA_UNDER_IPHONE_SIMULATOR	1
+#endif
+
+
 // Disable some well-known warnings
 #ifdef _MCA_VER
 #if !defined(_CRT_SECURE_NO_WARNINGS)
@@ -49,6 +64,17 @@
 #	define CA_INLINE	_inline
 #else
 #	define CA_INLINE	inline
+#endif
+
+#if CA_UNDER_WINDOWS && defined(CLOUDENCIA_EXPORTS)
+# 	define CLOUDENCIA_API		__declspec(dllexport)
+# 	define CLOUDENCIA_GEXTERN	__declspec(dllexport)
+#elif CA_UNDER_WINDOWS /*&& defined(CLOUDENCIA_IMPORTS)*/
+# 	define CLOUDENCIA_API		__declspec(dllimport)
+# 	define CLOUDENCIA_GEXTERN	__declspec(dllimport)
+#else
+#	define CLOUDENCIA_API
+#	define CLOUDENCIA_GEXTERN	extern
 #endif
 
 #ifdef __GNUC__
