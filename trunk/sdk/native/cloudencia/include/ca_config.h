@@ -1,0 +1,103 @@
+/* Copyright (C) 2011-2015 Mamadou DIOP
+* Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
+*
+* This file is part of Open Source Cloudendia WebRTC PaaS.
+*
+* DOUBANGO is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* DOUBANGO is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with DOUBANGO.
+*/
+#ifndef _CLOUDENCIA_CONFIG_H_
+#define _CLOUDENCIA_CONFIG_H_
+
+#define CA_VERSION_MAJOR 1
+#define CA_VERSION_MINOR 0
+#define CA_VERSION_MICRO 0
+#if !defined(CA_VERSION_STRING)
+#	define CA_VERSION_STRING CA_STRING(CA_CAT(CA_VERSION_MAJOR, .)) CA_STRING(CA_CAT(CA_VERSION_MINOR, .)) CA_STRING(CA_VERSION_MICRO)
+#endif
+
+// Windows (XP/Vista/7/CE and Windows Mobile) macro definition.
+#if defined(WIN32)|| defined(_WIN32) || defined(_WIN32_WCE)
+#	define CA_UNDER_WINDOWS	1
+#	if defined(_WIN32_WCE) || defined(UNDER_CE)
+#		define CA_UNDER_WINDOWS_CE	1
+#		define CA_STDCALL			__cdecl
+#	else
+#		define CA_STDCALL __stdcall
+#	endif
+#	if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP || WINAPI_FAMILY == WINAPI_FAMILY_APP)
+#		define CA_UNDER_WINDOWS_RT		1
+#	endif
+#else
+#	define CA_STDCALL
+#endif
+// Disable some well-known warnings
+#ifdef _MCA_VER
+#if !defined(_CRT_SECURE_NO_WARNINGS)
+#		define _CRT_SECURE_NO_WARNINGS
+#	endif /* _CRT_SECURE_NO_WARNINGS */
+#	define CA_INLINE	_inline
+#else
+#	define CA_INLINE	inline
+#endif
+
+#ifdef __GNUC__
+#	define ca_atomic_inc(_ptr_) __sync_fetch_and_add((_ptr_), 1)
+#	define ca_atomic_dec(_ptr_) __sync_fetch_and_sub((_ptr_), 1)
+#elif defined (_MCA_VER)
+#	define ca_atomic_inc(_ptr_) InterlockedIncrement((_ptr_))
+#	define ca_atomic_dec(_ptr_) InterlockedDecrement((_ptr_))
+#else
+#	define ca_atomic_inc(_ptr_) ++(*(_ptr_))
+#	define ca_atomic_dec(_ptr_) --(*(_ptr_))
+#endif
+
+#if _MCA_VER >= 1400
+#	pragma warning( disable : 4290 4800 4251 )
+#endif
+
+/* define "TNET_DEPRECATED(func)" macro */
+#if defined(__GNUC__)
+#	define CA_DEPRECATED(func) __attribute__ ((deprecated)) func
+#elif defined(_MCA_VER)
+#	define CA_DEPRECATED(func) __declspec(deprecated) func
+#else
+#	pragma message("WARNING: Deprecated not supported for this compiler")
+#	define CA_DEPRECATED(func) func
+#endif
+
+#include "tsk_debug.h"
+#define CA_DEBUG_INFO(FMT, ...) TSK_DEBUG_INFO("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
+#define CA_DEBUG_WARN(FMT, ...) TSK_DEBUG_WARN("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
+#define CA_DEBUG_ERROR(FMT, ...) TSK_DEBUG_ERROR("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
+#define CA_DEBUG_FATAL(FMT, ...) TSK_DEBUG_FATAL("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
+
+#define CA_DEBUG_INFO_EX(MODULE, FMT, ...) CA_DEBUG_INFO("[" MODULE "] " FMT, ##__VA_ARGS__)
+#define CA_DEBUG_WARN_EX(MODULE, FMT, ...) CA_DEBUG_WARN("[" MODULE "] " FMT, ##__VA_ARGS__)
+#define CA_DEBUG_ERROR_EX(MODULE, FMT, ...) CA_DEBUG_ERROR("[" MODULE "] " FMT, ##__VA_ARGS__)
+#define CA_DEBUG_FATAL_EX(MODULE, FMT, ...) CA_DEBUG_FATAL("[" MODULE "] " FMT, ##__VA_ARGS__)
+
+#if CA_UNDER_WINDOWS
+#	define _WINSOCKAPI_
+#	include <windows.h>
+#elif CA_UNDER_LINUX
+#elif CA_UNDER_MACOS
+#endif
+
+#include <stdlib.h>
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#endif /* _CLOUDENCIA_CONFIG_H_ */

@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{517BDBE7-DF1C-451A-BC19-C829DF298472}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>catest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>../cloudencia/include;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\thirdparties\common\include;..\..\..\externals\doubango\tinySAK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;cloudencia.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_Priv.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>../cloudencia/include;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\thirdparties\common\include;..\..\..\externals\doubango\tinySAK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;cloudencia.lib;libeay64.lib;ssleay64.lib;vpxmt64.lib;libsrtp64.a;libyuv64.lib;libopus64.a;libspeexdsp64.a;audio_processing64.lib;common_audio64.lib;system_wrappers64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_Priv.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>../cloudencia/include;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\thirdparties\common\include;..\..\..\externals\doubango\tinySAK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;cloudencia.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_Priv.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <AdditionalIncludeDirectories>../cloudencia/include;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\thirdparties\common\include;..\..\..\externals\doubango\tinySAK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;cloudencia.lib;libeay64.lib;ssleay64.lib;vpxmt64.lib;libsrtp64.a;libspeexdsp64.a;libyuv64.lib;libopus64.a;audio_processing64.lib;common_audio64.lib;system_wrappers64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_Priv.pem $(OutDir)
+xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\main.cc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
