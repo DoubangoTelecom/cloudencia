@@ -24,14 +24,23 @@
     <ClInclude Include="include\cloudencia\ca_common.h" />
     <ClInclude Include="include\cloudencia\ca_mutex.h" />
     <ClInclude Include="include\cloudencia\ca_obj.h" />
+    <ClInclude Include="include\cloudencia\ca_parser_url.h" />
     <ClInclude Include="include\cloudencia\ca_thread.h" />
+    <ClInclude Include="include\cloudencia\ca_url.h" />
+    <ClInclude Include="include\cloudencia\ca_utils.h" />
     <ClInclude Include="include\cloudencia\jsoncpp\ca_json-forwards.h" />
     <ClInclude Include="include\cloudencia\jsoncpp\ca_json.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_mutex.cc" />
     <ClCompile Include="src\ca_obj.cc" />
+    <ClCompile Include="src\ca_parser_url.cc" />
     <ClCompile Include="src\ca_thread.cc" />
+    <ClCompile Include="src\ca_url.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ragel\ca_machine_utils.rl" />
+    <None Include="ragel\ca_parser_url.rl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{70AC5C9E-A0BF-4A13-9D8F-C089C56F02DF}</ProjectGuid>
