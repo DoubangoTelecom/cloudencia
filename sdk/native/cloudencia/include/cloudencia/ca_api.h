@@ -21,7 +21,9 @@
 
 #include "ca_config.h"
 
-#include "cloudencia/ca_thread.h"
+#include "cloudencia/ca_common.h"
 #include "cloudencia/ca_mutex.h"
+#include "cloudencia/ca_thread.h"
+
 
 #endif /* _CLOUDENCIA_API_H_ */

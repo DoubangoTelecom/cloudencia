@@ -23,7 +23,7 @@
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_obj.h"
 
-class CAThread : public CAObj
+class CLOUDENCIA_API CAThread : public CAObj
 {
 protected:
 	CAThread(CANativeThreadHandle_t* phThread);

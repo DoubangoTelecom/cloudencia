@@ -23,7 +23,7 @@
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_obj.h"
 
-class CAMutex : public CAObj
+class CLOUDENCIA_API CAMutex : public CAObj
 {
 public:
 	CAMutex(bool bRecursive = true);

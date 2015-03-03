@@ -24,7 +24,7 @@
 #define CAObjSafeRelease(pObject)	(pObject) = NULL
 #define CAObjSafeFree				CAObjSafeRelease
 
-class CAObj
+class CLOUDENCIA_API CAObj
 {
 public:
 	CAObj() :m_nRefCount(0) {}

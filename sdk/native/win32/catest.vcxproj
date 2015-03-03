@@ -92,8 +92,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;cloudencia.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cloudencia.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
@@ -114,8 +114,8 @@ xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;cloudencia.lib;libeay64.lib;ssleay64.lib;vpxmt64.lib;libsrtp64.a;libyuv64.lib;libopus64.a;libspeexdsp64.a;audio_processing64.lib;common_audio64.lib;system_wrappers64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cloudencia.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
@@ -140,8 +140,8 @@ xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;cloudencia.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cloudencia.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
@@ -166,10 +166,10 @@ xcopy /Y $(SolutionDir)..\SSL_CA.pem $(OutDir)</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;cloudencia.lib;libeay64.lib;ssleay64.lib;vpxmt64.lib;libsrtp64.a;libspeexdsp64.a;libyuv64.lib;libopus64.a;audio_processing64.lib;common_audio64.lib;system_wrappers64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cloudencia.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
-      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)..\SSL_Pub.pem $(OutDir)
