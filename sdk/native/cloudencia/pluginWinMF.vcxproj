@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>pluginWinMF</ProjectName>
+    <ProjectGuid>{E8596446-CB3A-4AD5-83C3-6562EE426494}</ProjectGuid>
+    <RootNamespace>pluginWinMF</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\tinySAK\src;..\..\..\externals\doubango\tinyMEDIA\include;..\..\..\externals\doubango\tinySDP\include;..\..\..\externals\doubango\tinyDAV\include;..\..\..\externals\doubango\tinyRTP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGIN_WIN_MFP_EXPORTS;DEBUG_LEVEL=DEBUG_LEVEL_INFO;TINYDAV_EXPORTS;TINYSAK_IMPORTS_IGNORE;TINYMEDIA_IMPORTS_IGNORE;TINYSDP_IMPORTS_IGNORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;ws2_32.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;$(OutDir)tinySAK.lib;$(OutDir)tinyMEDIA.lib;$(OutDir)tinySDP.lib;$(OutDir)tinyNET.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\tinySAK\src;..\..\..\externals\doubango\tinyMEDIA\include;..\..\..\externals\doubango\tinySDP\include;..\..\..\externals\doubango\tinyDAV\include;..\..\..\externals\doubango\tinyRTP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGIN_WIN_MFP_EXPORTS;DEBUG_LEVEL=DEBUG_LEVEL_INFO;TINYDAV_EXPORTS;TINYSAK_IMPORTS_IGNORE;TINYMEDIA_IMPORTS_IGNORE;TINYSDP_IMPORTS_IGNORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;ws2_32.lib;IPHLPAPI.lib;libeay64.lib;ssleay64.lib;$(OutDir)tinySAK.lib;$(OutDir)tinyMEDIA.lib;$(OutDir)tinySDP.lib;$(OutDir)tinyNET.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\tinySAK\src;..\..\..\externals\doubango\tinyMEDIA\include;..\..\..\externals\doubango\tinySDP\include;..\..\..\externals\doubango\tinyDAV\include;..\..\..\externals\doubango\tinyRTP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGIN_WIN_MFP_EXPORTS;DEBUG_LEVEL=DEBUG_LEVEL_ERROR;TINYDAV_EXPORTS;TINYSAK_IMPORTS_IGNORE;TINYMEDIA_IMPORTS_IGNORE;TINYSDP_IMPORTS_IGNORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat />
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;ws2_32.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;$(OutDir)tinySAK.lib;$(OutDir)tinyMEDIA.lib;$(OutDir)tinySDP.lib;$(OutDir)tinyNET.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>.;..\..\..\externals\doubango\thirdparties\win32\include;..\..\..\externals\doubango\tinySAK\src;..\..\..\externals\doubango\tinyMEDIA\include;..\..\..\externals\doubango\tinySDP\include;..\..\..\externals\doubango\tinyDAV\include;..\..\..\externals\doubango\tinyRTP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;PLUGIN_WIN_MFP_EXPORTS;DEBUG_LEVEL=DEBUG_LEVEL_ERROR;TINYDAV_EXPORTS;TINYSAK_IMPORTS_IGNORE;TINYMEDIA_IMPORTS_IGNORE;TINYSDP_IMPORTS_IGNORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Winmm.lib;ws2_32.lib;IPHLPAPI.lib;libeay64.lib;ssleay64.lib;$(OutDir)tinySAK.lib;$(OutDir)tinyMEDIA.lib;$(OutDir)tinySDP.lib;$(OutDir)tinyNET.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\dllmain_mf.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_codec.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_custom_src.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_devices.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_display_watcher.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_sample_grabber.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_sample_queue.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_utils.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_codec_h264.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_consumer_audio.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_consumer_video.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_converter_video.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_producer_audio.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_producer_video.cxx" />
+    <ClCompile Include="..\..\..\externals\doubango\tinyDAV\src\audio\tdav_consumer_audio.c" />
+    <ClCompile Include="..\..\..\externals\doubango\tinyDAV\src\audio\tdav_producer_audio.c" />
+    <ClCompile Include="..\..\..\externals\doubango\tinyDAV\src\codecs\h264\tdav_codec_h264_rtp.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_codec.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_custom_src.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_devices.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_display_watcher.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_sample_grabber.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_sample_queue.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\internals\mf_utils.h" />
+    <ClInclude Include="..\..\..\externals\doubango\plugins\pluginWinMF\plugin_win_mf_config.h" />
+    <ClInclude Include="..\..\..\externals\doubango\tinyDAV\include\tinydav\codecs\h264\tdav_codec_h264_common.h" />
+    <ClInclude Include="..\..\..\externals\doubango\tinyDAV\include\tinydav\codecs\h264\tdav_codec_h264_rtp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\externals\doubango\plugins\pluginWinMF\version.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
