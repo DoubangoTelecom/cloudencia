@@ -66,6 +66,19 @@
 #	define CA_INLINE	inline
 #endif
 
+// Disable some well-known warnings
+#if defined(_MSC_VER)
+#	define CA_DISABLE_WARNINGS_BEGIN(nn) \
+		__pragma(warning( push )) \
+		__pragma(warning( disable : ##nn ))
+#	define CA_DISABLE_WARNINGS_END() \
+		__pragma(warning( pop ))
+#else
+#	define CA_DISABLE_WARNINGS_BEGIN()
+#	define CA_DISABLE_WARNINGS_END()
+#endif /* _MSC_VER */
+
+
 #if CA_UNDER_WINDOWS && defined(CLOUDENCIA_EXPORTS)
 # 	define CLOUDENCIA_API		__declspec(dllexport)
 # 	define CLOUDENCIA_GEXTERN	__declspec(dllexport)
@@ -88,9 +101,6 @@
 #	define ca_atomic_dec(_ptr_) --(*(_ptr_))
 #endif
 
-#if _MCA_VER >= 1400
-#	pragma warning( disable : 4290 4800 4251 )
-#endif
 
 /* define "TNET_DEPRECATED(func)" macro */
 #if defined(__GNUC__)
