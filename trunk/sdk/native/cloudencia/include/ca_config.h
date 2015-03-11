@@ -74,7 +74,7 @@
 #	define CA_DISABLE_WARNINGS_END() \
 		__pragma(warning( pop ))
 #else
-#	define CA_DISABLE_WARNINGS_BEGIN()
+#	define CA_DISABLE_WARNINGS_BEGIN(nn)
 #	define CA_DISABLE_WARNINGS_END()
 #endif /* _MSC_VER */
 
