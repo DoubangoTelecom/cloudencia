@@ -68,7 +68,7 @@ class CAObjWrapper
 public:
 	CA_INLINE CAObjWrapper(CAObjType obj = NULL);
 	CA_INLINE CAObjWrapper(const CAObjWrapper<CAObjType> &obj);
-	CA_INLINE virtual ~CAObjWrapper();
+	virtual ~CAObjWrapper();
 
 #if !defined(SWIG)
 public:
@@ -83,11 +83,11 @@ public:
 #endif
 
 protected:
-	CA_INLINE int takeRef();
-	CA_INLINE int releaseRef();
+	int takeRef();
+	int releaseRef();
 
-	CA_INLINE CAObjType getWrappedObject() const;
-	CA_INLINE void wrapObject(CAObjType obj);
+	CAObjType getWrappedObject() const;
+	void wrapObject(CAObjType obj);
 
 private:
 	CAObjType m_WrappedObject;
