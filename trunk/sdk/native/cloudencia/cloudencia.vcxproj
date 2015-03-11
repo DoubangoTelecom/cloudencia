@@ -22,6 +22,7 @@
     <ClInclude Include="include\ca_config.h" />
     <ClInclude Include="include\cloudencia\ca_api.h" />
     <ClInclude Include="include\cloudencia\ca_common.h" />
+    <ClInclude Include="include\cloudencia\ca_engine.h" />
     <ClInclude Include="include\cloudencia\ca_mutex.h" />
     <ClInclude Include="include\cloudencia\ca_obj.h" />
     <ClInclude Include="include\cloudencia\ca_parser_url.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="include\cloudencia\jsoncpp\ca_json.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ca_engine.cc" />
     <ClCompile Include="src\ca_mutex.cc" />
     <ClCompile Include="src\ca_obj.cc" />
     <ClCompile Include="src\ca_parser_url.cc" />
@@ -105,7 +107,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyRTP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -122,7 +124,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>tinyBFCP.lib;tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyIPSec.lib;tinyRTP.lib;tinyMSRP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;libeay32.lib;ssleay32.lib;vpxmt.lib;libsrtp.a;libspeexdsp.a;libyuv.lib;libopus.a;audio_processing.lib;common_audio.lib;system_wrappers.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tinySAK.lib;tinyHTTP.lib;tinyNET.lib;tinyMEDIA.lib;tinySDP.lib;tinyDAV.lib;tinyRTP.lib;Winmm.lib;ws2_32.lib;Shlwapi.lib;IPHLPAPI.lib;libeay64.lib;ssleay64.lib;vpxmt64.lib;libsrtp64.a;libspeexdsp64.a;libyuv64.lib;libopus64.a;audio_processing64.lib;common_audio64.lib;system_wrappers64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir);..\..\..\externals\doubango\thirdparties\win32\lib;..\..\..\externals\doubango\thirdparties\win32\lib\openssl;..\..\..\externals\doubango\thirdparties\win32\lib\vpx;..\..\..\externals\doubango\thirdparties\win32\lib\srtp;..\..\..\externals\doubango\thirdparties\win32\lib\libyuv;..\..\..\externals\doubango\thirdparties\win32\lib\speex;..\..\..\externals\doubango\thirdparties\win32\lib\opus;..\..\..\externals\doubango\thirdparties\win32\lib\webrtc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
