@@ -25,6 +25,68 @@
 
 #include <string>
 
+class CAEngine;
+
+#if !defined(SWIG)
+class CAIceServer : public CAObj
+{
+	friend class CAEngine;
+protected:
+	CAIceServer(
+		std::string strTransport,
+		std::string strServerHost,
+		unsigned short serverPort,
+		bool useTurn,
+		bool useStun,
+		std::string strUsername,
+		std::string strPassword) {
+		m_strTransport = strTransport;
+		m_strServerHost = strServerHost;
+		m_uServerPort = serverPort;
+		m_bUseTurn = useTurn;
+		m_bUseStun = useStun;
+		m_strUsername = strUsername;
+		m_strPassword = strPassword;
+	}
+public:
+	virtual ~CAIceServer() {}
+	virtual CA_INLINE const char* getObjectId() {
+		return "CAIceServer";
+	}
+	CA_INLINE const char* getTransport()const {
+		return m_strTransport.c_str();
+	}
+	CA_INLINE const char* getServerHost()const {
+		return m_strServerHost.c_str();
+	}
+	CA_INLINE unsigned short getServerPort()const {
+		return m_uServerPort;
+	}
+	CA_INLINE bool isTurnEnabled()const {
+		return m_bUseTurn;
+	}
+	CA_INLINE bool isStunEnabled()const {
+		return m_bUseStun;
+	}
+	CA_INLINE const char* getUsername()const {
+		return m_strUsername.c_str();
+	}
+	CA_INLINE const char* getPassword()const {
+		return m_strPassword.c_str();
+	}
+
+private:
+	std::string m_strTransport;
+	std::string m_strServerHost;
+	unsigned short m_uServerPort;
+	bool m_bUseTurn;
+	bool m_bUseStun;
+	std::string m_strUsername;
+	std::string m_strPassword;
+};
+
+#endif /* !defined(SWIG) */
+
 class CLOUDENCIA_API CAEngine : public CAObj
 {
 private:

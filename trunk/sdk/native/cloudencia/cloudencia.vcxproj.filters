@@ -57,6 +57,21 @@
     <ClInclude Include="include\cloudencia\ca_engine.h">
       <Filter>include\cloudencia</Filter>
     </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_nettransport.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_nettransport_ws.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_session.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_session_call.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_signaling.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_mutex.cc">
@@ -75,6 +90,24 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ca_engine.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_nettransport.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_nettransport_ws.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_session.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_session_call.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_signaling.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_jsoncpp.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

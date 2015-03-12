@@ -84,6 +84,44 @@ sub ACQUIRE {
 }
 
 
+############# Class : clWRAP::CASignalingObj ##############
+
+package clWRAP::CASignalingObj;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASignalingObj(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingObj($self);
+        delete $OWNER{$self};
+    }
+}
+
+*unWrap = *clWRAPc::CASignalingObj_unWrap;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
 ############# Class : clWRAP::CAEngine ##############
 
 package clWRAP::CAEngine;
@@ -106,6 +144,44 @@ sub DESTROY {
 *init = *clWRAPc::CAEngine_init;
 *deInit = *clWRAPc::CAEngine_deInit;
 *isInitialized = *clWRAPc::CAEngine_isInitialized;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASignaling ##############
+
+package clWRAP::CASignaling;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CAObj clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignaling($self);
+        delete $OWNER{$self};
+    }
+}
+
+*getObjectId = *clWRAPc::CASignaling_getObjectId;
+*isConnected = *clWRAPc::CASignaling_isConnected;
+*isReady = *clWRAPc::CASignaling_isReady;
+*connect = *clWRAPc::CASignaling_connect;
+*sendData = *clWRAPc::CASignaling_sendData;
+*disConnect = *clWRAPc::CASignaling_disConnect;
+*newObj = *clWRAPc::CASignaling_newObj;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);

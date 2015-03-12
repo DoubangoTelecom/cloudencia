@@ -13,6 +13,11 @@ public class clWRAPJNI {
   public final static native String CAObj_getObjectId(long jarg1, CAObj jarg1_);
   public final static native int CAObj_takeRef(long jarg1, CAObj jarg1_);
   public final static native int CAObj_releaseRef(long jarg1, CAObj jarg1_);
+  public final static native long new_CASignalingObj__SWIG_0(long jarg1, CASignaling jarg1_);
+  public final static native long new_CASignalingObj__SWIG_1();
+  public final static native long new_CASignalingObj__SWIG_2(long jarg1, CASignalingObj jarg1_);
+  public final static native void delete_CASignalingObj(long jarg1);
+  public final static native long CASignalingObj_unWrap(long jarg1, CASignalingObj jarg1_);
   public final static native void delete_CAEngine(long jarg1);
   public final static native String CAEngine_getObjectId(long jarg1, CAEngine jarg1_);
   public final static native boolean CAEngine_init__SWIG_0(String jarg1, String jarg2);
@@ -20,5 +25,16 @@ public class clWRAPJNI {
   public final static native boolean CAEngine_init__SWIG_2();
   public final static native boolean CAEngine_deInit();
   public final static native boolean CAEngine_isInitialized();
+  public final static native void delete_CASignaling(long jarg1);
+  public final static native String CASignaling_getObjectId(long jarg1, CASignaling jarg1_);
+  public final static native boolean CASignaling_isConnected(long jarg1, CASignaling jarg1_);
+  public final static native boolean CASignaling_isReady(long jarg1, CASignaling jarg1_);
+  public final static native boolean CASignaling_connect(long jarg1, CASignaling jarg1_);
+  public final static native boolean CASignaling_sendData(long jarg1, CASignaling jarg1_, java.nio.ByteBuffer jarg2, long jarg3);
+  public final static native boolean CASignaling_disConnect(long jarg1, CASignaling jarg1_);
+  public final static native long CASignaling_newObj__SWIG_0(String jarg1, String jarg2, int jarg3);
+  public final static native long CASignaling_newObj__SWIG_1(String jarg1, String jarg2);
+  public final static native long CASignaling_newObj__SWIG_2(String jarg1);
   public final static native long CAEngine_SWIGUpcast(long jarg1);
+  public final static native long CASignaling_SWIGUpcast(long jarg1);
 }

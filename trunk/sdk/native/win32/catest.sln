@@ -98,6 +98,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cloudencia", "..\cloudencia
 		{64DABDF0-D9AB-45BD-A269-002EF6E72E27} = {64DABDF0-D9AB-45BD-A269-002EF6E72E27}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "swig", "swig", "{3DEC7BBB-B25A-4776-93DC-5973098938FE}"
+	ProjectSection(SolutionItems) = preProject
+		..\swig\autogen.sh = ..\swig\autogen.sh
+		..\swig\cloudencia.i = ..\swig\cloudencia.i
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32

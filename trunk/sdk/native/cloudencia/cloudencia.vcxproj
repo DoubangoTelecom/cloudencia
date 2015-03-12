@@ -24,8 +24,13 @@
     <ClInclude Include="include\cloudencia\ca_common.h" />
     <ClInclude Include="include\cloudencia\ca_engine.h" />
     <ClInclude Include="include\cloudencia\ca_mutex.h" />
+    <ClInclude Include="include\cloudencia\ca_nettransport.h" />
+    <ClInclude Include="include\cloudencia\ca_nettransport_ws.h" />
     <ClInclude Include="include\cloudencia\ca_obj.h" />
     <ClInclude Include="include\cloudencia\ca_parser_url.h" />
+    <ClInclude Include="include\cloudencia\ca_session.h" />
+    <ClInclude Include="include\cloudencia\ca_session_call.h" />
+    <ClInclude Include="include\cloudencia\ca_signaling.h" />
     <ClInclude Include="include\cloudencia\ca_thread.h" />
     <ClInclude Include="include\cloudencia\ca_url.h" />
     <ClInclude Include="include\cloudencia\ca_utils.h" />
@@ -34,9 +39,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_engine.cc" />
+    <ClCompile Include="src\ca_jsoncpp.cc" />
     <ClCompile Include="src\ca_mutex.cc" />
+    <ClCompile Include="src\ca_nettransport.cc" />
+    <ClCompile Include="src\ca_nettransport_ws.cc" />
     <ClCompile Include="src\ca_obj.cc" />
     <ClCompile Include="src\ca_parser_url.cc" />
+    <ClCompile Include="src\ca_session.cc" />
+    <ClCompile Include="src\ca_session_call.cc" />
+    <ClCompile Include="src\ca_signaling.cc" />
     <ClCompile Include="src\ca_thread.cc" />
     <ClCompile Include="src\ca_url.cc" />
   </ItemGroup>
