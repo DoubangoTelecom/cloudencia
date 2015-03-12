@@ -89,6 +89,22 @@ class CAObj(_object):
 CAObj_swigregister = _clWRAP.CAObj_swigregister
 CAObj_swigregister(CAObj)
 
+class CASignalingObj(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingObj, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingObj, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASignalingObj(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASignalingObj
+    __del__ = lambda self : None;
+    def unWrap(self): return _clWRAP.CASignalingObj_unWrap(self)
+CASignalingObj_swigregister = _clWRAP.CASignalingObj_swigregister
+CASignalingObj_swigregister(CASignalingObj)
+
 class CAEngine(CAObj):
     __swig_setmethods__ = {}
     for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -121,6 +137,32 @@ CAEngine_deInit = _clWRAP.CAEngine_deInit
 def CAEngine_isInitialized():
   return _clWRAP.CAEngine_isInitialized()
 CAEngine_isInitialized = _clWRAP.CAEngine_isInitialized
+
+class CASignaling(CAObj):
+    __swig_setmethods__ = {}
+    for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignaling, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CAObj]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignaling, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _clWRAP.delete_CASignaling
+    __del__ = lambda self : None;
+    def getObjectId(self): return _clWRAP.CASignaling_getObjectId(self)
+    def isConnected(self): return _clWRAP.CASignaling_isConnected(self)
+    def isReady(self): return _clWRAP.CASignaling_isReady(self)
+    def connect(self): return _clWRAP.CASignaling_connect(self)
+    def sendData(self, *args): return _clWRAP.CASignaling_sendData(self, *args)
+    def disConnect(self): return _clWRAP.CASignaling_disConnect(self)
+    __swig_getmethods__["newObj"] = lambda x: _clWRAP.CASignaling_newObj
+    if _newclass:newObj = staticmethod(_clWRAP.CASignaling_newObj)
+CASignaling_swigregister = _clWRAP.CASignaling_swigregister
+CASignaling_swigregister(CASignaling)
+
+def CASignaling_newObj(*args):
+  return _clWRAP.CASignaling_newObj(*args)
+CASignaling_newObj = _clWRAP.CASignaling_newObj
 
 # This file is compatible with both classic and new-style classes.
 

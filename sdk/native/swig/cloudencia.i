@@ -11,5 +11,11 @@
 
 %nodefaultctor;
 %include "../cloudencia/include/cloudencia/ca_obj.h"
+%clearnodefaultctor;
+
+%template(CASignalingObj) CAObjWrapper<CASignaling* >;
+
+%nodefaultctor;
 %include "../cloudencia/include/cloudencia/ca_engine.h"
+%include "../cloudencia/include/cloudencia/ca_signaling.h"
 %clearnodefaultctor;

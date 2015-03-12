@@ -57,7 +57,6 @@ private:
 	volatile long m_nRefCount;
 };
 
-
 //
 //	CAObjWrapper declaration
 //
@@ -70,8 +69,10 @@ public:
 	CA_INLINE CAObjWrapper(const CAObjWrapper<CAObjType> &obj);
 	virtual ~CAObjWrapper();
 
-#if !defined(SWIG)
 public:
+#if defined(SWIG)
+	CAObjType unWrap() { return getWrappedObject(); }
+#else
 	CA_INLINE CAObjWrapper<CAObjType>& operator=(const CAObjType other);
 	CA_INLINE CAObjWrapper<CAObjType>& operator=(const CAObjWrapper<CAObjType> &other);
 	CA_INLINE bool operator ==(const CAObjWrapper<CAObjType> other) const;

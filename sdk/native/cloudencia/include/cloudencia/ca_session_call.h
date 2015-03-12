@@ -16,14 +16,12 @@
 * You should have received a copy of the GNU General Public License
 * along with DOUBANGO.
 */
-#if !defined(_CLOUDENCIA_API_H_)
-#define _CLOUDENCIA_API_H_
+#if !defined(_CLOUDENCIA_SESSION_CALL_H_)
+#define _CLOUDENCIA_SESSION_CALL_H_
 
 #include "ca_config.h"
-
 #include "cloudencia/ca_common.h"
-#include "cloudencia/ca_engine.h"
-#include "cloudencia/ca_mutex.h"
-#include "cloudencia/ca_thread.h"
+#include "cloudencia/ca_obj.h"
 
-#endif /* _CLOUDENCIA_API_H_ */
+
+#endif /* _CLOUDENCIA_SESSION_CALL_H_ */
