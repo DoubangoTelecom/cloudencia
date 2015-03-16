@@ -50,6 +50,7 @@
     <ClCompile Include="src\ca_signaling.cc" />
     <ClCompile Include="src\ca_thread.cc" />
     <ClCompile Include="src\ca_url.cc" />
+    <ClCompile Include="src\ca_utils.cc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ragel\ca_machine_utils.rl" />

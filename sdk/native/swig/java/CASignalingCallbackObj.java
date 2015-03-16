@@ -8,16 +8,16 @@
 
 package org.doubango.clWRAP;
 
-public class CASignalingObj {
+public class CASignalingCallbackObj {
   private long swigCPtr;
   protected boolean swigCMemOwn;
 
-  protected CASignalingObj(long cPtr, boolean cMemoryOwn) {
+  protected CASignalingCallbackObj(long cPtr, boolean cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = cPtr;
   }
 
-  protected static long getCPtr(CASignalingObj obj) {
+  protected static long getCPtr(CASignalingCallbackObj obj) {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
@@ -29,23 +29,23 @@ public class CASignalingObj {
     if (swigCPtr != 0) {
       if (swigCMemOwn) {
         swigCMemOwn = false;
-        clWRAPJNI.delete_CASignalingObj(swigCPtr);
+        clWRAPJNI.delete_CASignalingCallbackObj(swigCPtr);
       }
       swigCPtr = 0;
     }
   }
 
-  public CASignalingObj(CASignaling obj) {
-    this(clWRAPJNI.new_CASignalingObj__SWIG_0(CASignaling.getCPtr(obj), obj), true);
+  public CASignalingCallbackObj(CASignalingCallback obj) {
+    this(clWRAPJNI.new_CASignalingCallbackObj__SWIG_0(CASignalingCallback.getCPtr(obj), obj), true);
   }
 
-  public CASignalingObj(CASignalingObj obj) {
-    this(clWRAPJNI.new_CASignalingObj__SWIG_1(CASignalingObj.getCPtr(obj), obj), true);
+  public CASignalingCallbackObj(CASignalingCallbackObj obj) {
+    this(clWRAPJNI.new_CASignalingCallbackObj__SWIG_1(CASignalingCallbackObj.getCPtr(obj), obj), true);
   }
 
-  public CASignaling unWrap() {
-    long cPtr = clWRAPJNI.CASignalingObj_unWrap(swigCPtr, this);
-    return (cPtr == 0) ? null : new CASignaling(cPtr, false);
+  public CASignalingCallback unWrap() {
+    long cPtr = clWRAPJNI.CASignalingCallbackObj_unWrap(swigCPtr, this);
+    return (cPtr == 0) ? null : new CASignalingCallback(cPtr, false);
   }
 
 }

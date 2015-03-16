@@ -65,7 +65,11 @@ class CAObjWrapper
 {
 
 public:
-	CA_INLINE CAObjWrapper(CAObjType obj = NULL);
+	CA_INLINE CAObjWrapper(CAObjType obj
+#if !defined(SWIG)
+		= NULL
+#endif
+		);
 	CA_INLINE CAObjWrapper(const CAObjWrapper<CAObjType> &obj);
 	virtual ~CAObjWrapper();
 

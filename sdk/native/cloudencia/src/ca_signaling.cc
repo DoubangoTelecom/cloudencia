@@ -283,23 +283,29 @@ bool CASignaling::sendData(const void* _pcData, tsk_size_t _nDataSize)
 /**@ingroup _Group_CPP_Signaling
 * Creates new signaling session object.
 * @param pcConnectionUri A valid request URI (e.g. <b>ws://localhost:9000/wsStringStaticMulti?roomId=0</b>).
+* @param strCredUserId The user login (email address). This is required and must not be empty.
+* @param strCredPassword The user password (4 digit pin code). This is required and must not bu empty.
 * @param pcLocalIP Local IP address to bind to. Best one will be used if not defined.
 * @param nLocalPort Local Port to bind to. Best one will be used if not defined.
 * @retval <b>newobject</b> if no error; otherwise <b>NULL</b>.
 */
-CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std::string pcLocalIP /*=""*/, unsigned short nLocalPort /*= 0*/)
+CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP /*=""*/, unsigned short nLocalPort /*= 0*/)
 {
     CAObjWrapper<CASignaling*> oSignaling;
     CAObjWrapper<CAUrl*> oUrl;
     CAObjWrapper<CANetTransport*> oTransport;
 
+	if (pcConnectionUri.empty()) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "RequestUri is null or empty");
+		goto bail;
+	}
+	if (strCredUserId.empty() || strCredPassword.empty()) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "User credentials (id and password) are required");
+		goto bail;
+	}
+
     if (!CAEngine::isInitialized()) {
         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Engine not initialized");
-        goto bail;
-    }
-
-    if (pcConnectionUri.empty()) {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "RequestUri is null or empty");
         goto bail;
     }
 
@@ -328,6 +334,8 @@ CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std
     }
 
     oSignaling = new CASignaling(oTransport, oUrl);
+	oSignaling->m_strCredUserId = strCredUserId;
+	oSignaling->m_strCredPassword = strCredPassword;
 
 bail:
     return oSignaling;

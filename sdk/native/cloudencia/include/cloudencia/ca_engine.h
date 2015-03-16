@@ -22,8 +22,10 @@
 #include "ca_config.h"
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_obj.h"
+#include "cloudencia/ca_mutex.h"
 
 #include <string>
+#include <list>
 
 class CAEngine;
 
@@ -97,16 +99,34 @@ public:
 		return "CAEngine";
 	}
 
-	static bool init(std::string strCredUserId = "", std::string strCredPassword = "");
+	static bool init();
 	static bool deInit();
 	static bool isInitialized() {
 		return s_bInitialized;
 	}
-	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
+	static bool setDebugLevel(CADebugLevel_t eLevel);
+	static bool setSSLCertificates(std::string strPublicKey, std::string strPrivateKey, std::string strCA, bool bMutualAuth = false);
+	static bool setVideoPrefSize(std::string strPrefVideoSize);
+	static bool setVideoFps(int fps);
+	static bool setVideoBandwidthUpMax(int bandwwidthMax);
+	static bool setVideoBandwidthDownMax(int bandwwidthMax);
+	static bool setVideoMotionRank(int motionRank);
+	static bool setVideoCongestionCtrlEnabled(bool congestionCtrl);
+	static bool setVideoJbEnabled(bool enabled);
+	static bool setVideoAvpfTail(int min, int max);
+	static bool setVideoZeroArtifactsEnabled(bool enabled);
+	static bool setAudioEchoSuppEnabled(bool enabled);
+	static bool setAudioEchoTail(int tailLength);
+	static bool addNattIceServer(std::string strTransportProto, std::string strServerHost, unsigned short serverPort, bool useTurn = false, bool useStun = true, std::string strUsername = "", std::string strPassword = "");
+	static bool clearNattIceServers();
+	static bool setNattIceStunEnabled(bool enabled);
+	static bool setNattIceTurnEnabled(bool enabled);
+	
 private:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
 	static bool s_bInitialized;
-	static std::string s_strCredUserId;
-	static std::string s_strCredPassword;
+	static std::list<CAObjWrapper<CAIceServer*> > s_listIceServers;
+	static CAObjWrapper<CAMutex* > s_listIceServersMutex;
 	CA_DISABLE_WARNINGS_END()
 };
 

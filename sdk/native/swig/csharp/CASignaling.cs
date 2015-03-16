@@ -45,6 +45,12 @@ public class CASignaling : CAObj {
     return ret;
   }
 
+  public bool setCallback(CASignalingCallbackObj oCallback) {
+    bool ret = clWRAPPINVOKE.CASignaling_setCallback(swigCPtr, CASignalingCallbackObj.getCPtr(oCallback));
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public bool isConnected() {
     bool ret = clWRAPPINVOKE.CASignaling_isConnected(swigCPtr);
     return ret;
@@ -70,18 +76,21 @@ public class CASignaling : CAObj {
     return ret;
   }
 
-  public static CASignalingObj newObj(string pcConnectionUri, string pcLocalIP, ushort nLocalPort) {
-    CASignalingObj ret = new CASignalingObj(clWRAPPINVOKE.CASignaling_newObj__SWIG_0(pcConnectionUri, pcLocalIP, nLocalPort), true);
+  public static CASignalingObj newObj(string strConnectionUri, string strCredUserId, string strCredPassword, string pcLocalIP, ushort nLocalPort) {
+    CASignalingObj ret = new CASignalingObj(clWRAPPINVOKE.CASignaling_newObj__SWIG_0(strConnectionUri, strCredUserId, strCredPassword, pcLocalIP, nLocalPort), true);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static CASignalingObj newObj(string pcConnectionUri, string pcLocalIP) {
-    CASignalingObj ret = new CASignalingObj(clWRAPPINVOKE.CASignaling_newObj__SWIG_1(pcConnectionUri, pcLocalIP), true);
+  public static CASignalingObj newObj(string strConnectionUri, string strCredUserId, string strCredPassword, string pcLocalIP) {
+    CASignalingObj ret = new CASignalingObj(clWRAPPINVOKE.CASignaling_newObj__SWIG_1(strConnectionUri, strCredUserId, strCredPassword, pcLocalIP), true);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static CASignalingObj newObj(string pcConnectionUri) {
-    CASignalingObj ret = new CASignalingObj(clWRAPPINVOKE.CASignaling_newObj__SWIG_2(pcConnectionUri), true);
+  public static CASignalingObj newObj(string strConnectionUri, string strCredUserId, string strCredPassword) {
+    CASignalingObj ret = new CASignalingObj(clWRAPPINVOKE.CASignaling_newObj__SWIG_2(strConnectionUri, strCredUserId, strCredPassword), true);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

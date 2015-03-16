@@ -124,14 +124,15 @@ protected:
 public:
 	virtual ~CASignalingCallback() {}
 	/** Raised to signal events releated to the network connection states */
-	virtual bool onEventNet(CAObjWrapper<CASignalingEvent*>& e) = 0;
+	virtual bool onEventNet(CAObjWrapper<CASignalingEvent* >& e) = 0;
 	/** Raised to signal events related to the call states */
-	virtual bool onEventCall(CAObjWrapper<CASignalingCallEvent*>& e) = 0;
+	virtual bool onEventCall(CAObjWrapper<CASignalingCallEvent* >& e) = 0;
 };
 
 
 /* Network transport used by the signaling layer.
 */
+#if !defined(SWIG)
 class CASignalingTransportCallback : public CANetTransportCallback
 {
 public:
@@ -141,20 +142,21 @@ public:
 		return "CASignalingTransportCallback";
 	}
 
-	virtual bool onData(CAObjWrapper<CANetPeer*> oPeer, size_t &nConsumedBytes);
+	virtual bool onData(CAObjWrapper<CANetPeer* > oPeer, size_t &nConsumedBytes);
 
-	virtual bool onConnectionStateChanged(CAObjWrapper<CANetPeer*> oPeer);
+	virtual bool onConnectionStateChanged(CAObjWrapper<CANetPeer* > oPeer);
 
 private:
 	const CASignaling* m_pcCASignaling;
 };
+#endif /* !defined(SWIG) */
 
 class CASignaling : public CAObj
 {
 	friend class CASignalingTransportCallback;
-	friend class CAAutoLock<CASignaling>;
+	friend class CAAutoLock<CASignaling >;
 protected:
-	CASignaling(CAObjWrapper<CANetTransport* >& oNetTransport, CAObjWrapper<CAUrl*>& oConnectionUrl);
+	CASignaling(CAObjWrapper<CANetTransport* >& oNetTransport, CAObjWrapper<CAUrl* >& oConnectionUrl);
 public:
 	virtual ~CASignaling();
 	virtual CA_INLINE const char* getObjectId() {
@@ -168,7 +170,7 @@ public:
 	bool sendData(const void* pcData, size_t nDataSize);
 	bool disConnect();
 
-	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
+	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
 
 private:
 	bool handleData(const char* pcData, size_t nDataSize);
@@ -187,6 +189,8 @@ private:
 	void* m_pWsSendBufPtr;
 	tsk_size_t m_nWsSendBuffSize;
 	CAObjWrapper<CAMutex* > m_oMutex;
+	std::string m_strCredUserId;
+	std::string m_strCredPassword;
 };
 
 #endif /* _CLOUDENCIA_SIGNALING_H_ */

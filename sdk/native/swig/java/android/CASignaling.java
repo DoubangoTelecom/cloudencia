@@ -39,6 +39,10 @@ public class CASignaling extends CAObj {
     return clWRAPJNI.CASignaling_getObjectId(swigCPtr, this);
   }
 
+  public boolean setCallback(CASignalingCallbackObj oCallback) {
+    return clWRAPJNI.CASignaling_setCallback(swigCPtr, this, CASignalingCallbackObj.getCPtr(oCallback), oCallback);
+  }
+
   public boolean isConnected() {
     return clWRAPJNI.CASignaling_isConnected(swigCPtr, this);
   }
@@ -59,16 +63,16 @@ public class CASignaling extends CAObj {
     return clWRAPJNI.CASignaling_disConnect(swigCPtr, this);
   }
 
-  public static CASignalingObj newObj(String pcConnectionUri, String pcLocalIP, int nLocalPort) {
-    return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_0(pcConnectionUri, pcLocalIP, nLocalPort), true);
+  public static CASignalingObj newObj(String strConnectionUri, String strCredUserId, String strCredPassword, String pcLocalIP, int nLocalPort) {
+    return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_0(strConnectionUri, strCredUserId, strCredPassword, pcLocalIP, nLocalPort), true);
   }
 
-  public static CASignalingObj newObj(String pcConnectionUri, String pcLocalIP) {
-    return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_1(pcConnectionUri, pcLocalIP), true);
+  public static CASignalingObj newObj(String strConnectionUri, String strCredUserId, String strCredPassword, String pcLocalIP) {
+    return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_1(strConnectionUri, strCredUserId, strCredPassword, pcLocalIP), true);
   }
 
-  public static CASignalingObj newObj(String pcConnectionUri) {
-    return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_2(pcConnectionUri), true);
+  public static CASignalingObj newObj(String strConnectionUri, String strCredUserId, String strCredPassword) {
+    return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_2(strConnectionUri, strCredUserId, strCredPassword), true);
   }
 
 }

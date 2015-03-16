@@ -39,16 +39,8 @@ public class CAEngine extends CAObj {
     return clWRAPJNI.CAEngine_getObjectId(swigCPtr, this);
   }
 
-  public static boolean init(String strCredUserId, String strCredPassword) {
-    return clWRAPJNI.CAEngine_init__SWIG_0(strCredUserId, strCredPassword);
-  }
-
-  public static boolean init(String strCredUserId) {
-    return clWRAPJNI.CAEngine_init__SWIG_1(strCredUserId);
-  }
-
   public static boolean init() {
-    return clWRAPJNI.CAEngine_init__SWIG_2();
+    return clWRAPJNI.CAEngine_init();
   }
 
   public static boolean deInit() {
@@ -57,6 +49,94 @@ public class CAEngine extends CAObj {
 
   public static boolean isInitialized() {
     return clWRAPJNI.CAEngine_isInitialized();
+  }
+
+  public static boolean setDebugLevel(CADebugLevel_t eLevel) {
+    return clWRAPJNI.CAEngine_setDebugLevel(eLevel.swigValue());
+  }
+
+  public static boolean setSSLCertificates(String strPublicKey, String strPrivateKey, String strCA, boolean bMutualAuth) {
+    return clWRAPJNI.CAEngine_setSSLCertificates__SWIG_0(strPublicKey, strPrivateKey, strCA, bMutualAuth);
+  }
+
+  public static boolean setSSLCertificates(String strPublicKey, String strPrivateKey, String strCA) {
+    return clWRAPJNI.CAEngine_setSSLCertificates__SWIG_1(strPublicKey, strPrivateKey, strCA);
+  }
+
+  public static boolean setVideoPrefSize(String strPrefVideoSize) {
+    return clWRAPJNI.CAEngine_setVideoPrefSize(strPrefVideoSize);
+  }
+
+  public static boolean setVideoFps(int fps) {
+    return clWRAPJNI.CAEngine_setVideoFps(fps);
+  }
+
+  public static boolean setVideoBandwidthUpMax(int bandwwidthMax) {
+    return clWRAPJNI.CAEngine_setVideoBandwidthUpMax(bandwwidthMax);
+  }
+
+  public static boolean setVideoBandwidthDownMax(int bandwwidthMax) {
+    return clWRAPJNI.CAEngine_setVideoBandwidthDownMax(bandwwidthMax);
+  }
+
+  public static boolean setVideoMotionRank(int motionRank) {
+    return clWRAPJNI.CAEngine_setVideoMotionRank(motionRank);
+  }
+
+  public static boolean setVideoCongestionCtrlEnabled(boolean congestionCtrl) {
+    return clWRAPJNI.CAEngine_setVideoCongestionCtrlEnabled(congestionCtrl);
+  }
+
+  public static boolean setVideoJbEnabled(boolean enabled) {
+    return clWRAPJNI.CAEngine_setVideoJbEnabled(enabled);
+  }
+
+  public static boolean setVideoAvpfTail(int min, int max) {
+    return clWRAPJNI.CAEngine_setVideoAvpfTail(min, max);
+  }
+
+  public static boolean setVideoZeroArtifactsEnabled(boolean enabled) {
+    return clWRAPJNI.CAEngine_setVideoZeroArtifactsEnabled(enabled);
+  }
+
+  public static boolean setAudioEchoSuppEnabled(boolean enabled) {
+    return clWRAPJNI.CAEngine_setAudioEchoSuppEnabled(enabled);
+  }
+
+  public static boolean setAudioEchoTail(int tailLength) {
+    return clWRAPJNI.CAEngine_setAudioEchoTail(tailLength);
+  }
+
+  public static boolean addNattIceServer(String strTransportProto, String strServerHost, int serverPort, boolean useTurn, boolean useStun, String strUsername, String strPassword) {
+    return clWRAPJNI.CAEngine_addNattIceServer__SWIG_0(strTransportProto, strServerHost, serverPort, useTurn, useStun, strUsername, strPassword);
+  }
+
+  public static boolean addNattIceServer(String strTransportProto, String strServerHost, int serverPort, boolean useTurn, boolean useStun, String strUsername) {
+    return clWRAPJNI.CAEngine_addNattIceServer__SWIG_1(strTransportProto, strServerHost, serverPort, useTurn, useStun, strUsername);
+  }
+
+  public static boolean addNattIceServer(String strTransportProto, String strServerHost, int serverPort, boolean useTurn, boolean useStun) {
+    return clWRAPJNI.CAEngine_addNattIceServer__SWIG_2(strTransportProto, strServerHost, serverPort, useTurn, useStun);
+  }
+
+  public static boolean addNattIceServer(String strTransportProto, String strServerHost, int serverPort, boolean useTurn) {
+    return clWRAPJNI.CAEngine_addNattIceServer__SWIG_3(strTransportProto, strServerHost, serverPort, useTurn);
+  }
+
+  public static boolean addNattIceServer(String strTransportProto, String strServerHost, int serverPort) {
+    return clWRAPJNI.CAEngine_addNattIceServer__SWIG_4(strTransportProto, strServerHost, serverPort);
+  }
+
+  public static boolean clearNattIceServers() {
+    return clWRAPJNI.CAEngine_clearNattIceServers();
+  }
+
+  public static boolean setNattIceStunEnabled(boolean enabled) {
+    return clWRAPJNI.CAEngine_setNattIceStunEnabled(enabled);
+  }
+
+  public static boolean setNattIceTurnEnabled(boolean enabled) {
+    return clWRAPJNI.CAEngine_setNattIceTurnEnabled(enabled);
   }
 
 }

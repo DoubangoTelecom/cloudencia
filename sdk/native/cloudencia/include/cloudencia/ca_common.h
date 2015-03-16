@@ -58,6 +58,8 @@ typedef int32_t CANetFd;
 #	define CA_STDCALL
 #endif /* CA_UNDER_WINDOWS */
 
+
+// @SWIG
 typedef enum CADebugLevel_e {
 	CADebugLevel_Info = 4,
 	CADebugLevel_Warn = 3,
@@ -66,6 +68,7 @@ typedef enum CADebugLevel_e {
 }
 CADebugLevel_t;
 
+// @SWIG
 typedef enum CASignalingEventType_e {
 	CASignalingEventType_NetConnected,
 	CASignalingEventType_NetReady,
