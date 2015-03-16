@@ -11,46 +11,44 @@ namespace org.doubango.clWRAP {
 using System;
 using System.Runtime.InteropServices;
 
-public class CASignalingObj : IDisposable {
+public class CASignalingCallback : CAObj {
   private HandleRef swigCPtr;
-  protected bool swigCMemOwn;
 
-  internal CASignalingObj(IntPtr cPtr, bool cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
+  internal CASignalingCallback(IntPtr cPtr, bool cMemoryOwn) : base(clWRAPPINVOKE.CASignalingCallback_SWIGUpcast(cPtr), cMemoryOwn) {
     swigCPtr = new HandleRef(this, cPtr);
   }
 
-  internal static HandleRef getCPtr(CASignalingObj obj) {
+  internal static HandleRef getCPtr(CASignalingCallback obj) {
     return (obj == null) ? new HandleRef(null, IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~CASignalingObj() {
+  ~CASignalingCallback() {
     Dispose();
   }
 
-  public virtual void Dispose() {
+  public override void Dispose() {
     lock(this) {
       if (swigCPtr.Handle != IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          clWRAPPINVOKE.delete_CASignalingObj(swigCPtr);
+          clWRAPPINVOKE.delete_CASignalingCallback(swigCPtr);
         }
         swigCPtr = new HandleRef(null, IntPtr.Zero);
       }
       GC.SuppressFinalize(this);
+      base.Dispose();
     }
   }
 
-  public CASignalingObj(CASignaling obj) : this(clWRAPPINVOKE.new_CASignalingObj__SWIG_0(CASignaling.getCPtr(obj)), true) {
-  }
-
-  public CASignalingObj(CASignalingObj obj) : this(clWRAPPINVOKE.new_CASignalingObj__SWIG_1(CASignalingObj.getCPtr(obj)), true) {
+  public virtual bool onEventNet(CASignalingEventObj e) {
+    bool ret = clWRAPPINVOKE.CASignalingCallback_onEventNet(swigCPtr, CASignalingEventObj.getCPtr(e));
     if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
   }
 
-  public CASignaling unWrap() {
-    IntPtr cPtr = clWRAPPINVOKE.CASignalingObj_unWrap(swigCPtr);
-    CASignaling ret = (cPtr == IntPtr.Zero) ? null : new CASignaling(cPtr, false);
+  public virtual bool onEventCall(CASignalingCallEventObj e) {
+    bool ret = clWRAPPINVOKE.CASignalingCallback_onEventCall(swigCPtr, CASignalingCallEventObj.getCPtr(e));
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 

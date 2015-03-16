@@ -110,6 +110,9 @@
     <ClCompile Include="src\ca_jsoncpp.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ca_utils.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ragel\ca_machine_utils.rl">

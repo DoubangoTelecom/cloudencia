@@ -11,20 +11,20 @@ namespace org.doubango.clWRAP {
 using System;
 using System.Runtime.InteropServices;
 
-public class CASignalingObj : IDisposable {
+public class CASignalingCallEventObj : IDisposable {
   private HandleRef swigCPtr;
   protected bool swigCMemOwn;
 
-  internal CASignalingObj(IntPtr cPtr, bool cMemoryOwn) {
+  internal CASignalingCallEventObj(IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwn = cMemoryOwn;
     swigCPtr = new HandleRef(this, cPtr);
   }
 
-  internal static HandleRef getCPtr(CASignalingObj obj) {
+  internal static HandleRef getCPtr(CASignalingCallEventObj obj) {
     return (obj == null) ? new HandleRef(null, IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~CASignalingObj() {
+  ~CASignalingCallEventObj() {
     Dispose();
   }
 
@@ -33,7 +33,7 @@ public class CASignalingObj : IDisposable {
       if (swigCPtr.Handle != IntPtr.Zero) {
         if (swigCMemOwn) {
           swigCMemOwn = false;
-          clWRAPPINVOKE.delete_CASignalingObj(swigCPtr);
+          clWRAPPINVOKE.delete_CASignalingCallEventObj(swigCPtr);
         }
         swigCPtr = new HandleRef(null, IntPtr.Zero);
       }
@@ -41,16 +41,16 @@ public class CASignalingObj : IDisposable {
     }
   }
 
-  public CASignalingObj(CASignaling obj) : this(clWRAPPINVOKE.new_CASignalingObj__SWIG_0(CASignaling.getCPtr(obj)), true) {
+  public CASignalingCallEventObj(CASignalingCallEvent obj) : this(clWRAPPINVOKE.new_CASignalingCallEventObj__SWIG_0(CASignalingCallEvent.getCPtr(obj)), true) {
   }
 
-  public CASignalingObj(CASignalingObj obj) : this(clWRAPPINVOKE.new_CASignalingObj__SWIG_1(CASignalingObj.getCPtr(obj)), true) {
+  public CASignalingCallEventObj(CASignalingCallEventObj obj) : this(clWRAPPINVOKE.new_CASignalingCallEventObj__SWIG_1(CASignalingCallEventObj.getCPtr(obj)), true) {
     if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
   }
 
-  public CASignaling unWrap() {
-    IntPtr cPtr = clWRAPPINVOKE.CASignalingObj_unWrap(swigCPtr);
-    CASignaling ret = (cPtr == IntPtr.Zero) ? null : new CASignaling(cPtr, false);
+  public CASignalingCallEvent unWrap() {
+    IntPtr cPtr = clWRAPPINVOKE.CASignalingCallEventObj_unWrap(swigCPtr);
+    CASignalingCallEvent ret = (cPtr == IntPtr.Zero) ? null : new CASignalingCallEvent(cPtr, false);
     return ret;
   }
 

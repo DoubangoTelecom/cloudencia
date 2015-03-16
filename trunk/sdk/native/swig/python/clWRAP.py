@@ -74,6 +74,16 @@ except:
     weakref_proxy = lambda x: x
 
 
+CADebugLevel_Info = _clWRAP.CADebugLevel_Info
+CADebugLevel_Warn = _clWRAP.CADebugLevel_Warn
+CADebugLevel_Error = _clWRAP.CADebugLevel_Error
+CADebugLevel_Fatal = _clWRAP.CADebugLevel_Fatal
+CASignalingEventType_NetConnected = _clWRAP.CASignalingEventType_NetConnected
+CASignalingEventType_NetReady = _clWRAP.CASignalingEventType_NetReady
+CASignalingEventType_NetData = _clWRAP.CASignalingEventType_NetData
+CASignalingEventType_NetDisconnected = _clWRAP.CASignalingEventType_NetDisconnected
+CASignalingEventType_NetError = _clWRAP.CASignalingEventType_NetError
+CASignalingEventType_Call = _clWRAP.CASignalingEventType_Call
 class CAObj(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, CAObj, name, value)
@@ -105,6 +115,54 @@ class CASignalingObj(_object):
 CASignalingObj_swigregister = _clWRAP.CASignalingObj_swigregister
 CASignalingObj_swigregister(CASignalingObj)
 
+class CASignalingCallbackObj(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingCallbackObj, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingCallbackObj, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASignalingCallbackObj(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASignalingCallbackObj
+    __del__ = lambda self : None;
+    def unWrap(self): return _clWRAP.CASignalingCallbackObj_unWrap(self)
+CASignalingCallbackObj_swigregister = _clWRAP.CASignalingCallbackObj_swigregister
+CASignalingCallbackObj_swigregister(CASignalingCallbackObj)
+
+class CASignalingEventObj(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingEventObj, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingEventObj, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASignalingEventObj(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASignalingEventObj
+    __del__ = lambda self : None;
+    def unWrap(self): return _clWRAP.CASignalingEventObj_unWrap(self)
+CASignalingEventObj_swigregister = _clWRAP.CASignalingEventObj_swigregister
+CASignalingEventObj_swigregister(CASignalingEventObj)
+
+class CASignalingCallEventObj(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingCallEventObj, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingCallEventObj, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASignalingCallEventObj(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASignalingCallEventObj
+    __del__ = lambda self : None;
+    def unWrap(self): return _clWRAP.CASignalingCallEventObj_unWrap(self)
+CASignalingCallEventObj_swigregister = _clWRAP.CASignalingCallEventObj_swigregister
+CASignalingCallEventObj_swigregister(CASignalingCallEventObj)
+
 class CAEngine(CAObj):
     __swig_setmethods__ = {}
     for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
@@ -123,11 +181,45 @@ class CAEngine(CAObj):
     if _newclass:deInit = staticmethod(_clWRAP.CAEngine_deInit)
     __swig_getmethods__["isInitialized"] = lambda x: _clWRAP.CAEngine_isInitialized
     if _newclass:isInitialized = staticmethod(_clWRAP.CAEngine_isInitialized)
+    __swig_getmethods__["setDebugLevel"] = lambda x: _clWRAP.CAEngine_setDebugLevel
+    if _newclass:setDebugLevel = staticmethod(_clWRAP.CAEngine_setDebugLevel)
+    __swig_getmethods__["setSSLCertificates"] = lambda x: _clWRAP.CAEngine_setSSLCertificates
+    if _newclass:setSSLCertificates = staticmethod(_clWRAP.CAEngine_setSSLCertificates)
+    __swig_getmethods__["setVideoPrefSize"] = lambda x: _clWRAP.CAEngine_setVideoPrefSize
+    if _newclass:setVideoPrefSize = staticmethod(_clWRAP.CAEngine_setVideoPrefSize)
+    __swig_getmethods__["setVideoFps"] = lambda x: _clWRAP.CAEngine_setVideoFps
+    if _newclass:setVideoFps = staticmethod(_clWRAP.CAEngine_setVideoFps)
+    __swig_getmethods__["setVideoBandwidthUpMax"] = lambda x: _clWRAP.CAEngine_setVideoBandwidthUpMax
+    if _newclass:setVideoBandwidthUpMax = staticmethod(_clWRAP.CAEngine_setVideoBandwidthUpMax)
+    __swig_getmethods__["setVideoBandwidthDownMax"] = lambda x: _clWRAP.CAEngine_setVideoBandwidthDownMax
+    if _newclass:setVideoBandwidthDownMax = staticmethod(_clWRAP.CAEngine_setVideoBandwidthDownMax)
+    __swig_getmethods__["setVideoMotionRank"] = lambda x: _clWRAP.CAEngine_setVideoMotionRank
+    if _newclass:setVideoMotionRank = staticmethod(_clWRAP.CAEngine_setVideoMotionRank)
+    __swig_getmethods__["setVideoCongestionCtrlEnabled"] = lambda x: _clWRAP.CAEngine_setVideoCongestionCtrlEnabled
+    if _newclass:setVideoCongestionCtrlEnabled = staticmethod(_clWRAP.CAEngine_setVideoCongestionCtrlEnabled)
+    __swig_getmethods__["setVideoJbEnabled"] = lambda x: _clWRAP.CAEngine_setVideoJbEnabled
+    if _newclass:setVideoJbEnabled = staticmethod(_clWRAP.CAEngine_setVideoJbEnabled)
+    __swig_getmethods__["setVideoAvpfTail"] = lambda x: _clWRAP.CAEngine_setVideoAvpfTail
+    if _newclass:setVideoAvpfTail = staticmethod(_clWRAP.CAEngine_setVideoAvpfTail)
+    __swig_getmethods__["setVideoZeroArtifactsEnabled"] = lambda x: _clWRAP.CAEngine_setVideoZeroArtifactsEnabled
+    if _newclass:setVideoZeroArtifactsEnabled = staticmethod(_clWRAP.CAEngine_setVideoZeroArtifactsEnabled)
+    __swig_getmethods__["setAudioEchoSuppEnabled"] = lambda x: _clWRAP.CAEngine_setAudioEchoSuppEnabled
+    if _newclass:setAudioEchoSuppEnabled = staticmethod(_clWRAP.CAEngine_setAudioEchoSuppEnabled)
+    __swig_getmethods__["setAudioEchoTail"] = lambda x: _clWRAP.CAEngine_setAudioEchoTail
+    if _newclass:setAudioEchoTail = staticmethod(_clWRAP.CAEngine_setAudioEchoTail)
+    __swig_getmethods__["addNattIceServer"] = lambda x: _clWRAP.CAEngine_addNattIceServer
+    if _newclass:addNattIceServer = staticmethod(_clWRAP.CAEngine_addNattIceServer)
+    __swig_getmethods__["clearNattIceServers"] = lambda x: _clWRAP.CAEngine_clearNattIceServers
+    if _newclass:clearNattIceServers = staticmethod(_clWRAP.CAEngine_clearNattIceServers)
+    __swig_getmethods__["setNattIceStunEnabled"] = lambda x: _clWRAP.CAEngine_setNattIceStunEnabled
+    if _newclass:setNattIceStunEnabled = staticmethod(_clWRAP.CAEngine_setNattIceStunEnabled)
+    __swig_getmethods__["setNattIceTurnEnabled"] = lambda x: _clWRAP.CAEngine_setNattIceTurnEnabled
+    if _newclass:setNattIceTurnEnabled = staticmethod(_clWRAP.CAEngine_setNattIceTurnEnabled)
 CAEngine_swigregister = _clWRAP.CAEngine_swigregister
 CAEngine_swigregister(CAEngine)
 
-def CAEngine_init(strCredUserId="", strCredPassword=""):
-  return _clWRAP.CAEngine_init(strCredUserId, strCredPassword)
+def CAEngine_init():
+  return _clWRAP.CAEngine_init()
 CAEngine_init = _clWRAP.CAEngine_init
 
 def CAEngine_deInit():
@@ -137,6 +229,136 @@ CAEngine_deInit = _clWRAP.CAEngine_deInit
 def CAEngine_isInitialized():
   return _clWRAP.CAEngine_isInitialized()
 CAEngine_isInitialized = _clWRAP.CAEngine_isInitialized
+
+def CAEngine_setDebugLevel(*args):
+  return _clWRAP.CAEngine_setDebugLevel(*args)
+CAEngine_setDebugLevel = _clWRAP.CAEngine_setDebugLevel
+
+def CAEngine_setSSLCertificates(*args):
+  return _clWRAP.CAEngine_setSSLCertificates(*args)
+CAEngine_setSSLCertificates = _clWRAP.CAEngine_setSSLCertificates
+
+def CAEngine_setVideoPrefSize(*args):
+  return _clWRAP.CAEngine_setVideoPrefSize(*args)
+CAEngine_setVideoPrefSize = _clWRAP.CAEngine_setVideoPrefSize
+
+def CAEngine_setVideoFps(*args):
+  return _clWRAP.CAEngine_setVideoFps(*args)
+CAEngine_setVideoFps = _clWRAP.CAEngine_setVideoFps
+
+def CAEngine_setVideoBandwidthUpMax(*args):
+  return _clWRAP.CAEngine_setVideoBandwidthUpMax(*args)
+CAEngine_setVideoBandwidthUpMax = _clWRAP.CAEngine_setVideoBandwidthUpMax
+
+def CAEngine_setVideoBandwidthDownMax(*args):
+  return _clWRAP.CAEngine_setVideoBandwidthDownMax(*args)
+CAEngine_setVideoBandwidthDownMax = _clWRAP.CAEngine_setVideoBandwidthDownMax
+
+def CAEngine_setVideoMotionRank(*args):
+  return _clWRAP.CAEngine_setVideoMotionRank(*args)
+CAEngine_setVideoMotionRank = _clWRAP.CAEngine_setVideoMotionRank
+
+def CAEngine_setVideoCongestionCtrlEnabled(*args):
+  return _clWRAP.CAEngine_setVideoCongestionCtrlEnabled(*args)
+CAEngine_setVideoCongestionCtrlEnabled = _clWRAP.CAEngine_setVideoCongestionCtrlEnabled
+
+def CAEngine_setVideoJbEnabled(*args):
+  return _clWRAP.CAEngine_setVideoJbEnabled(*args)
+CAEngine_setVideoJbEnabled = _clWRAP.CAEngine_setVideoJbEnabled
+
+def CAEngine_setVideoAvpfTail(*args):
+  return _clWRAP.CAEngine_setVideoAvpfTail(*args)
+CAEngine_setVideoAvpfTail = _clWRAP.CAEngine_setVideoAvpfTail
+
+def CAEngine_setVideoZeroArtifactsEnabled(*args):
+  return _clWRAP.CAEngine_setVideoZeroArtifactsEnabled(*args)
+CAEngine_setVideoZeroArtifactsEnabled = _clWRAP.CAEngine_setVideoZeroArtifactsEnabled
+
+def CAEngine_setAudioEchoSuppEnabled(*args):
+  return _clWRAP.CAEngine_setAudioEchoSuppEnabled(*args)
+CAEngine_setAudioEchoSuppEnabled = _clWRAP.CAEngine_setAudioEchoSuppEnabled
+
+def CAEngine_setAudioEchoTail(*args):
+  return _clWRAP.CAEngine_setAudioEchoTail(*args)
+CAEngine_setAudioEchoTail = _clWRAP.CAEngine_setAudioEchoTail
+
+def CAEngine_addNattIceServer(*args):
+  return _clWRAP.CAEngine_addNattIceServer(*args)
+CAEngine_addNattIceServer = _clWRAP.CAEngine_addNattIceServer
+
+def CAEngine_clearNattIceServers():
+  return _clWRAP.CAEngine_clearNattIceServers()
+CAEngine_clearNattIceServers = _clWRAP.CAEngine_clearNattIceServers
+
+def CAEngine_setNattIceStunEnabled(*args):
+  return _clWRAP.CAEngine_setNattIceStunEnabled(*args)
+CAEngine_setNattIceStunEnabled = _clWRAP.CAEngine_setNattIceStunEnabled
+
+def CAEngine_setNattIceTurnEnabled(*args):
+  return _clWRAP.CAEngine_setNattIceTurnEnabled(*args)
+CAEngine_setNattIceTurnEnabled = _clWRAP.CAEngine_setNattIceTurnEnabled
+
+class CASignalingEvent(CAObj):
+    __swig_setmethods__ = {}
+    for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingEvent, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CAObj]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingEvent, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASignalingEvent(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASignalingEvent
+    __del__ = lambda self : None;
+    def getObjectId(self): return _clWRAP.CASignalingEvent_getObjectId(self)
+    def getType(self): return _clWRAP.CASignalingEvent_getType(self)
+    def getDescription(self): return _clWRAP.CASignalingEvent_getDescription(self)
+    def getDataPtr(self): return _clWRAP.CASignalingEvent_getDataPtr(self)
+    def getDataSize(self): return _clWRAP.CASignalingEvent_getDataSize(self)
+CASignalingEvent_swigregister = _clWRAP.CASignalingEvent_swigregister
+CASignalingEvent_swigregister(CASignalingEvent)
+
+class CASignalingCallEvent(CASignalingEvent):
+    __swig_setmethods__ = {}
+    for _s in [CASignalingEvent]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingCallEvent, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CASignalingEvent]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingCallEvent, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASignalingCallEvent(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASignalingCallEvent
+    __del__ = lambda self : None;
+    def getObjectId(self): return _clWRAP.CASignalingCallEvent_getObjectId(self)
+    def getType(self): return _clWRAP.CASignalingCallEvent_getType(self)
+    def getFrom(self): return _clWRAP.CASignalingCallEvent_getFrom(self)
+    def getTo(self): return _clWRAP.CASignalingCallEvent_getTo(self)
+    def getCallId(self): return _clWRAP.CASignalingCallEvent_getCallId(self)
+    def getTransacId(self): return _clWRAP.CASignalingCallEvent_getTransacId(self)
+    def getSdp(self): return _clWRAP.CASignalingCallEvent_getSdp(self)
+CASignalingCallEvent_swigregister = _clWRAP.CASignalingCallEvent_swigregister
+CASignalingCallEvent_swigregister(CASignalingCallEvent)
+
+class CASignalingCallback(CAObj):
+    __swig_setmethods__ = {}
+    for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASignalingCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CAObj]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASignalingCallback, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _clWRAP.delete_CASignalingCallback
+    __del__ = lambda self : None;
+    def onEventNet(self, *args): return _clWRAP.CASignalingCallback_onEventNet(self, *args)
+    def onEventCall(self, *args): return _clWRAP.CASignalingCallback_onEventCall(self, *args)
+CASignalingCallback_swigregister = _clWRAP.CASignalingCallback_swigregister
+CASignalingCallback_swigregister(CASignalingCallback)
 
 class CASignaling(CAObj):
     __swig_setmethods__ = {}
@@ -150,6 +372,7 @@ class CASignaling(CAObj):
     __swig_destroy__ = _clWRAP.delete_CASignaling
     __del__ = lambda self : None;
     def getObjectId(self): return _clWRAP.CASignaling_getObjectId(self)
+    def setCallback(self, *args): return _clWRAP.CASignaling_setCallback(self, *args)
     def isConnected(self): return _clWRAP.CASignaling_isConnected(self)
     def isReady(self): return _clWRAP.CASignaling_isReady(self)
     def connect(self): return _clWRAP.CASignaling_connect(self)

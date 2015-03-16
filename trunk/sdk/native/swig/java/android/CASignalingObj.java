@@ -39,12 +39,8 @@ public class CASignalingObj {
     this(clWRAPJNI.new_CASignalingObj__SWIG_0(CASignaling.getCPtr(obj), obj), true);
   }
 
-  public CASignalingObj() {
-    this(clWRAPJNI.new_CASignalingObj__SWIG_1(), true);
-  }
-
   public CASignalingObj(CASignalingObj obj) {
-    this(clWRAPJNI.new_CASignalingObj__SWIG_2(CASignalingObj.getCPtr(obj), obj), true);
+    this(clWRAPJNI.new_CASignalingObj__SWIG_1(CASignalingObj.getCPtr(obj), obj), true);
   }
 
   public CASignaling unWrap() {

@@ -122,6 +122,120 @@ sub ACQUIRE {
 }
 
 
+############# Class : clWRAP::CASignalingCallbackObj ##############
+
+package clWRAP::CASignalingCallbackObj;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASignalingCallbackObj(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingCallbackObj($self);
+        delete $OWNER{$self};
+    }
+}
+
+*unWrap = *clWRAPc::CASignalingCallbackObj_unWrap;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASignalingEventObj ##############
+
+package clWRAP::CASignalingEventObj;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASignalingEventObj(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingEventObj($self);
+        delete $OWNER{$self};
+    }
+}
+
+*unWrap = *clWRAPc::CASignalingEventObj_unWrap;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASignalingCallEventObj ##############
+
+package clWRAP::CASignalingCallEventObj;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASignalingCallEventObj(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingCallEventObj($self);
+        delete $OWNER{$self};
+    }
+}
+
+*unWrap = *clWRAPc::CASignalingCallEventObj_unWrap;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
 ############# Class : clWRAP::CAEngine ##############
 
 package clWRAP::CAEngine;
@@ -144,6 +258,142 @@ sub DESTROY {
 *init = *clWRAPc::CAEngine_init;
 *deInit = *clWRAPc::CAEngine_deInit;
 *isInitialized = *clWRAPc::CAEngine_isInitialized;
+*setDebugLevel = *clWRAPc::CAEngine_setDebugLevel;
+*setSSLCertificates = *clWRAPc::CAEngine_setSSLCertificates;
+*setVideoPrefSize = *clWRAPc::CAEngine_setVideoPrefSize;
+*setVideoFps = *clWRAPc::CAEngine_setVideoFps;
+*setVideoBandwidthUpMax = *clWRAPc::CAEngine_setVideoBandwidthUpMax;
+*setVideoBandwidthDownMax = *clWRAPc::CAEngine_setVideoBandwidthDownMax;
+*setVideoMotionRank = *clWRAPc::CAEngine_setVideoMotionRank;
+*setVideoCongestionCtrlEnabled = *clWRAPc::CAEngine_setVideoCongestionCtrlEnabled;
+*setVideoJbEnabled = *clWRAPc::CAEngine_setVideoJbEnabled;
+*setVideoAvpfTail = *clWRAPc::CAEngine_setVideoAvpfTail;
+*setVideoZeroArtifactsEnabled = *clWRAPc::CAEngine_setVideoZeroArtifactsEnabled;
+*setAudioEchoSuppEnabled = *clWRAPc::CAEngine_setAudioEchoSuppEnabled;
+*setAudioEchoTail = *clWRAPc::CAEngine_setAudioEchoTail;
+*addNattIceServer = *clWRAPc::CAEngine_addNattIceServer;
+*clearNattIceServers = *clWRAPc::CAEngine_clearNattIceServers;
+*setNattIceStunEnabled = *clWRAPc::CAEngine_setNattIceStunEnabled;
+*setNattIceTurnEnabled = *clWRAPc::CAEngine_setNattIceTurnEnabled;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASignalingEvent ##############
+
+package clWRAP::CASignalingEvent;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CAObj clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASignalingEvent(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingEvent($self);
+        delete $OWNER{$self};
+    }
+}
+
+*getObjectId = *clWRAPc::CASignalingEvent_getObjectId;
+*getType = *clWRAPc::CASignalingEvent_getType;
+*getDescription = *clWRAPc::CASignalingEvent_getDescription;
+*getDataPtr = *clWRAPc::CASignalingEvent_getDataPtr;
+*getDataSize = *clWRAPc::CASignalingEvent_getDataSize;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASignalingCallEvent ##############
+
+package clWRAP::CASignalingCallEvent;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CASignalingEvent clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASignalingCallEvent(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingCallEvent($self);
+        delete $OWNER{$self};
+    }
+}
+
+*getObjectId = *clWRAPc::CASignalingCallEvent_getObjectId;
+*getType = *clWRAPc::CASignalingCallEvent_getType;
+*getFrom = *clWRAPc::CASignalingCallEvent_getFrom;
+*getTo = *clWRAPc::CASignalingCallEvent_getTo;
+*getCallId = *clWRAPc::CASignalingCallEvent_getCallId;
+*getTransacId = *clWRAPc::CASignalingCallEvent_getTransacId;
+*getSdp = *clWRAPc::CASignalingCallEvent_getSdp;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASignalingCallback ##############
+
+package clWRAP::CASignalingCallback;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CAObj clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASignalingCallback($self);
+        delete $OWNER{$self};
+    }
+}
+
+*onEventNet = *clWRAPc::CASignalingCallback_onEventNet;
+*onEventCall = *clWRAPc::CASignalingCallback_onEventCall;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -176,6 +426,7 @@ sub DESTROY {
 }
 
 *getObjectId = *clWRAPc::CASignaling_getObjectId;
+*setCallback = *clWRAPc::CASignaling_setCallback;
 *isConnected = *clWRAPc::CASignaling_isConnected;
 *isReady = *clWRAPc::CASignaling_isReady;
 *connect = *clWRAPc::CASignaling_connect;
@@ -199,4 +450,14 @@ sub ACQUIRE {
 
 package clWRAP;
 
+*CADebugLevel_Info = *clWRAPc::CADebugLevel_Info;
+*CADebugLevel_Warn = *clWRAPc::CADebugLevel_Warn;
+*CADebugLevel_Error = *clWRAPc::CADebugLevel_Error;
+*CADebugLevel_Fatal = *clWRAPc::CADebugLevel_Fatal;
+*CASignalingEventType_NetConnected = *clWRAPc::CASignalingEventType_NetConnected;
+*CASignalingEventType_NetReady = *clWRAPc::CASignalingEventType_NetReady;
+*CASignalingEventType_NetData = *clWRAPc::CASignalingEventType_NetData;
+*CASignalingEventType_NetDisconnected = *clWRAPc::CASignalingEventType_NetDisconnected;
+*CASignalingEventType_NetError = *clWRAPc::CASignalingEventType_NetError;
+*CASignalingEventType_Call = *clWRAPc::CASignalingEventType_Call;
 1;

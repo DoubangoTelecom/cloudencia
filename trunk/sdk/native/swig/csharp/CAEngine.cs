@@ -45,20 +45,8 @@ public class CAEngine : CAObj {
     return ret;
   }
 
-  public static bool init(string strCredUserId, string strCredPassword) {
-    bool ret = clWRAPPINVOKE.CAEngine_init__SWIG_0(strCredUserId, strCredPassword);
-    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
-  public static bool init(string strCredUserId) {
-    bool ret = clWRAPPINVOKE.CAEngine_init__SWIG_1(strCredUserId);
-    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
-  }
-
   public static bool init() {
-    bool ret = clWRAPPINVOKE.CAEngine_init__SWIG_2();
+    bool ret = clWRAPPINVOKE.CAEngine_init();
     return ret;
   }
 
@@ -69,6 +57,124 @@ public class CAEngine : CAObj {
 
   public static bool isInitialized() {
     bool ret = clWRAPPINVOKE.CAEngine_isInitialized();
+    return ret;
+  }
+
+  public static bool setDebugLevel(CADebugLevel_t eLevel) {
+    bool ret = clWRAPPINVOKE.CAEngine_setDebugLevel((int)eLevel);
+    return ret;
+  }
+
+  public static bool setSSLCertificates(string strPublicKey, string strPrivateKey, string strCA, bool bMutualAuth) {
+    bool ret = clWRAPPINVOKE.CAEngine_setSSLCertificates__SWIG_0(strPublicKey, strPrivateKey, strCA, bMutualAuth);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool setSSLCertificates(string strPublicKey, string strPrivateKey, string strCA) {
+    bool ret = clWRAPPINVOKE.CAEngine_setSSLCertificates__SWIG_1(strPublicKey, strPrivateKey, strCA);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool setVideoPrefSize(string strPrefVideoSize) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoPrefSize(strPrefVideoSize);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool setVideoFps(int fps) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoFps(fps);
+    return ret;
+  }
+
+  public static bool setVideoBandwidthUpMax(int bandwwidthMax) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoBandwidthUpMax(bandwwidthMax);
+    return ret;
+  }
+
+  public static bool setVideoBandwidthDownMax(int bandwwidthMax) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoBandwidthDownMax(bandwwidthMax);
+    return ret;
+  }
+
+  public static bool setVideoMotionRank(int motionRank) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoMotionRank(motionRank);
+    return ret;
+  }
+
+  public static bool setVideoCongestionCtrlEnabled(bool congestionCtrl) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoCongestionCtrlEnabled(congestionCtrl);
+    return ret;
+  }
+
+  public static bool setVideoJbEnabled(bool enabled) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoJbEnabled(enabled);
+    return ret;
+  }
+
+  public static bool setVideoAvpfTail(int min, int max) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoAvpfTail(min, max);
+    return ret;
+  }
+
+  public static bool setVideoZeroArtifactsEnabled(bool enabled) {
+    bool ret = clWRAPPINVOKE.CAEngine_setVideoZeroArtifactsEnabled(enabled);
+    return ret;
+  }
+
+  public static bool setAudioEchoSuppEnabled(bool enabled) {
+    bool ret = clWRAPPINVOKE.CAEngine_setAudioEchoSuppEnabled(enabled);
+    return ret;
+  }
+
+  public static bool setAudioEchoTail(int tailLength) {
+    bool ret = clWRAPPINVOKE.CAEngine_setAudioEchoTail(tailLength);
+    return ret;
+  }
+
+  public static bool addNattIceServer(string strTransportProto, string strServerHost, ushort serverPort, bool useTurn, bool useStun, string strUsername, string strPassword) {
+    bool ret = clWRAPPINVOKE.CAEngine_addNattIceServer__SWIG_0(strTransportProto, strServerHost, serverPort, useTurn, useStun, strUsername, strPassword);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool addNattIceServer(string strTransportProto, string strServerHost, ushort serverPort, bool useTurn, bool useStun, string strUsername) {
+    bool ret = clWRAPPINVOKE.CAEngine_addNattIceServer__SWIG_1(strTransportProto, strServerHost, serverPort, useTurn, useStun, strUsername);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool addNattIceServer(string strTransportProto, string strServerHost, ushort serverPort, bool useTurn, bool useStun) {
+    bool ret = clWRAPPINVOKE.CAEngine_addNattIceServer__SWIG_2(strTransportProto, strServerHost, serverPort, useTurn, useStun);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool addNattIceServer(string strTransportProto, string strServerHost, ushort serverPort, bool useTurn) {
+    bool ret = clWRAPPINVOKE.CAEngine_addNattIceServer__SWIG_3(strTransportProto, strServerHost, serverPort, useTurn);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool addNattIceServer(string strTransportProto, string strServerHost, ushort serverPort) {
+    bool ret = clWRAPPINVOKE.CAEngine_addNattIceServer__SWIG_4(strTransportProto, strServerHost, serverPort);
+    if (clWRAPPINVOKE.SWIGPendingException.Pending) throw clWRAPPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
+  public static bool clearNattIceServers() {
+    bool ret = clWRAPPINVOKE.CAEngine_clearNattIceServers();
+    return ret;
+  }
+
+  public static bool setNattIceStunEnabled(bool enabled) {
+    bool ret = clWRAPPINVOKE.CAEngine_setNattIceStunEnabled(enabled);
+    return ret;
+  }
+
+  public static bool setNattIceTurnEnabled(bool enabled) {
+    bool ret = clWRAPPINVOKE.CAEngine_setNattIceTurnEnabled(enabled);
     return ret;
   }
 

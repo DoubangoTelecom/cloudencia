@@ -205,10 +205,7 @@ class clWRAPPINVOKE {
   public static extern IntPtr new_CASignalingObj__SWIG_0(HandleRef jarg1);
 
   [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingObj__SWIG_1")]
-  public static extern IntPtr new_CASignalingObj__SWIG_1();
-
-  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingObj__SWIG_2")]
-  public static extern IntPtr new_CASignalingObj__SWIG_2(HandleRef jarg1);
+  public static extern IntPtr new_CASignalingObj__SWIG_1(HandleRef jarg1);
 
   [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingObj")]
   public static extern void delete_CASignalingObj(HandleRef jarg1);
@@ -216,20 +213,50 @@ class clWRAPPINVOKE {
   [DllImport("clWRAP", EntryPoint="CSharp_CASignalingObj_unWrap")]
   public static extern IntPtr CASignalingObj_unWrap(HandleRef jarg1);
 
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingCallbackObj__SWIG_0")]
+  public static extern IntPtr new_CASignalingCallbackObj__SWIG_0(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingCallbackObj__SWIG_1")]
+  public static extern IntPtr new_CASignalingCallbackObj__SWIG_1(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingCallbackObj")]
+  public static extern void delete_CASignalingCallbackObj(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallbackObj_unWrap")]
+  public static extern IntPtr CASignalingCallbackObj_unWrap(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingEventObj__SWIG_0")]
+  public static extern IntPtr new_CASignalingEventObj__SWIG_0(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingEventObj__SWIG_1")]
+  public static extern IntPtr new_CASignalingEventObj__SWIG_1(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingEventObj")]
+  public static extern void delete_CASignalingEventObj(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEventObj_unWrap")]
+  public static extern IntPtr CASignalingEventObj_unWrap(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingCallEventObj__SWIG_0")]
+  public static extern IntPtr new_CASignalingCallEventObj__SWIG_0(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingCallEventObj__SWIG_1")]
+  public static extern IntPtr new_CASignalingCallEventObj__SWIG_1(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingCallEventObj")]
+  public static extern void delete_CASignalingCallEventObj(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEventObj_unWrap")]
+  public static extern IntPtr CASignalingCallEventObj_unWrap(HandleRef jarg1);
+
   [DllImport("clWRAP", EntryPoint="CSharp_delete_CAEngine")]
   public static extern void delete_CAEngine(HandleRef jarg1);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_getObjectId")]
   public static extern string CAEngine_getObjectId(HandleRef jarg1);
 
-  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_init__SWIG_0")]
-  public static extern bool CAEngine_init__SWIG_0(string jarg1, string jarg2);
-
-  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_init__SWIG_1")]
-  public static extern bool CAEngine_init__SWIG_1(string jarg1);
-
-  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_init__SWIG_2")]
-  public static extern bool CAEngine_init__SWIG_2();
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_init")]
+  public static extern bool CAEngine_init();
 
   [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_deInit")]
   public static extern bool CAEngine_deInit();
@@ -237,11 +264,143 @@ class clWRAPPINVOKE {
   [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_isInitialized")]
   public static extern bool CAEngine_isInitialized();
 
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setDebugLevel")]
+  public static extern bool CAEngine_setDebugLevel(int jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setSSLCertificates__SWIG_0")]
+  public static extern bool CAEngine_setSSLCertificates__SWIG_0(string jarg1, string jarg2, string jarg3, bool jarg4);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setSSLCertificates__SWIG_1")]
+  public static extern bool CAEngine_setSSLCertificates__SWIG_1(string jarg1, string jarg2, string jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoPrefSize")]
+  public static extern bool CAEngine_setVideoPrefSize(string jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoFps")]
+  public static extern bool CAEngine_setVideoFps(int jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoBandwidthUpMax")]
+  public static extern bool CAEngine_setVideoBandwidthUpMax(int jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoBandwidthDownMax")]
+  public static extern bool CAEngine_setVideoBandwidthDownMax(int jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoMotionRank")]
+  public static extern bool CAEngine_setVideoMotionRank(int jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoCongestionCtrlEnabled")]
+  public static extern bool CAEngine_setVideoCongestionCtrlEnabled(bool jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoJbEnabled")]
+  public static extern bool CAEngine_setVideoJbEnabled(bool jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoAvpfTail")]
+  public static extern bool CAEngine_setVideoAvpfTail(int jarg1, int jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setVideoZeroArtifactsEnabled")]
+  public static extern bool CAEngine_setVideoZeroArtifactsEnabled(bool jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setAudioEchoSuppEnabled")]
+  public static extern bool CAEngine_setAudioEchoSuppEnabled(bool jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setAudioEchoTail")]
+  public static extern bool CAEngine_setAudioEchoTail(int jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_addNattIceServer__SWIG_0")]
+  public static extern bool CAEngine_addNattIceServer__SWIG_0(string jarg1, string jarg2, ushort jarg3, bool jarg4, bool jarg5, string jarg6, string jarg7);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_addNattIceServer__SWIG_1")]
+  public static extern bool CAEngine_addNattIceServer__SWIG_1(string jarg1, string jarg2, ushort jarg3, bool jarg4, bool jarg5, string jarg6);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_addNattIceServer__SWIG_2")]
+  public static extern bool CAEngine_addNattIceServer__SWIG_2(string jarg1, string jarg2, ushort jarg3, bool jarg4, bool jarg5);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_addNattIceServer__SWIG_3")]
+  public static extern bool CAEngine_addNattIceServer__SWIG_3(string jarg1, string jarg2, ushort jarg3, bool jarg4);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_addNattIceServer__SWIG_4")]
+  public static extern bool CAEngine_addNattIceServer__SWIG_4(string jarg1, string jarg2, ushort jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_clearNattIceServers")]
+  public static extern bool CAEngine_clearNattIceServers();
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setNattIceStunEnabled")]
+  public static extern bool CAEngine_setNattIceStunEnabled(bool jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_setNattIceTurnEnabled")]
+  public static extern bool CAEngine_setNattIceTurnEnabled(bool jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingEvent__SWIG_0")]
+  public static extern IntPtr new_CASignalingEvent__SWIG_0(int jarg1, string jarg2, IntPtr jarg3, uint jarg4);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingEvent__SWIG_1")]
+  public static extern IntPtr new_CASignalingEvent__SWIG_1(int jarg1, string jarg2, IntPtr jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingEvent__SWIG_2")]
+  public static extern IntPtr new_CASignalingEvent__SWIG_2(int jarg1, string jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingEvent")]
+  public static extern void delete_CASignalingEvent(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEvent_getObjectId")]
+  public static extern string CASignalingEvent_getObjectId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEvent_getType")]
+  public static extern int CASignalingEvent_getType(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEvent_getDescription")]
+  public static extern string CASignalingEvent_getDescription(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEvent_getDataPtr")]
+  public static extern IntPtr CASignalingEvent_getDataPtr(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEvent_getDataSize")]
+  public static extern uint CASignalingEvent_getDataSize(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASignalingCallEvent")]
+  public static extern IntPtr new_CASignalingCallEvent(string jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingCallEvent")]
+  public static extern void delete_CASignalingCallEvent(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getObjectId")]
+  public static extern string CASignalingCallEvent_getObjectId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getType")]
+  public static extern string CASignalingCallEvent_getType(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getFrom")]
+  public static extern string CASignalingCallEvent_getFrom(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getTo")]
+  public static extern string CASignalingCallEvent_getTo(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getCallId")]
+  public static extern string CASignalingCallEvent_getCallId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getTransacId")]
+  public static extern string CASignalingCallEvent_getTransacId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_getSdp")]
+  public static extern string CASignalingCallEvent_getSdp(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignalingCallback")]
+  public static extern void delete_CASignalingCallback(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallback_onEventNet")]
+  public static extern bool CASignalingCallback_onEventNet(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallback_onEventCall")]
+  public static extern bool CASignalingCallback_onEventCall(HandleRef jarg1, HandleRef jarg2);
+
   [DllImport("clWRAP", EntryPoint="CSharp_delete_CASignaling")]
   public static extern void delete_CASignaling(HandleRef jarg1);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_getObjectId")]
   public static extern string CASignaling_getObjectId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_setCallback")]
+  public static extern bool CASignaling_setCallback(HandleRef jarg1, HandleRef jarg2);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_isConnected")]
   public static extern bool CASignaling_isConnected(HandleRef jarg1);
@@ -259,16 +418,25 @@ class clWRAPPINVOKE {
   public static extern bool CASignaling_disConnect(HandleRef jarg1);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_newObj__SWIG_0")]
-  public static extern IntPtr CASignaling_newObj__SWIG_0(string jarg1, string jarg2, ushort jarg3);
+  public static extern IntPtr CASignaling_newObj__SWIG_0(string jarg1, string jarg2, string jarg3, string jarg4, ushort jarg5);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_newObj__SWIG_1")]
-  public static extern IntPtr CASignaling_newObj__SWIG_1(string jarg1, string jarg2);
+  public static extern IntPtr CASignaling_newObj__SWIG_1(string jarg1, string jarg2, string jarg3, string jarg4);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_newObj__SWIG_2")]
-  public static extern IntPtr CASignaling_newObj__SWIG_2(string jarg1);
+  public static extern IntPtr CASignaling_newObj__SWIG_2(string jarg1, string jarg2, string jarg3);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_SWIGUpcast")]
   public static extern IntPtr CAEngine_SWIGUpcast(IntPtr jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingEvent_SWIGUpcast")]
+  public static extern IntPtr CASignalingEvent_SWIGUpcast(IntPtr jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEvent_SWIGUpcast")]
+  public static extern IntPtr CASignalingCallEvent_SWIGUpcast(IntPtr jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallback_SWIGUpcast")]
+  public static extern IntPtr CASignalingCallback_SWIGUpcast(IntPtr jarg1);
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_SWIGUpcast")]
   public static extern IntPtr CASignaling_SWIGUpcast(IntPtr jarg1);
