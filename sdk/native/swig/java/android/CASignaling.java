@@ -75,4 +75,12 @@ public class CASignaling extends CAObj {
     return new CASignalingObj(clWRAPJNI.CASignaling_newObj__SWIG_2(strConnectionUri, strCredUserId, strCredPassword), true);
   }
 
+  public String getCredUserId() {
+    return clWRAPJNI.CASignaling_getCredUserId(swigCPtr, this);
+  }
+
+  public String getCredPassword() {
+    return clWRAPJNI.CASignaling_getCredPassword(swigCPtr, this);
+  }
+
 }

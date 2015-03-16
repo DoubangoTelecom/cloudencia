@@ -582,6 +582,102 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_CASignalingCallEventObj_unWrap(void * jarg1
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_CASessionCallObj__SWIG_0(void * jarg1) {
+  void * jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAObjWrapper< CASessionCall * > *result = 0 ;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_CASessionCallObj__SWIG_1(void * jarg1) {
+  void * jresult ;
+  CAObjWrapper< CASessionCall * > *arg1 = 0 ;
+  CAObjWrapper< CASessionCall * > *result = 0 ;
+  
+  arg1 = (CAObjWrapper< CASessionCall * > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "CAObjWrapper< CASessionCall * > const & type is null", 0);
+    return 0;
+  } 
+  result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >((CAObjWrapper< CASessionCall * > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_CASessionCallObj(void * jarg1) {
+  CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+  
+  arg1 = (CAObjWrapper< CASessionCall * > *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_CASessionCallObj_unWrap(void * jarg1) {
+  void * jresult ;
+  CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+  CASessionCall *result = 0 ;
+  
+  arg1 = (CAObjWrapper< CASessionCall * > *)jarg1; 
+  result = (CASessionCall *)(arg1)->unWrap();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_CASessionCallIceCallbackObj__SWIG_0(void * jarg1) {
+  void * jresult ;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+  
+  arg1 = (CASessionCallIceCallback *)jarg1; 
+  result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_CASessionCallIceCallbackObj__SWIG_1(void * jarg1) {
+  void * jresult ;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+  
+  arg1 = (CAObjWrapper< CASessionCallIceCallback * > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "CAObjWrapper< CASessionCallIceCallback * > const & type is null", 0);
+    return 0;
+  } 
+  result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >((CAObjWrapper< CASessionCallIceCallback * > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_CASessionCallIceCallbackObj(void * jarg1) {
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+  
+  arg1 = (CAObjWrapper< CASessionCallIceCallback * > *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_CASessionCallIceCallbackObj_unWrap(void * jarg1) {
+  void * jresult ;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+  CASessionCallIceCallback *result = 0 ;
+  
+  arg1 = (CAObjWrapper< CASessionCallIceCallback * > *)jarg1; 
+  result = (CASessionCallIceCallback *)(arg1)->unWrap();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_CAEngine(void * jarg1) {
   CAEngine *arg1 = (CAEngine *) 0 ;
   
@@ -1508,6 +1604,450 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_CASignaling_newObj__SWIG_2(char * jarg1, ch
 }
 
 
+SWIGEXPORT char * SWIGSTDCALL CSharp_CASignaling_getCredUserId(void * jarg1) {
+  char * jresult ;
+  CASignaling *arg1 = (CASignaling *) 0 ;
+  std::string result;
+  
+  arg1 = (CASignaling *)jarg1; 
+  result = (arg1)->getCredUserId();
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_CASignaling_getCredPassword(void * jarg1) {
+  char * jresult ;
+  CASignaling *arg1 = (CASignaling *) 0 ;
+  std::string result;
+  
+  arg1 = (CASignaling *)jarg1; 
+  result = (arg1)->getCredPassword();
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_CASession(void * jarg1) {
+  CASession *arg1 = (CASession *) 0 ;
+  
+  arg1 = (CASession *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_CASession_getObjectId(void * jarg1) {
+  char * jresult ;
+  CASession *arg1 = (CASession *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (CASession *)jarg1; 
+  result = (char *)(arg1)->getObjectId();
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_CASession_getType(void * jarg1) {
+  int jresult ;
+  CASession *arg1 = (CASession *) 0 ;
+  CASessionType_t result;
+  
+  arg1 = (CASession *)jarg1; 
+  result = (CASessionType_t)((CASession const *)arg1)->getType();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCallIceCallback_onStateChanged(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > arg2 ;
+  CAObjWrapper< CASessionCall * > *argp2 ;
+  bool result;
+  
+  arg1 = (CASessionCallIceCallback *)jarg1; 
+  argp2 = (CAObjWrapper< CASessionCall * > *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null CAObjWrapper< CASessionCall * >", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)(arg1)->onStateChanged(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_CASessionCallIceCallback(void * jarg1) {
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  
+  arg1 = (CASessionCallIceCallback *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_CASessionCall(void * jarg1) {
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_CASessionCall_getObjectId(void * jarg1) {
+  char * jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  result = (char *)(arg1)->getObjectId();
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setIceCallback(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCallIceCallback * > > arg2 ;
+  CAObjWrapper< CASessionCallIceCallback * > *argp2 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  argp2 = (CAObjWrapper< CASessionCallIceCallback * > *)jarg2; 
+  if (!argp2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null CAObjWrapper< CASessionCallIceCallback * >", 0);
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)(arg1)->setIceCallback(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoDisplays__SWIG_0(void * jarg1, int jarg2, long long jarg3, long long jarg4) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  arg3 = (int64_t)jarg3; 
+  arg4 = (int64_t)jarg4; 
+  result = (bool)(arg1)->setVideoDisplays(arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoDisplays__SWIG_1(void * jarg1, int jarg2, long long jarg3) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  int64_t arg3 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  arg3 = (int64_t)jarg3; 
+  result = (bool)(arg1)->setVideoDisplays(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoDisplays__SWIG_2(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  result = (bool)(arg1)->setVideoDisplays(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_call(void * jarg1, int jarg2, char * jarg3) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  std::string arg3 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  if (!jarg3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return 0;
+  }
+  (&arg3)->assign(jarg3); 
+  result = (bool)(arg1)->call(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_acceptEvent(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (CAObjWrapper< CASignalingCallEvent * > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "CAObjWrapper< CASignalingCallEvent * > & type is null", 0);
+    return 0;
+  } 
+  result = (bool)(arg1)->acceptEvent(*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_rejectEvent(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  CAObjWrapper< CASignaling * > *argp1 ;
+  bool result;
+  
+  argp1 = (CAObjWrapper< CASignaling * > *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null CAObjWrapper< CASignaling * >", 0);
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = (CAObjWrapper< CASignalingCallEvent * > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "CAObjWrapper< CASignalingCallEvent * > & type is null", 0);
+    return 0;
+  } 
+  result = (bool)CASessionCall::rejectEvent(arg1,*arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setMute__SWIG_0(void * jarg1, unsigned int jarg2, int jarg3) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setMute(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setMute__SWIG_1(void * jarg1, unsigned int jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)(arg1)->setMute(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_hangup(void * jarg1) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  result = (bool)(arg1)->hangup();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoFps__SWIG_0(void * jarg1, int jarg2, int jarg3) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setVideoFps(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoFps__SWIG_1(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)(arg1)->setVideoFps(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoBandwidthUploadMax__SWIG_0(void * jarg1, int jarg2, int jarg3) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoBandwidthUploadMax__SWIG_1(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoBandwidthDownloadMax__SWIG_0(void * jarg1, int jarg2, int jarg3) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_CASessionCall_setVideoBandwidthDownloadMax__SWIG_1(void * jarg1, int jarg2) {
+  unsigned int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_CASessionCall_getCallId(void * jarg1) {
+  char * jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  std::string result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  result = (arg1)->getCallId();
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_CASessionCall_getMediaType(void * jarg1) {
+  int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  result = (CAMediaType_t)(arg1)->getMediaType();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_CASessionCall_getIceState(void * jarg1) {
+  int jresult ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  enum CAIceState_e result;
+  
+  arg1 = (CASessionCall *)jarg1; 
+  result = (enum CAIceState_e)(arg1)->getIceState();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_CASessionCall_newObj__SWIG_0(void * jarg1) {
+  void * jresult ;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignaling * > *argp1 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+  
+  argp1 = (CAObjWrapper< CASignaling * > *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null CAObjWrapper< CASignaling * >", 0);
+    return 0;
+  }
+  arg1 = *argp1; 
+  result = CASessionCall::newObj(arg1);
+  jresult = new CAObjWrapper< CASessionCall * >((const CAObjWrapper< CASessionCall * > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_CASessionCall_newObj__SWIG_1(void * jarg1, void * jarg2) {
+  void * jresult ;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  CAObjWrapper< CASignaling * > *argp1 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+  
+  argp1 = (CAObjWrapper< CASignaling * > *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null CAObjWrapper< CASignaling * >", 0);
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = (CAObjWrapper< CASignalingCallEvent * > *)jarg2;
+  if (!arg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "CAObjWrapper< CASignalingCallEvent * > & type is null", 0);
+    return 0;
+  } 
+  result = CASessionCall::newObj(arg1,*arg2);
+  jresult = new CAObjWrapper< CASessionCall * >((const CAObjWrapper< CASessionCall * > &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT CAObj * SWIGSTDCALL CSharp_CAEngine_SWIGUpcast(CAEngine *jarg1) {
     return (CAObj *)jarg1;
 }
@@ -1526,6 +2066,18 @@ SWIGEXPORT CAObj * SWIGSTDCALL CSharp_CASignalingCallback_SWIGUpcast(CASignaling
 
 SWIGEXPORT CAObj * SWIGSTDCALL CSharp_CASignaling_SWIGUpcast(CASignaling *jarg1) {
     return (CAObj *)jarg1;
+}
+
+SWIGEXPORT CAObj * SWIGSTDCALL CSharp_CASession_SWIGUpcast(CASession *jarg1) {
+    return (CAObj *)jarg1;
+}
+
+SWIGEXPORT CAObj * SWIGSTDCALL CSharp_CASessionCallIceCallback_SWIGUpcast(CASessionCallIceCallback *jarg1) {
+    return (CAObj *)jarg1;
+}
+
+SWIGEXPORT CASession * SWIGSTDCALL CSharp_CASessionCall_SWIGUpcast(CASessionCall *jarg1) {
+    return (CASession *)jarg1;
 }
 
 #ifdef __cplusplus

@@ -3447,28 +3447,36 @@ namespace Swig {
 
 #define SWIGTYPE_p_CADebugLevel_e swig_types[0]
 #define SWIGTYPE_p_CAEngine swig_types[1]
-#define SWIGTYPE_p_CAObj swig_types[2]
-#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t swig_types[3]
-#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallback_p_t swig_types[4]
-#define SWIGTYPE_p_CAObjWrapperT_CASignalingEvent_p_t swig_types[5]
-#define SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t swig_types[6]
-#define SWIGTYPE_p_CASignaling swig_types[7]
-#define SWIGTYPE_p_CASignalingCallEvent swig_types[8]
-#define SWIGTYPE_p_CASignalingCallback swig_types[9]
-#define SWIGTYPE_p_CASignalingEvent swig_types[10]
-#define SWIGTYPE_p_CASignalingEventType_e swig_types[11]
-#define SWIGTYPE_p_char swig_types[12]
-#define SWIGTYPE_p_int swig_types[13]
-#define SWIGTYPE_p_long_long swig_types[14]
-#define SWIGTYPE_p_short swig_types[15]
-#define SWIGTYPE_p_signed_char swig_types[16]
-#define SWIGTYPE_p_unsigned_char swig_types[17]
-#define SWIGTYPE_p_unsigned_int swig_types[18]
-#define SWIGTYPE_p_unsigned_long_long swig_types[19]
-#define SWIGTYPE_p_unsigned_short swig_types[20]
-#define SWIGTYPE_p_void swig_types[21]
-static swig_type_info *swig_types[23];
-static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
+#define SWIGTYPE_p_CAIceState_e swig_types[2]
+#define SWIGTYPE_p_CAMediaType_e swig_types[3]
+#define SWIGTYPE_p_CAObj swig_types[4]
+#define SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t swig_types[5]
+#define SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t swig_types[6]
+#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t swig_types[7]
+#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallback_p_t swig_types[8]
+#define SWIGTYPE_p_CAObjWrapperT_CASignalingEvent_p_t swig_types[9]
+#define SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t swig_types[10]
+#define SWIGTYPE_p_CASession swig_types[11]
+#define SWIGTYPE_p_CASessionCall swig_types[12]
+#define SWIGTYPE_p_CASessionCallIceCallback swig_types[13]
+#define SWIGTYPE_p_CASessionType_e swig_types[14]
+#define SWIGTYPE_p_CASignaling swig_types[15]
+#define SWIGTYPE_p_CASignalingCallEvent swig_types[16]
+#define SWIGTYPE_p_CASignalingCallback swig_types[17]
+#define SWIGTYPE_p_CASignalingEvent swig_types[18]
+#define SWIGTYPE_p_CASignalingEventType_e swig_types[19]
+#define SWIGTYPE_p_char swig_types[20]
+#define SWIGTYPE_p_int swig_types[21]
+#define SWIGTYPE_p_long_long swig_types[22]
+#define SWIGTYPE_p_short swig_types[23]
+#define SWIGTYPE_p_signed_char swig_types[24]
+#define SWIGTYPE_p_unsigned_char swig_types[25]
+#define SWIGTYPE_p_unsigned_int swig_types[26]
+#define SWIGTYPE_p_unsigned_long_long swig_types[27]
+#define SWIGTYPE_p_unsigned_short swig_types[28]
+#define SWIGTYPE_p_void swig_types[29]
+static swig_type_info *swig_types[31];
+static swig_module_info swig_module = {swig_types, 30, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3984,6 +3992,43 @@ SWIGINTERNINLINE PyObject *
 SWIG_From_size_t  (size_t value)
 {    
   return SWIG_From_unsigned_SS_long  (static_cast< unsigned long >(value));
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_long_SS_long (PyObject *obj, long long *val)
+{
+  int res = SWIG_TypeError;
+  if (PyLong_Check(obj)) {
+    long long v = PyLong_AsLongLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+    }
+  } else {
+    long v;
+    res = SWIG_AsVal_long (obj,&v);
+    if (SWIG_IsOK(res)) {
+      if (val) *val = v;
+      return res;
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    const double mant_max = 1LL << DBL_MANT_DIG;
+    const double mant_min = -mant_max;
+    double d;
+    res = SWIG_AsVal_double (obj,&d);
+    if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, mant_min, mant_max)) {
+      if (val) *val = (long long)(d);
+      return SWIG_AddCast(res);
+    }
+    res = SWIG_TypeError;
+  }
+#endif
+  return res;
 }
 
 
@@ -4624,6 +4669,274 @@ SWIGINTERN PyObject *CASignalingCallEventObj_swigregister(PyObject *SWIGUNUSEDPA
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_CASessionCallObj__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CAObjWrapper< CASessionCall * > *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_CASessionCallObj",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallObj" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_CASessionCallObj__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CAObjWrapper< CASessionCall * > *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CAObjWrapper< CASessionCall * > *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_CASessionCallObj",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_CASessionCallObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > const &""'"); 
+  }
+  arg1 = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp1);
+  result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >((CAObjWrapper< CASessionCall * > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_CASessionCallObj(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 1) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_CASessionCallObj__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_CASessionCallObj__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_CASessionCallObj'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CAObjWrapper< CASessionCall * >::CAObjWrapper(CASessionCall *)\n"
+    "    CAObjWrapper< CASessionCall * >::CAObjWrapper(CAObjWrapper< CASessionCall * > const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_CASessionCallObj(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CASessionCallObj",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCallObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > *""'"); 
+  }
+  arg1 = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCallObj_unWrap(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CASessionCall *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCallObj_unWrap",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCallObj_unWrap" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > *""'"); 
+  }
+  arg1 = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp1);
+  result = (CASessionCall *)(arg1)->unWrap();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CASessionCall, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CASessionCallObj_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_CASessionCallIceCallbackObj__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_CASessionCallIceCallbackObj",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCallIceCallback, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CASessionCallIceCallback *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCallIceCallback * >(argp1);
+  result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_CASessionCallIceCallbackObj__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_CASessionCallIceCallbackObj",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t,  0  | 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > const &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > const &""'"); 
+  }
+  arg1 = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp1);
+  result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >((CAObjWrapper< CASessionCallIceCallback * > const &)*arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_CASessionCallIceCallbackObj(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[2];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 1) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCallIceCallback, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_CASessionCallIceCallbackObj__SWIG_0(self, args);
+    }
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_new_CASessionCallIceCallbackObj__SWIG_1(self, args);
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'new_CASessionCallIceCallbackObj'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CAObjWrapper< CASessionCallIceCallback * >::CAObjWrapper(CASessionCallIceCallback *)\n"
+    "    CAObjWrapper< CASessionCallIceCallback * >::CAObjWrapper(CAObjWrapper< CASessionCallIceCallback * > const &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_CASessionCallIceCallbackObj(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CASessionCallIceCallbackObj",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > *""'"); 
+  }
+  arg1 = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCallIceCallbackObj_unWrap(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CASessionCallIceCallback *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCallIceCallbackObj_unWrap",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCallIceCallbackObj_unWrap" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > *""'"); 
+  }
+  arg1 = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp1);
+  result = (CASessionCallIceCallback *)(arg1)->unWrap();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CASessionCallIceCallback, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CASessionCallIceCallbackObj_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -6791,10 +7104,1313 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CASignaling_getCredUserId(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASignaling *arg1 = (CASignaling *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASignaling_getCredUserId",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASignaling, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASignaling_getCredUserId" "', argument " "1"" of type '" "CASignaling *""'"); 
+  }
+  arg1 = reinterpret_cast< CASignaling * >(argp1);
+  result = (arg1)->getCredUserId();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASignaling_getCredPassword(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASignaling *arg1 = (CASignaling *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASignaling_getCredPassword",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASignaling, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASignaling_getCredPassword" "', argument " "1"" of type '" "CASignaling *""'"); 
+  }
+  arg1 = reinterpret_cast< CASignaling * >(argp1);
+  result = (arg1)->getCredPassword();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *CASignaling_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
   SWIG_TypeNewClientData(SWIGTYPE_p_CASignaling, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_delete_CASession(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASession *arg1 = (CASession *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CASession",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASession, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASession" "', argument " "1"" of type '" "CASession *""'"); 
+  }
+  arg1 = reinterpret_cast< CASession * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASession_getObjectId(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASession *arg1 = (CASession *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  char *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASession_getObjectId",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASession, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASession_getObjectId" "', argument " "1"" of type '" "CASession *""'"); 
+  }
+  arg1 = reinterpret_cast< CASession * >(argp1);
+  result = (char *)(arg1)->getObjectId();
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASession_getType(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASession *arg1 = (CASession *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CASessionType_t result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASession_getType",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASession, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASession_getType" "', argument " "1"" of type '" "CASession const *""'"); 
+  }
+  arg1 = reinterpret_cast< CASession * >(argp1);
+  result = (CASessionType_t)((CASession const *)arg1)->getType();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CASession_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_CASession, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_CASessionCallIceCallback_onStateChanged(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCallIceCallback_onStateChanged",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCallIceCallback, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCallIceCallback_onStateChanged" "', argument " "1"" of type '" "CASessionCallIceCallback *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCallIceCallback * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCallIceCallback_onStateChanged" "', argument " "2"" of type '" "CAObjWrapper< CASessionCall * >""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCallIceCallback_onStateChanged" "', argument " "2"" of type '" "CAObjWrapper< CASessionCall * >""'");
+    } else {
+      CAObjWrapper< CASessionCall * > * temp = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (bool)(arg1)->onStateChanged(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_CASessionCallIceCallback(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CASessionCallIceCallback",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCallIceCallback, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCallIceCallback" "', argument " "1"" of type '" "CASessionCallIceCallback *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCallIceCallback * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CASessionCallIceCallback_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_CASessionCallIceCallback, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_delete_CASessionCall(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CASessionCall",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCall" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_getObjectId(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  char *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCall_getObjectId",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getObjectId" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  result = (char *)(arg1)->getObjectId();
+  resultobj = SWIG_FromCharPtr((const char *)result);
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setIceCallback(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCallIceCallback * > > arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_setIceCallback",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setIceCallback" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_setIceCallback" "', argument " "2"" of type '" "CAObjWrapper< CASessionCallIceCallback * >""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_setIceCallback" "', argument " "2"" of type '" "CAObjWrapper< CASessionCallIceCallback * >""'");
+    } else {
+      CAObjWrapper< CASessionCallIceCallback * > * temp = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  result = (bool)(arg1)->setIceCallback(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoDisplays__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  long long val3 ;
+  int ecode3 = 0 ;
+  long long val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CASessionCall_setVideoDisplays",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoDisplays" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoDisplays" "', argument " "2"" of type '" "CAMediaType_t""'");
+  } 
+  arg2 = static_cast< CAMediaType_t >(val2);
+  ecode3 = SWIG_AsVal_long_SS_long(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoDisplays" "', argument " "3"" of type '" "int64_t""'");
+  } 
+  arg3 = static_cast< int64_t >(val3);
+  ecode4 = SWIG_AsVal_long_SS_long(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "CASessionCall_setVideoDisplays" "', argument " "4"" of type '" "int64_t""'");
+  } 
+  arg4 = static_cast< int64_t >(val4);
+  result = (bool)(arg1)->setVideoDisplays(arg2,arg3,arg4);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoDisplays__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  int64_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  long long val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CASessionCall_setVideoDisplays",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoDisplays" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoDisplays" "', argument " "2"" of type '" "CAMediaType_t""'");
+  } 
+  arg2 = static_cast< CAMediaType_t >(val2);
+  ecode3 = SWIG_AsVal_long_SS_long(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoDisplays" "', argument " "3"" of type '" "int64_t""'");
+  } 
+  arg3 = static_cast< int64_t >(val3);
+  result = (bool)(arg1)->setVideoDisplays(arg2,arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoDisplays__SWIG_2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_setVideoDisplays",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoDisplays" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoDisplays" "', argument " "2"" of type '" "CAMediaType_t""'");
+  } 
+  arg2 = static_cast< CAMediaType_t >(val2);
+  result = (bool)(arg1)->setVideoDisplays(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoDisplays(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[5];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 4) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_CASessionCall_setVideoDisplays__SWIG_2(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_long_SS_long(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_CASessionCall_setVideoDisplays__SWIG_1(self, args);
+        }
+      }
+    }
+  }
+  if (argc == 4) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_long_SS_long(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          {
+            int res = SWIG_AsVal_long_SS_long(argv[3], NULL);
+            _v = SWIG_CheckState(res);
+          }
+          if (_v) {
+            return _wrap_CASessionCall_setVideoDisplays__SWIG_0(self, args);
+          }
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'CASessionCall_setVideoDisplays'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CASessionCall::setVideoDisplays(CAMediaType_t,int64_t,int64_t)\n"
+    "    CASessionCall::setVideoDisplays(CAMediaType_t,int64_t)\n"
+    "    CASessionCall::setVideoDisplays(CAMediaType_t)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_call(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  std::string arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CASessionCall_call",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_call" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_call" "', argument " "2"" of type '" "CAMediaType_t""'");
+  } 
+  arg2 = static_cast< CAMediaType_t >(val2);
+  {
+    std::string *ptr = (std::string *)0;
+    int res = SWIG_AsPtr_std_string(obj2, &ptr);
+    if (!SWIG_IsOK(res) || !ptr) {
+      SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "CASessionCall_call" "', argument " "3"" of type '" "std::string""'"); 
+    }
+    arg3 = *ptr;
+    if (SWIG_IsNewObj(res)) delete ptr;
+  }
+  result = (bool)(arg1)->call(arg2,arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_acceptEvent(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_acceptEvent",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_acceptEvent" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_acceptEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_acceptEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+  }
+  arg2 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp2);
+  result = (bool)(arg1)->acceptEvent(*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_rejectEvent(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_rejectEvent",&obj0,&obj1)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_rejectEvent" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_rejectEvent" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'");
+    } else {
+      CAObjWrapper< CASignaling * > * temp = reinterpret_cast< CAObjWrapper< CASignaling * > * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_rejectEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_rejectEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+  }
+  arg2 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp2);
+  result = (bool)CASessionCall::rejectEvent(arg1,*arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setMute__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool arg2 ;
+  CAMediaType_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CASessionCall_setMute",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setMute" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setMute" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setMute" "', argument " "3"" of type '" "CAMediaType_t""'");
+  } 
+  arg3 = static_cast< CAMediaType_t >(val3);
+  result = (bool)(arg1)->setMute(arg2,arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setMute__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_setMute",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setMute" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setMute" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  result = (bool)(arg1)->setMute(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setMute(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 3) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_bool(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_CASessionCall_setMute__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_bool(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_CASessionCall_setMute__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'CASessionCall_setMute'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CASessionCall::setMute(bool,CAMediaType_t)\n"
+    "    CASessionCall::setMute(bool)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_hangup(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCall_hangup",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_hangup" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  result = (bool)(arg1)->hangup();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoFps__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CASessionCall_setVideoFps",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoFps" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoFps" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoFps" "', argument " "3"" of type '" "CAMediaType_t""'");
+  } 
+  arg3 = static_cast< CAMediaType_t >(val3);
+  result = (bool)(arg1)->setVideoFps(arg2,arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoFps__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_setVideoFps",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoFps" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoFps" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (bool)(arg1)->setVideoFps(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoFps(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 3) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_CASessionCall_setVideoFps__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_CASessionCall_setVideoFps__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'CASessionCall_setVideoFps'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CASessionCall::setVideoFps(int,CAMediaType_t)\n"
+    "    CASessionCall::setVideoFps(int)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CASessionCall_setVideoBandwidthUploadMax",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "3"" of type '" "CAMediaType_t""'");
+  } 
+  arg3 = static_cast< CAMediaType_t >(val3);
+  result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2,arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_setVideoBandwidthUploadMax",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoBandwidthUploadMax(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 3) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'CASessionCall_setVideoBandwidthUploadMax'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CASessionCall::setVideoBandwidthUploadMax(int,CAMediaType_t)\n"
+    "    CASessionCall::setVideoBandwidthUploadMax(int)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CASessionCall_setVideoBandwidthDownloadMax",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "3"" of type '" "CAMediaType_t""'");
+  } 
+  arg3 = static_cast< CAMediaType_t >(val3);
+  result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2,arg3);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_setVideoBandwidthDownloadMax",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2);
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_setVideoBandwidthDownloadMax(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[4];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 3) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_1(self, args);
+      }
+    }
+  }
+  if (argc == 3) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_CASessionCall, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_int(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        {
+          int res = SWIG_AsVal_int(argv[2], NULL);
+          _v = SWIG_CheckState(res);
+        }
+        if (_v) {
+          return _wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_0(self, args);
+        }
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'CASessionCall_setVideoBandwidthDownloadMax'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CASessionCall::setVideoBandwidthDownloadMax(int,CAMediaType_t)\n"
+    "    CASessionCall::setVideoBandwidthDownloadMax(int)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_getCallId(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  std::string result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCall_getCallId",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getCallId" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  result = (arg1)->getCallId();
+  resultobj = SWIG_From_std_string(static_cast< std::string >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_getMediaType(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  CAMediaType_t result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCall_getMediaType",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getMediaType" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  result = (CAMediaType_t)(arg1)->getMediaType();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_getIceState(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  enum CAIceState_e result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCall_getIceState",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getIceState" "', argument " "1"" of type '" "CASessionCall *""'"); 
+  }
+  arg1 = reinterpret_cast< CASessionCall * >(argp1);
+  result = (enum CAIceState_e)(arg1)->getIceState();
+  resultobj = SWIG_From_int(static_cast< int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_newObj__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:CASessionCall_newObj",&obj0)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'");
+    } else {
+      CAObjWrapper< CASignaling * > * temp = reinterpret_cast< CAObjWrapper< CASignaling * > * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  result = CASessionCall::newObj(arg1);
+  resultobj = SWIG_NewPointerObj((new CAObjWrapper< CASessionCall * >(static_cast< const CAObjWrapper< CASessionCall * >& >(result))), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_newObj__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CASessionCall_newObj",&obj0,&obj1)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'");
+    } else {
+      CAObjWrapper< CASignaling * > * temp = reinterpret_cast< CAObjWrapper< CASignaling * > * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t,  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_newObj" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_newObj" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+  }
+  arg2 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp2);
+  result = CASessionCall::newObj(arg1,*arg2);
+  resultobj = SWIG_NewPointerObj((new CAObjWrapper< CASessionCall * >(static_cast< const CAObjWrapper< CASessionCall * >& >(result))), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CASessionCall_newObj(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3];
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 2) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_CASessionCall_newObj__SWIG_0(self, args);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    int res = SWIG_ConvertPtr(argv[0], 0, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      void *vptr = 0;
+      int res = SWIG_ConvertPtr(argv[1], &vptr, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t, 0);
+      _v = SWIG_CheckState(res);
+      if (_v) {
+        return _wrap_CASessionCall_newObj__SWIG_1(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'CASessionCall_newObj'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    CASessionCall::newObj(CAObjWrapper< CASignaling * >)\n"
+    "    CASessionCall::newObj(CAObjWrapper< CASignaling * >,CAObjWrapper< CASignalingCallEvent * > &)\n");
+  return 0;
+}
+
+
+SWIGINTERN PyObject *CASessionCall_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_CASessionCall, SWIG_NewClientData(obj));
   return SWIG_Py_Void();
 }
 
@@ -6821,6 +8437,14 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_CASignalingCallEventObj", _wrap_delete_CASignalingCallEventObj, METH_VARARGS, NULL},
 	 { (char *)"CASignalingCallEventObj_unWrap", _wrap_CASignalingCallEventObj_unWrap, METH_VARARGS, NULL},
 	 { (char *)"CASignalingCallEventObj_swigregister", CASignalingCallEventObj_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_CASessionCallObj", _wrap_new_CASessionCallObj, METH_VARARGS, NULL},
+	 { (char *)"delete_CASessionCallObj", _wrap_delete_CASessionCallObj, METH_VARARGS, NULL},
+	 { (char *)"CASessionCallObj_unWrap", _wrap_CASessionCallObj_unWrap, METH_VARARGS, NULL},
+	 { (char *)"CASessionCallObj_swigregister", CASessionCallObj_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_CASessionCallIceCallbackObj", _wrap_new_CASessionCallIceCallbackObj, METH_VARARGS, NULL},
+	 { (char *)"delete_CASessionCallIceCallbackObj", _wrap_delete_CASessionCallIceCallbackObj, METH_VARARGS, NULL},
+	 { (char *)"CASessionCallIceCallbackObj_unWrap", _wrap_CASessionCallIceCallbackObj_unWrap, METH_VARARGS, NULL},
+	 { (char *)"CASessionCallIceCallbackObj_swigregister", CASessionCallIceCallbackObj_swigregister, METH_VARARGS, NULL},
 	 { (char *)"delete_CAEngine", _wrap_delete_CAEngine, METH_VARARGS, NULL},
 	 { (char *)"CAEngine_getObjectId", _wrap_CAEngine_getObjectId, METH_VARARGS, NULL},
 	 { (char *)"CAEngine_init", _wrap_CAEngine_init, METH_VARARGS, NULL},
@@ -6875,7 +8499,33 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CASignaling_sendData", _wrap_CASignaling_sendData, METH_VARARGS, NULL},
 	 { (char *)"CASignaling_disConnect", _wrap_CASignaling_disConnect, METH_VARARGS, NULL},
 	 { (char *)"CASignaling_newObj", _wrap_CASignaling_newObj, METH_VARARGS, NULL},
+	 { (char *)"CASignaling_getCredUserId", _wrap_CASignaling_getCredUserId, METH_VARARGS, NULL},
+	 { (char *)"CASignaling_getCredPassword", _wrap_CASignaling_getCredPassword, METH_VARARGS, NULL},
 	 { (char *)"CASignaling_swigregister", CASignaling_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_CASession", _wrap_delete_CASession, METH_VARARGS, NULL},
+	 { (char *)"CASession_getObjectId", _wrap_CASession_getObjectId, METH_VARARGS, NULL},
+	 { (char *)"CASession_getType", _wrap_CASession_getType, METH_VARARGS, NULL},
+	 { (char *)"CASession_swigregister", CASession_swigregister, METH_VARARGS, NULL},
+	 { (char *)"CASessionCallIceCallback_onStateChanged", _wrap_CASessionCallIceCallback_onStateChanged, METH_VARARGS, NULL},
+	 { (char *)"delete_CASessionCallIceCallback", _wrap_delete_CASessionCallIceCallback, METH_VARARGS, NULL},
+	 { (char *)"CASessionCallIceCallback_swigregister", CASessionCallIceCallback_swigregister, METH_VARARGS, NULL},
+	 { (char *)"delete_CASessionCall", _wrap_delete_CASessionCall, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_getObjectId", _wrap_CASessionCall_getObjectId, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_setIceCallback", _wrap_CASessionCall_setIceCallback, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_setVideoDisplays", _wrap_CASessionCall_setVideoDisplays, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_call", _wrap_CASessionCall_call, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_acceptEvent", _wrap_CASessionCall_acceptEvent, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_rejectEvent", _wrap_CASessionCall_rejectEvent, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_setMute", _wrap_CASessionCall_setMute, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_hangup", _wrap_CASessionCall_hangup, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_setVideoFps", _wrap_CASessionCall_setVideoFps, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_setVideoBandwidthUploadMax", _wrap_CASessionCall_setVideoBandwidthUploadMax, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_setVideoBandwidthDownloadMax", _wrap_CASessionCall_setVideoBandwidthDownloadMax, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_getCallId", _wrap_CASessionCall_getCallId, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_getMediaType", _wrap_CASessionCall_getMediaType, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_getIceState", _wrap_CASessionCall_getIceState, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_newObj", _wrap_CASessionCall_newObj, METH_VARARGS, NULL},
+	 { (char *)"CASessionCall_swigregister", CASessionCall_swigregister, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -6891,29 +8541,49 @@ static void *_p_CAEngineTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static void *_p_CASignalingTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CAObj *)  ((CASignaling *) x));
 }
+static void *_p_CASessionCallTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CAObj *) (CASession *) ((CASessionCall *) x));
+}
 static void *_p_CASignalingEventTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CAObj *)  ((CASignalingEvent *) x));
 }
 static void *_p_CASignalingCallbackTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CAObj *)  ((CASignalingCallback *) x));
 }
+static void *_p_CASessionTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CAObj *)  ((CASession *) x));
+}
+static void *_p_CASessionCallIceCallbackTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CAObj *)  ((CASessionCallIceCallback *) x));
+}
 static void *_p_CASignalingCallEventTo_p_CASignalingEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CASignalingEvent *)  ((CASignalingCallEvent *) x));
 }
+static void *_p_CASessionCallTo_p_CASession(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CASession *)  ((CASessionCall *) x));
+}
 static swig_type_info _swigt__p_CADebugLevel_e = {"_p_CADebugLevel_e", "enum CADebugLevel_e *|CADebugLevel_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAEngine = {"_p_CAEngine", "CAEngine *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CAIceState_e = {"_p_CAIceState_e", "enum CAIceState_e *|CAIceState_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CAMediaType_e = {"_p_CAMediaType_e", "enum CAMediaType_e *|CAMediaType_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAObj = {"_p_CAObj", "CAObj *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CAObjWrapperT_CASessionCallIceCallback_p_t = {"_p_CAObjWrapperT_CASessionCallIceCallback_p_t", "CAObjWrapper< CASessionCallIceCallback * > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CAObjWrapperT_CASessionCall_p_t = {"_p_CAObjWrapperT_CASessionCall_p_t", "CAObjWrapper< CASessionCall * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignalingCallEvent_p_t = {"_p_CAObjWrapperT_CASignalingCallEvent_p_t", "CAObjWrapper< CASignalingCallEvent * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignalingCallback_p_t = {"_p_CAObjWrapperT_CASignalingCallback_p_t", "CAObjWrapper< CASignalingCallback * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignalingEvent_p_t = {"_p_CAObjWrapperT_CASignalingEvent_p_t", "CAObjWrapper< CASignalingEvent * > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignaling_p_t = {"_p_CAObjWrapperT_CASignaling_p_t", "CAObjWrapper< CASignaling * > *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CASession = {"_p_CASession", "CASession *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CASessionCall = {"_p_CASessionCall", "CASessionCall *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CASessionCallIceCallback = {"_p_CASessionCallIceCallback", "CASessionCallIceCallback *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CASessionType_e = {"_p_CASessionType_e", "enum CASessionType_e *|CASessionType_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CASignaling = {"_p_CASignaling", "CASignaling *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CASignalingCallEvent = {"_p_CASignalingCallEvent", "CASignalingCallEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CASignalingCallback = {"_p_CASignalingCallback", "CASignalingCallback *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CASignalingEvent = {"_p_CASignalingEvent", "CASignalingEvent *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CASignalingEventType_e = {"_p_CASignalingEventType_e", "enum CASignalingEventType_e *|CASignalingEventType_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_int = {"_p_int", "intptr_t *|int *|int_least32_t *|int_fast32_t *|int32_t *|int_fast16_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int = {"_p_int", "intptr_t *|int *|int_least32_t *|int_fast32_t *|int32_t *|CARoType *|int_fast16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long_long = {"_p_long_long", "int_least64_t *|int_fast64_t *|int64_t *|long long *|intmax_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *|int_least16_t *|int16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_signed_char = {"_p_signed_char", "signed char *|int_least8_t *|int_fast8_t *|int8_t *", 0, 0, (void*)0, 0};
@@ -6926,11 +8596,19 @@ static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_CADebugLevel_e,
   &_swigt__p_CAEngine,
+  &_swigt__p_CAIceState_e,
+  &_swigt__p_CAMediaType_e,
   &_swigt__p_CAObj,
+  &_swigt__p_CAObjWrapperT_CASessionCallIceCallback_p_t,
+  &_swigt__p_CAObjWrapperT_CASessionCall_p_t,
   &_swigt__p_CAObjWrapperT_CASignalingCallEvent_p_t,
   &_swigt__p_CAObjWrapperT_CASignalingCallback_p_t,
   &_swigt__p_CAObjWrapperT_CASignalingEvent_p_t,
   &_swigt__p_CAObjWrapperT_CASignaling_p_t,
+  &_swigt__p_CASession,
+  &_swigt__p_CASessionCall,
+  &_swigt__p_CASessionCallIceCallback,
+  &_swigt__p_CASessionType_e,
   &_swigt__p_CASignaling,
   &_swigt__p_CASignalingCallEvent,
   &_swigt__p_CASignalingCallback,
@@ -6950,11 +8628,19 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_CADebugLevel_e[] = {  {&_swigt__p_CADebugLevel_e, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAEngine[] = {  {&_swigt__p_CAEngine, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_CAObj[] = {  {&_swigt__p_CAObj, 0, 0, 0},  {&_swigt__p_CASignalingCallEvent, _p_CASignalingCallEventTo_p_CAObj, 0, 0},  {&_swigt__p_CAEngine, _p_CAEngineTo_p_CAObj, 0, 0},  {&_swigt__p_CASignaling, _p_CASignalingTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingEvent, _p_CASignalingEventTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingCallback, _p_CASignalingCallbackTo_p_CAObj, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAIceState_e[] = {  {&_swigt__p_CAIceState_e, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAMediaType_e[] = {  {&_swigt__p_CAMediaType_e, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAObj[] = {  {&_swigt__p_CAObj, 0, 0, 0},  {&_swigt__p_CASignalingCallEvent, _p_CASignalingCallEventTo_p_CAObj, 0, 0},  {&_swigt__p_CAEngine, _p_CAEngineTo_p_CAObj, 0, 0},  {&_swigt__p_CASignaling, _p_CASignalingTo_p_CAObj, 0, 0},  {&_swigt__p_CASessionCall, _p_CASessionCallTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingEvent, _p_CASignalingEventTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingCallback, _p_CASignalingCallbackTo_p_CAObj, 0, 0},  {&_swigt__p_CASession, _p_CASessionTo_p_CAObj, 0, 0},  {&_swigt__p_CASessionCallIceCallback, _p_CASessionCallIceCallbackTo_p_CAObj, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAObjWrapperT_CASessionCallIceCallback_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASessionCallIceCallback_p_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAObjWrapperT_CASessionCall_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASessionCall_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignalingCallEvent_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignalingCallEvent_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignalingCallback_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignalingCallback_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignalingEvent_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignalingEvent_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignaling_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignaling_p_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASession[] = {  {&_swigt__p_CASessionCall, _p_CASessionCallTo_p_CASession, 0, 0},  {&_swigt__p_CASession, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASessionCall[] = {  {&_swigt__p_CASessionCall, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASessionCallIceCallback[] = {  {&_swigt__p_CASessionCallIceCallback, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASessionType_e[] = {  {&_swigt__p_CASessionType_e, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CASignaling[] = {  {&_swigt__p_CASignaling, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CASignalingCallEvent[] = {  {&_swigt__p_CASignalingCallEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CASignalingCallback[] = {  {&_swigt__p_CASignalingCallback, 0, 0, 0},{0, 0, 0, 0}};
@@ -6974,11 +8660,19 @@ static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0,
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_CADebugLevel_e,
   _swigc__p_CAEngine,
+  _swigc__p_CAIceState_e,
+  _swigc__p_CAMediaType_e,
   _swigc__p_CAObj,
+  _swigc__p_CAObjWrapperT_CASessionCallIceCallback_p_t,
+  _swigc__p_CAObjWrapperT_CASessionCall_p_t,
   _swigc__p_CAObjWrapperT_CASignalingCallEvent_p_t,
   _swigc__p_CAObjWrapperT_CASignalingCallback_p_t,
   _swigc__p_CAObjWrapperT_CASignalingEvent_p_t,
   _swigc__p_CAObjWrapperT_CASignaling_p_t,
+  _swigc__p_CASession,
+  _swigc__p_CASessionCall,
+  _swigc__p_CASessionCallIceCallback,
+  _swigc__p_CASessionType_e,
   _swigc__p_CASignaling,
   _swigc__p_CASignalingCallEvent,
   _swigc__p_CASignalingCallback,
@@ -7688,6 +9382,19 @@ SWIG_init(void) {
   SWIG_Python_SetConstant(d, "CASignalingEventType_NetDisconnected",SWIG_From_int(static_cast< int >(CASignalingEventType_NetDisconnected)));
   SWIG_Python_SetConstant(d, "CASignalingEventType_NetError",SWIG_From_int(static_cast< int >(CASignalingEventType_NetError)));
   SWIG_Python_SetConstant(d, "CASignalingEventType_Call",SWIG_From_int(static_cast< int >(CASignalingEventType_Call)));
+  SWIG_Python_SetConstant(d, "CAMediaType_None",SWIG_From_int(static_cast< int >(CAMediaType_None)));
+  SWIG_Python_SetConstant(d, "CAMediaType_Audio",SWIG_From_int(static_cast< int >(CAMediaType_Audio)));
+  SWIG_Python_SetConstant(d, "CAMediaType_Video",SWIG_From_int(static_cast< int >(CAMediaType_Video)));
+  SWIG_Python_SetConstant(d, "CAMediaType_ScreenCast",SWIG_From_int(static_cast< int >(CAMediaType_ScreenCast)));
+  SWIG_Python_SetConstant(d, "CAMediaType_AudioVideo",SWIG_From_int(static_cast< int >(CAMediaType_AudioVideo)));
+  SWIG_Python_SetConstant(d, "CAMediaType_All",SWIG_From_int(static_cast< int >(CAMediaType_All)));
+  SWIG_Python_SetConstant(d, "CAIceState_None",SWIG_From_int(static_cast< int >(CAIceState_None)));
+  SWIG_Python_SetConstant(d, "CAIceState_Failed",SWIG_From_int(static_cast< int >(CAIceState_Failed)));
+  SWIG_Python_SetConstant(d, "CAIceState_GatheringDone",SWIG_From_int(static_cast< int >(CAIceState_GatheringDone)));
+  SWIG_Python_SetConstant(d, "CAIceState_Connected",SWIG_From_int(static_cast< int >(CAIceState_Connected)));
+  SWIG_Python_SetConstant(d, "CAIceState_Teminated",SWIG_From_int(static_cast< int >(CAIceState_Teminated)));
+  SWIG_Python_SetConstant(d, "CASessionType_None",SWIG_From_int(static_cast< int >(CASessionType_None)));
+  SWIG_Python_SetConstant(d, "CASessionType_Call",SWIG_From_int(static_cast< int >(CASessionType_Call)));
 #if PY_VERSION_HEX >= 0x03000000
   return m;
 #else

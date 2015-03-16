@@ -719,6 +719,124 @@ SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASignalingCallEvent
 }
 
 
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_new_1CASessionCallObj_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAObjWrapper< CASessionCall * > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >(arg1);
+  *(CAObjWrapper< CASessionCall * > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_new_1CASessionCallObj_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CAObjWrapper< CASessionCall * > *arg1 = 0 ;
+  CAObjWrapper< CASessionCall * > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CAObjWrapper< CASessionCall * > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "CAObjWrapper< CASessionCall * > const & reference is null");
+    return 0;
+  } 
+  result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >((CAObjWrapper< CASessionCall * > const &)*arg1);
+  *(CAObjWrapper< CASessionCall * > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_doubango_clWRAP_clWRAPJNI_delete_1CASessionCallObj(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CAObjWrapper< CASessionCall * > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCallObj_1unWrap(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+  CASessionCall *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CAObjWrapper< CASessionCall * > **)&jarg1; 
+  result = (CASessionCall *)(arg1)->unWrap();
+  *(CASessionCall **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_new_1CASessionCallIceCallbackObj_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCallIceCallback **)&jarg1; 
+  result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >(arg1);
+  *(CAObjWrapper< CASessionCallIceCallback * > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_new_1CASessionCallIceCallbackObj_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CAObjWrapper< CASessionCallIceCallback * > **)&jarg1;
+  if (!arg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "CAObjWrapper< CASessionCallIceCallback * > const & reference is null");
+    return 0;
+  } 
+  result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >((CAObjWrapper< CASessionCallIceCallback * > const &)*arg1);
+  *(CAObjWrapper< CASessionCallIceCallback * > **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_doubango_clWRAP_clWRAPJNI_delete_1CASessionCallIceCallbackObj(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CAObjWrapper< CASessionCallIceCallback * > **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCallIceCallbackObj_1unWrap(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+  CASessionCallIceCallback *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CAObjWrapper< CASessionCallIceCallback * > **)&jarg1; 
+  result = (CASessionCallIceCallback *)(arg1)->unWrap();
+  *(CASessionCallIceCallback **)&jresult = result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_org_doubango_clWRAP_clWRAPJNI_delete_1CAEngine(JNIEnv *jenv, jclass jcls, jlong jarg1) {
   CAEngine *arg1 = (CAEngine *) 0 ;
   
@@ -1899,6 +2017,545 @@ SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASignaling_1newObj_
 }
 
 
+SWIGEXPORT jstring JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASignaling_1getCredUserId(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  CASignaling *arg1 = (CASignaling *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASignaling **)&jarg1; 
+  result = (arg1)->getCredUserId();
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASignaling_1getCredPassword(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  CASignaling *arg1 = (CASignaling *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASignaling **)&jarg1; 
+  result = (arg1)->getCredPassword();
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_doubango_clWRAP_clWRAPJNI_delete_1CASession(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CASession *arg1 = (CASession *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CASession **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASession_1getObjectId(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  CASession *arg1 = (CASession *) 0 ;
+  char *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASession **)&jarg1; 
+  result = (char *)(arg1)->getObjectId();
+  if (result) jresult = jenv->NewStringUTF((const char *)result);
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASession_1getType(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  CASession *arg1 = (CASession *) 0 ;
+  CASessionType_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASession **)&jarg1; 
+  result = (CASessionType_t)((CASession const *)arg1)->getType();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCallIceCallback_1onStateChanged(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > arg2 ;
+  CAObjWrapper< CASessionCall * > *argp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(CASessionCallIceCallback **)&jarg1; 
+  argp2 = *(CAObjWrapper< CASessionCall * > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null CAObjWrapper< CASessionCall * >");
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)(arg1)->onStateChanged(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_doubango_clWRAP_clWRAPJNI_delete_1CASessionCallIceCallback(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CASessionCallIceCallback **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void JNICALL Java_org_doubango_clWRAP_clWRAPJNI_delete_1CASessionCall(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(CASessionCall **)&jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1getObjectId(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  char *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  result = (char *)(arg1)->getObjectId();
+  if (result) jresult = jenv->NewStringUTF((const char *)result);
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setIceCallback(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCallIceCallback * > > arg2 ;
+  CAObjWrapper< CASessionCallIceCallback * > *argp2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  argp2 = *(CAObjWrapper< CASessionCallIceCallback * > **)&jarg2; 
+  if (!argp2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null CAObjWrapper< CASessionCallIceCallback * >");
+    return 0;
+  }
+  arg2 = *argp2; 
+  result = (bool)(arg1)->setIceCallback(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoDisplays_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3, jlong jarg4) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  int64_t arg3 ;
+  int64_t arg4 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  arg3 = (int64_t)jarg3; 
+  arg4 = (int64_t)jarg4; 
+  result = (bool)(arg1)->setVideoDisplays(arg2,arg3,arg4);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoDisplays_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jlong jarg3) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  int64_t arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  arg3 = (int64_t)jarg3; 
+  result = (bool)(arg1)->setVideoDisplays(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoDisplays_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  result = (bool)(arg1)->setVideoDisplays(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1call(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jstring jarg3) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t arg2 ;
+  std::string arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (CAMediaType_t)jarg2; 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null string");
+    return 0;
+  } 
+  const char *arg3_pstr = (const char *)jenv->GetStringUTFChars(jarg3, 0); 
+  if (!arg3_pstr) return 0;
+  (&arg3)->assign(arg3_pstr);
+  jenv->ReleaseStringUTFChars(jarg3, arg3_pstr); 
+  result = (bool)(arg1)->call(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1acceptEvent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = *(CAObjWrapper< CASignalingCallEvent * > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "CAObjWrapper< CASignalingCallEvent * > & reference is null");
+    return 0;
+  } 
+  result = (bool)(arg1)->acceptEvent(*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1rejectEvent(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jboolean jresult = 0 ;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  CAObjWrapper< CASignaling * > *argp1 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  argp1 = *(CAObjWrapper< CASignaling * > **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null CAObjWrapper< CASignaling * >");
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = *(CAObjWrapper< CASignalingCallEvent * > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "CAObjWrapper< CASignalingCallEvent * > & reference is null");
+    return 0;
+  } 
+  result = (bool)CASessionCall::rejectEvent(arg1,*arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setMute_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2, jint jarg3) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setMute(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setMute_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jboolean jarg2) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = jarg2 ? true : false; 
+  result = (bool)(arg1)->setMute(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1hangup(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  result = (bool)(arg1)->hangup();
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoFps_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setVideoFps(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoFps_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)(arg1)->setVideoFps(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoBandwidthUploadMax_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoBandwidthUploadMax_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoBandwidthDownloadMax_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2, jint jarg3) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  CAMediaType_t arg3 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (CAMediaType_t)jarg3; 
+  result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2,arg3);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jboolean JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1setVideoBandwidthDownloadMax_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  jboolean jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  arg2 = (int)jarg2; 
+  result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2);
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jstring JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1getCallId(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jstring jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  result = (arg1)->getCallId();
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1getMediaType(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  CAMediaType_t result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  result = (CAMediaType_t)(arg1)->getMediaType();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1getIceState(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  CASessionCall *arg1 = (CASessionCall *) 0 ;
+  enum CAIceState_e result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(CASessionCall **)&jarg1; 
+  result = (enum CAIceState_e)(arg1)->getIceState();
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1newObj_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignaling * > *argp1 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  argp1 = *(CAObjWrapper< CASignaling * > **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null CAObjWrapper< CASignaling * >");
+    return 0;
+  }
+  arg1 = *argp1; 
+  result = CASessionCall::newObj(arg1);
+  *(CAObjWrapper< CASessionCall * > **)&jresult = new CAObjWrapper< CASessionCall * >((const CAObjWrapper< CASessionCall * > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1newObj_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2, jobject jarg2_) {
+  jlong jresult = 0 ;
+  SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+  CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+  CAObjWrapper< CASignaling * > *argp1 ;
+  SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  (void)jarg2_;
+  argp1 = *(CAObjWrapper< CASignaling * > **)&jarg1; 
+  if (!argp1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "Attempt to dereference null CAObjWrapper< CASignaling * >");
+    return 0;
+  }
+  arg1 = *argp1; 
+  arg2 = *(CAObjWrapper< CASignalingCallEvent * > **)&jarg2;
+  if (!arg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "CAObjWrapper< CASignalingCallEvent * > & reference is null");
+    return 0;
+  } 
+  result = CASessionCall::newObj(arg1,*arg2);
+  *(CAObjWrapper< CASessionCall * > **)&jresult = new CAObjWrapper< CASessionCall * >((const CAObjWrapper< CASessionCall * > &)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CAEngine_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
     jlong baseptr = 0;
     (void)jenv;
@@ -1936,6 +2593,30 @@ SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASignaling_1SWIGUpc
     (void)jenv;
     (void)jcls;
     *(CAObj **)&baseptr = *(CASignaling **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASession_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(CAObj **)&baseptr = *(CASession **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCallIceCallback_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(CAObj **)&baseptr = *(CASessionCallIceCallback **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_org_doubango_clWRAP_clWRAPJNI_CASessionCall_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(CASession **)&baseptr = *(CASessionCall **)&jarg1;
     return baseptr;
 }
 

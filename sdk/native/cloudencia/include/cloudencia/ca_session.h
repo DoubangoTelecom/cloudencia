@@ -22,6 +22,27 @@
 #include "ca_config.h"
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_obj.h"
+#include "cloudencia/ca_signaling.h"
 
+class CASession : public CAObj
+{
+protected:
+	CASession(CASessionType_t eType, CAObjWrapper<CASignaling* > oSignaling);
+public:
+	virtual ~CASession();
+	virtual CA_INLINE const char* getObjectId() {
+		return "SCSession";
+	}
+
+	virtual CA_INLINE CASessionType_t getType()const {
+		return m_eType;
+	}
+
+protected:
+	CAObjWrapper<CASignaling* > m_oSignaling;
+
+private:
+	CASessionType_t m_eType;
+};
 
 #endif /* _CLOUDENCIA_SESSION_H_ */

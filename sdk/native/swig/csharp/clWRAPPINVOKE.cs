@@ -249,6 +249,30 @@ class clWRAPPINVOKE {
   [DllImport("clWRAP", EntryPoint="CSharp_CASignalingCallEventObj_unWrap")]
   public static extern IntPtr CASignalingCallEventObj_unWrap(HandleRef jarg1);
 
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASessionCallObj__SWIG_0")]
+  public static extern IntPtr new_CASessionCallObj__SWIG_0(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASessionCallObj__SWIG_1")]
+  public static extern IntPtr new_CASessionCallObj__SWIG_1(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASessionCallObj")]
+  public static extern void delete_CASessionCallObj(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCallObj_unWrap")]
+  public static extern IntPtr CASessionCallObj_unWrap(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASessionCallIceCallbackObj__SWIG_0")]
+  public static extern IntPtr new_CASessionCallIceCallbackObj__SWIG_0(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_new_CASessionCallIceCallbackObj__SWIG_1")]
+  public static extern IntPtr new_CASessionCallIceCallbackObj__SWIG_1(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASessionCallIceCallbackObj")]
+  public static extern void delete_CASessionCallIceCallbackObj(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCallIceCallbackObj_unWrap")]
+  public static extern IntPtr CASessionCallIceCallbackObj_unWrap(HandleRef jarg1);
+
   [DllImport("clWRAP", EntryPoint="CSharp_delete_CAEngine")]
   public static extern void delete_CAEngine(HandleRef jarg1);
 
@@ -426,6 +450,96 @@ class clWRAPPINVOKE {
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_newObj__SWIG_2")]
   public static extern IntPtr CASignaling_newObj__SWIG_2(string jarg1, string jarg2, string jarg3);
 
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_getCredUserId")]
+  public static extern string CASignaling_getCredUserId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_getCredPassword")]
+  public static extern string CASignaling_getCredPassword(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASession")]
+  public static extern void delete_CASession(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASession_getObjectId")]
+  public static extern string CASession_getObjectId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASession_getType")]
+  public static extern int CASession_getType(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCallIceCallback_onStateChanged")]
+  public static extern bool CASessionCallIceCallback_onStateChanged(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASessionCallIceCallback")]
+  public static extern void delete_CASessionCallIceCallback(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_delete_CASessionCall")]
+  public static extern void delete_CASessionCall(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_getObjectId")]
+  public static extern string CASessionCall_getObjectId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setIceCallback")]
+  public static extern bool CASessionCall_setIceCallback(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoDisplays__SWIG_0")]
+  public static extern bool CASessionCall_setVideoDisplays__SWIG_0(HandleRef jarg1, int jarg2, long jarg3, long jarg4);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoDisplays__SWIG_1")]
+  public static extern bool CASessionCall_setVideoDisplays__SWIG_1(HandleRef jarg1, int jarg2, long jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoDisplays__SWIG_2")]
+  public static extern bool CASessionCall_setVideoDisplays__SWIG_2(HandleRef jarg1, int jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_call")]
+  public static extern bool CASessionCall_call(HandleRef jarg1, int jarg2, string jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_acceptEvent")]
+  public static extern bool CASessionCall_acceptEvent(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_rejectEvent")]
+  public static extern bool CASessionCall_rejectEvent(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setMute__SWIG_0")]
+  public static extern bool CASessionCall_setMute__SWIG_0(HandleRef jarg1, bool jarg2, int jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setMute__SWIG_1")]
+  public static extern bool CASessionCall_setMute__SWIG_1(HandleRef jarg1, bool jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_hangup")]
+  public static extern bool CASessionCall_hangup(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoFps__SWIG_0")]
+  public static extern bool CASessionCall_setVideoFps__SWIG_0(HandleRef jarg1, int jarg2, int jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoFps__SWIG_1")]
+  public static extern bool CASessionCall_setVideoFps__SWIG_1(HandleRef jarg1, int jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoBandwidthUploadMax__SWIG_0")]
+  public static extern bool CASessionCall_setVideoBandwidthUploadMax__SWIG_0(HandleRef jarg1, int jarg2, int jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoBandwidthUploadMax__SWIG_1")]
+  public static extern bool CASessionCall_setVideoBandwidthUploadMax__SWIG_1(HandleRef jarg1, int jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoBandwidthDownloadMax__SWIG_0")]
+  public static extern bool CASessionCall_setVideoBandwidthDownloadMax__SWIG_0(HandleRef jarg1, int jarg2, int jarg3);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_setVideoBandwidthDownloadMax__SWIG_1")]
+  public static extern bool CASessionCall_setVideoBandwidthDownloadMax__SWIG_1(HandleRef jarg1, int jarg2);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_getCallId")]
+  public static extern string CASessionCall_getCallId(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_getMediaType")]
+  public static extern int CASessionCall_getMediaType(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_getIceState")]
+  public static extern int CASessionCall_getIceState(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_newObj__SWIG_0")]
+  public static extern IntPtr CASessionCall_newObj__SWIG_0(HandleRef jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_newObj__SWIG_1")]
+  public static extern IntPtr CASessionCall_newObj__SWIG_1(HandleRef jarg1, HandleRef jarg2);
+
   [DllImport("clWRAP", EntryPoint="CSharp_CAEngine_SWIGUpcast")]
   public static extern IntPtr CAEngine_SWIGUpcast(IntPtr jarg1);
 
@@ -440,6 +554,15 @@ class clWRAPPINVOKE {
 
   [DllImport("clWRAP", EntryPoint="CSharp_CASignaling_SWIGUpcast")]
   public static extern IntPtr CASignaling_SWIGUpcast(IntPtr jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASession_SWIGUpcast")]
+  public static extern IntPtr CASession_SWIGUpcast(IntPtr jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCallIceCallback_SWIGUpcast")]
+  public static extern IntPtr CASessionCallIceCallback_SWIGUpcast(IntPtr jarg1);
+
+  [DllImport("clWRAP", EntryPoint="CSharp_CASessionCall_SWIGUpcast")]
+  public static extern IntPtr CASessionCall_SWIGUpcast(IntPtr jarg1);
 }
 
 }
