@@ -17,3 +17,21 @@
 * along with DOUBANGO.
 */
 #include "cloudencia/ca_session.h"
+
+#include <assert.h>
+
+/**@defgroup _Group_CPP_Session Base session
+* @brief Base session class.
+*/
+
+CASession::CASession(CASessionType_t eType, CAObjWrapper<CASignaling* > oSignaling)
+	: m_eType(eType)
+	, m_oSignaling(oSignaling)
+{
+	CA_ASSERT(m_oSignaling);
+}
+
+CASession::~CASession()
+{
+
+}

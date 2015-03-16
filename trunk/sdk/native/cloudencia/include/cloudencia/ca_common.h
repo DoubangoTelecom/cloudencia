@@ -90,6 +90,8 @@ typedef enum CASessionState_e {
 CASessionState_t;
 #endif
 
+
+// @SWIG
 typedef enum CAMediaType_e {
 	CAMediaType_None = 0x00,
 	CAMediaType_Audio = (0x01 << 0),
@@ -114,6 +116,7 @@ typedef enum CACallState_e {
 }
 CACallState_t;
 
+// @SWIG
 typedef enum CAIceState_e {
 	CAIceState_None,
 	CAIceState_Failed,
@@ -123,6 +126,7 @@ typedef enum CAIceState_e {
 }
 CAIceState_t;
 
+// @SWIG
 typedef enum CASessionType_e {
 	CASessionType_None,
 	CASessionType_Call

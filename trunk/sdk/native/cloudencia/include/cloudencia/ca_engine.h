@@ -91,6 +91,8 @@ private:
 
 class CLOUDENCIA_API CAEngine : public CAObj
 {
+	friend class CASessionCall;
+	friend class CASignaling;
 private:
 	CAEngine();
 public:

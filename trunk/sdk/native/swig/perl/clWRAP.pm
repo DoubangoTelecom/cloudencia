@@ -236,6 +236,82 @@ sub ACQUIRE {
 }
 
 
+############# Class : clWRAP::CASessionCallObj ##############
+
+package clWRAP::CASessionCallObj;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASessionCallObj(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASessionCallObj($self);
+        delete $OWNER{$self};
+    }
+}
+
+*unWrap = *clWRAPc::CASessionCallObj_unWrap;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASessionCallIceCallbackObj ##############
+
+package clWRAP::CASessionCallIceCallbackObj;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub new {
+    my $pkg = shift;
+    my $self = clWRAPc::new_CASessionCallIceCallbackObj(@_);
+    bless $self, $pkg if defined($self);
+}
+
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASessionCallIceCallbackObj($self);
+        delete $OWNER{$self};
+    }
+}
+
+*unWrap = *clWRAPc::CASessionCallIceCallbackObj_unWrap;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
 ############# Class : clWRAP::CAEngine ##############
 
 package clWRAP::CAEngine;
@@ -433,6 +509,119 @@ sub DESTROY {
 *sendData = *clWRAPc::CASignaling_sendData;
 *disConnect = *clWRAPc::CASignaling_disConnect;
 *newObj = *clWRAPc::CASignaling_newObj;
+*getCredUserId = *clWRAPc::CASignaling_getCredUserId;
+*getCredPassword = *clWRAPc::CASignaling_getCredPassword;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASession ##############
+
+package clWRAP::CASession;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CAObj clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASession($self);
+        delete $OWNER{$self};
+    }
+}
+
+*getObjectId = *clWRAPc::CASession_getObjectId;
+*getType = *clWRAPc::CASession_getType;
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASessionCallIceCallback ##############
+
+package clWRAP::CASessionCallIceCallback;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CAObj clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+*onStateChanged = *clWRAPc::CASessionCallIceCallback_onStateChanged;
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASessionCallIceCallback($self);
+        delete $OWNER{$self};
+    }
+}
+
+sub DISOWN {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    delete $OWNER{$ptr};
+}
+
+sub ACQUIRE {
+    my $self = shift;
+    my $ptr = tied(%$self);
+    $OWNER{$ptr} = 1;
+}
+
+
+############# Class : clWRAP::CASessionCall ##############
+
+package clWRAP::CASessionCall;
+use vars qw(@ISA %OWNER %ITERATORS %BLESSEDMEMBERS);
+@ISA = qw( clWRAP::CASession clWRAP );
+%OWNER = ();
+%ITERATORS = ();
+sub DESTROY {
+    return unless $_[0]->isa('HASH');
+    my $self = tied(%{$_[0]});
+    return unless defined $self;
+    delete $ITERATORS{$self};
+    if (exists $OWNER{$self}) {
+        clWRAPc::delete_CASessionCall($self);
+        delete $OWNER{$self};
+    }
+}
+
+*getObjectId = *clWRAPc::CASessionCall_getObjectId;
+*setIceCallback = *clWRAPc::CASessionCall_setIceCallback;
+*setVideoDisplays = *clWRAPc::CASessionCall_setVideoDisplays;
+*call = *clWRAPc::CASessionCall_call;
+*acceptEvent = *clWRAPc::CASessionCall_acceptEvent;
+*rejectEvent = *clWRAPc::CASessionCall_rejectEvent;
+*setMute = *clWRAPc::CASessionCall_setMute;
+*hangup = *clWRAPc::CASessionCall_hangup;
+*setVideoFps = *clWRAPc::CASessionCall_setVideoFps;
+*setVideoBandwidthUploadMax = *clWRAPc::CASessionCall_setVideoBandwidthUploadMax;
+*setVideoBandwidthDownloadMax = *clWRAPc::CASessionCall_setVideoBandwidthDownloadMax;
+*getCallId = *clWRAPc::CASessionCall_getCallId;
+*getMediaType = *clWRAPc::CASessionCall_getMediaType;
+*getIceState = *clWRAPc::CASessionCall_getIceState;
+*newObj = *clWRAPc::CASessionCall_newObj;
 sub DISOWN {
     my $self = shift;
     my $ptr = tied(%$self);
@@ -460,4 +649,17 @@ package clWRAP;
 *CASignalingEventType_NetDisconnected = *clWRAPc::CASignalingEventType_NetDisconnected;
 *CASignalingEventType_NetError = *clWRAPc::CASignalingEventType_NetError;
 *CASignalingEventType_Call = *clWRAPc::CASignalingEventType_Call;
+*CAMediaType_None = *clWRAPc::CAMediaType_None;
+*CAMediaType_Audio = *clWRAPc::CAMediaType_Audio;
+*CAMediaType_Video = *clWRAPc::CAMediaType_Video;
+*CAMediaType_ScreenCast = *clWRAPc::CAMediaType_ScreenCast;
+*CAMediaType_AudioVideo = *clWRAPc::CAMediaType_AudioVideo;
+*CAMediaType_All = *clWRAPc::CAMediaType_All;
+*CAIceState_None = *clWRAPc::CAIceState_None;
+*CAIceState_Failed = *clWRAPc::CAIceState_Failed;
+*CAIceState_GatheringDone = *clWRAPc::CAIceState_GatheringDone;
+*CAIceState_Connected = *clWRAPc::CAIceState_Connected;
+*CAIceState_Teminated = *clWRAPc::CAIceState_Teminated;
+*CASessionType_None = *clWRAPc::CASessionType_None;
+*CASessionType_Call = *clWRAPc::CASessionType_Call;
 1;

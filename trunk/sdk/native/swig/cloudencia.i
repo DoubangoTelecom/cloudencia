@@ -19,8 +19,12 @@
 %template(CASignalingCallbackObj) CAObjWrapper<CASignalingCallback* >;
 %template(CASignalingEventObj) CAObjWrapper<CASignalingEvent* >;
 %template(CASignalingCallEventObj) CAObjWrapper<CASignalingCallEvent* >;
+%template(CASessionCallObj) CAObjWrapper<CASessionCall* >;
+%template(CASessionCallIceCallbackObj) CAObjWrapper<CASessionCallIceCallback* >;
 
 %nodefaultctor;
 %include "../cloudencia/include/cloudencia/ca_engine.h"
 %include "../cloudencia/include/cloudencia/ca_signaling.h"
+%include "../cloudencia/include/cloudencia/ca_session.h"
+%include "../cloudencia/include/cloudencia/ca_session_call.h"
 %clearnodefaultctor;

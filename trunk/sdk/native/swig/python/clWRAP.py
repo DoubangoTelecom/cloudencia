@@ -84,6 +84,19 @@ CASignalingEventType_NetData = _clWRAP.CASignalingEventType_NetData
 CASignalingEventType_NetDisconnected = _clWRAP.CASignalingEventType_NetDisconnected
 CASignalingEventType_NetError = _clWRAP.CASignalingEventType_NetError
 CASignalingEventType_Call = _clWRAP.CASignalingEventType_Call
+CAMediaType_None = _clWRAP.CAMediaType_None
+CAMediaType_Audio = _clWRAP.CAMediaType_Audio
+CAMediaType_Video = _clWRAP.CAMediaType_Video
+CAMediaType_ScreenCast = _clWRAP.CAMediaType_ScreenCast
+CAMediaType_AudioVideo = _clWRAP.CAMediaType_AudioVideo
+CAMediaType_All = _clWRAP.CAMediaType_All
+CAIceState_None = _clWRAP.CAIceState_None
+CAIceState_Failed = _clWRAP.CAIceState_Failed
+CAIceState_GatheringDone = _clWRAP.CAIceState_GatheringDone
+CAIceState_Connected = _clWRAP.CAIceState_Connected
+CAIceState_Teminated = _clWRAP.CAIceState_Teminated
+CASessionType_None = _clWRAP.CASessionType_None
+CASessionType_Call = _clWRAP.CASessionType_Call
 class CAObj(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, CAObj, name, value)
@@ -162,6 +175,38 @@ class CASignalingCallEventObj(_object):
     def unWrap(self): return _clWRAP.CASignalingCallEventObj_unWrap(self)
 CASignalingCallEventObj_swigregister = _clWRAP.CASignalingCallEventObj_swigregister
 CASignalingCallEventObj_swigregister(CASignalingCallEventObj)
+
+class CASessionCallObj(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASessionCallObj, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CASessionCallObj, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASessionCallObj(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASessionCallObj
+    __del__ = lambda self : None;
+    def unWrap(self): return _clWRAP.CASessionCallObj_unWrap(self)
+CASessionCallObj_swigregister = _clWRAP.CASessionCallObj_swigregister
+CASessionCallObj_swigregister(CASessionCallObj)
+
+class CASessionCallIceCallbackObj(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASessionCallIceCallbackObj, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CASessionCallIceCallbackObj, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _clWRAP.new_CASessionCallIceCallbackObj(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _clWRAP.delete_CASessionCallIceCallbackObj
+    __del__ = lambda self : None;
+    def unWrap(self): return _clWRAP.CASessionCallIceCallbackObj_unWrap(self)
+CASessionCallIceCallbackObj_swigregister = _clWRAP.CASessionCallIceCallbackObj_swigregister
+CASessionCallIceCallbackObj_swigregister(CASessionCallIceCallbackObj)
 
 class CAEngine(CAObj):
     __swig_setmethods__ = {}
@@ -380,12 +425,84 @@ class CASignaling(CAObj):
     def disConnect(self): return _clWRAP.CASignaling_disConnect(self)
     __swig_getmethods__["newObj"] = lambda x: _clWRAP.CASignaling_newObj
     if _newclass:newObj = staticmethod(_clWRAP.CASignaling_newObj)
+    def getCredUserId(self): return _clWRAP.CASignaling_getCredUserId(self)
+    def getCredPassword(self): return _clWRAP.CASignaling_getCredPassword(self)
 CASignaling_swigregister = _clWRAP.CASignaling_swigregister
 CASignaling_swigregister(CASignaling)
 
 def CASignaling_newObj(*args):
   return _clWRAP.CASignaling_newObj(*args)
 CASignaling_newObj = _clWRAP.CASignaling_newObj
+
+class CASession(CAObj):
+    __swig_setmethods__ = {}
+    for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASession, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CAObj]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASession, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _clWRAP.delete_CASession
+    __del__ = lambda self : None;
+    def getObjectId(self): return _clWRAP.CASession_getObjectId(self)
+    def getType(self): return _clWRAP.CASession_getType(self)
+CASession_swigregister = _clWRAP.CASession_swigregister
+CASession_swigregister(CASession)
+
+class CASessionCallIceCallback(CAObj):
+    __swig_setmethods__ = {}
+    for _s in [CAObj]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASessionCallIceCallback, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CAObj]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASessionCallIceCallback, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    def onStateChanged(self, *args): return _clWRAP.CASessionCallIceCallback_onStateChanged(self, *args)
+    __swig_destroy__ = _clWRAP.delete_CASessionCallIceCallback
+    __del__ = lambda self : None;
+CASessionCallIceCallback_swigregister = _clWRAP.CASessionCallIceCallback_swigregister
+CASessionCallIceCallback_swigregister(CASessionCallIceCallback)
+
+class CASessionCall(CASession):
+    __swig_setmethods__ = {}
+    for _s in [CASession]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CASessionCall, name, value)
+    __swig_getmethods__ = {}
+    for _s in [CASession]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, CASessionCall, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _clWRAP.delete_CASessionCall
+    __del__ = lambda self : None;
+    def getObjectId(self): return _clWRAP.CASessionCall_getObjectId(self)
+    def setIceCallback(self, *args): return _clWRAP.CASessionCall_setIceCallback(self, *args)
+    def setVideoDisplays(self, *args): return _clWRAP.CASessionCall_setVideoDisplays(self, *args)
+    def call(self, *args): return _clWRAP.CASessionCall_call(self, *args)
+    def acceptEvent(self, *args): return _clWRAP.CASessionCall_acceptEvent(self, *args)
+    __swig_getmethods__["rejectEvent"] = lambda x: _clWRAP.CASessionCall_rejectEvent
+    if _newclass:rejectEvent = staticmethod(_clWRAP.CASessionCall_rejectEvent)
+    def setMute(self, *args): return _clWRAP.CASessionCall_setMute(self, *args)
+    def hangup(self): return _clWRAP.CASessionCall_hangup(self)
+    def setVideoFps(self, *args): return _clWRAP.CASessionCall_setVideoFps(self, *args)
+    def setVideoBandwidthUploadMax(self, *args): return _clWRAP.CASessionCall_setVideoBandwidthUploadMax(self, *args)
+    def setVideoBandwidthDownloadMax(self, *args): return _clWRAP.CASessionCall_setVideoBandwidthDownloadMax(self, *args)
+    def getCallId(self): return _clWRAP.CASessionCall_getCallId(self)
+    def getMediaType(self): return _clWRAP.CASessionCall_getMediaType(self)
+    def getIceState(self): return _clWRAP.CASessionCall_getIceState(self)
+    __swig_getmethods__["newObj"] = lambda x: _clWRAP.CASessionCall_newObj
+    if _newclass:newObj = staticmethod(_clWRAP.CASessionCall_newObj)
+CASessionCall_swigregister = _clWRAP.CASessionCall_swigregister
+CASessionCall_swigregister(CASessionCall)
+
+def CASessionCall_rejectEvent(*args):
+  return _clWRAP.CASessionCall_rejectEvent(*args)
+CASessionCall_rejectEvent = _clWRAP.CASessionCall_rejectEvent
+
+def CASessionCall_newObj(*args):
+  return _clWRAP.CASessionCall_newObj(*args)
+CASessionCall_newObj = _clWRAP.CASessionCall_newObj
 
 # This file is compatible with both classic and new-style classes.
 

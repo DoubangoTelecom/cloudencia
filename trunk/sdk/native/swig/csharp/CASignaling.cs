@@ -94,6 +94,16 @@ public class CASignaling : CAObj {
     return ret;
   }
 
+  public virtual string getCredUserId() {
+    string ret = clWRAPPINVOKE.CASignaling_getCredUserId(swigCPtr);
+    return ret;
+  }
+
+  public virtual string getCredPassword() {
+    string ret = clWRAPPINVOKE.CASignaling_getCredPassword(swigCPtr);
+    return ret;
+  }
+
 }
 
 }

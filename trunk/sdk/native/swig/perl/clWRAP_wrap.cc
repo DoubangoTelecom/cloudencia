@@ -1516,28 +1516,36 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 
 #define SWIGTYPE_p_CADebugLevel_e swig_types[0]
 #define SWIGTYPE_p_CAEngine swig_types[1]
-#define SWIGTYPE_p_CAObj swig_types[2]
-#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t swig_types[3]
-#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallback_p_t swig_types[4]
-#define SWIGTYPE_p_CAObjWrapperT_CASignalingEvent_p_t swig_types[5]
-#define SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t swig_types[6]
-#define SWIGTYPE_p_CASignaling swig_types[7]
-#define SWIGTYPE_p_CASignalingCallEvent swig_types[8]
-#define SWIGTYPE_p_CASignalingCallback swig_types[9]
-#define SWIGTYPE_p_CASignalingEvent swig_types[10]
-#define SWIGTYPE_p_CASignalingEventType_e swig_types[11]
-#define SWIGTYPE_p_char swig_types[12]
-#define SWIGTYPE_p_int swig_types[13]
-#define SWIGTYPE_p_long_long swig_types[14]
-#define SWIGTYPE_p_short swig_types[15]
-#define SWIGTYPE_p_signed_char swig_types[16]
-#define SWIGTYPE_p_unsigned_char swig_types[17]
-#define SWIGTYPE_p_unsigned_int swig_types[18]
-#define SWIGTYPE_p_unsigned_long_long swig_types[19]
-#define SWIGTYPE_p_unsigned_short swig_types[20]
-#define SWIGTYPE_p_void swig_types[21]
-static swig_type_info *swig_types[23];
-static swig_module_info swig_module = {swig_types, 22, 0, 0, 0, 0};
+#define SWIGTYPE_p_CAIceState_e swig_types[2]
+#define SWIGTYPE_p_CAMediaType_e swig_types[3]
+#define SWIGTYPE_p_CAObj swig_types[4]
+#define SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t swig_types[5]
+#define SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t swig_types[6]
+#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t swig_types[7]
+#define SWIGTYPE_p_CAObjWrapperT_CASignalingCallback_p_t swig_types[8]
+#define SWIGTYPE_p_CAObjWrapperT_CASignalingEvent_p_t swig_types[9]
+#define SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t swig_types[10]
+#define SWIGTYPE_p_CASession swig_types[11]
+#define SWIGTYPE_p_CASessionCall swig_types[12]
+#define SWIGTYPE_p_CASessionCallIceCallback swig_types[13]
+#define SWIGTYPE_p_CASessionType_e swig_types[14]
+#define SWIGTYPE_p_CASignaling swig_types[15]
+#define SWIGTYPE_p_CASignalingCallEvent swig_types[16]
+#define SWIGTYPE_p_CASignalingCallback swig_types[17]
+#define SWIGTYPE_p_CASignalingEvent swig_types[18]
+#define SWIGTYPE_p_CASignalingEventType_e swig_types[19]
+#define SWIGTYPE_p_char swig_types[20]
+#define SWIGTYPE_p_int swig_types[21]
+#define SWIGTYPE_p_long_long swig_types[22]
+#define SWIGTYPE_p_short swig_types[23]
+#define SWIGTYPE_p_signed_char swig_types[24]
+#define SWIGTYPE_p_unsigned_char swig_types[25]
+#define SWIGTYPE_p_unsigned_int swig_types[26]
+#define SWIGTYPE_p_unsigned_long_long swig_types[27]
+#define SWIGTYPE_p_unsigned_short swig_types[28]
+#define SWIGTYPE_p_void swig_types[29]
+static swig_type_info *swig_types[31];
+static swig_module_info swig_module = {swig_types, 30, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1963,6 +1971,68 @@ SWIGINTERNINLINE SV *
 SWIG_From_size_t  SWIG_PERL_DECL_ARGS_1(size_t value)
 {    
   return SWIG_From_unsigned_SS_long  SWIG_PERL_CALL_ARGS_1(static_cast< unsigned long >(value));
+}
+
+
+#include <stdlib.h>
+#ifdef _MSC_VER
+# ifndef strtoull
+#  define strtoull _strtoui64
+# endif
+# ifndef strtoll
+#  define strtoll _strtoi64
+# endif
+#endif
+
+
+
+SWIGINTERN int
+SWIG_AsVal_long_SS_long SWIG_PERL_DECL_ARGS_2(SV *obj, long long *val)
+{
+  if (SvUOK(obj)) {
+    UV v = SvUV(obj);
+    if (v < LLONG_MAX) {
+      if (val) *val = v;
+      return SWIG_OK;
+    }
+    return SWIG_OverflowError;
+  } else if (SvIOK(obj)) {
+    IV v = SvIV(obj);
+    if (v >= LLONG_MIN && v <= LLONG_MAX) {
+      if (val) *val = v;
+      return SWIG_OK;
+    }
+    return SWIG_OverflowError;
+  } else {
+    int dispatch = 0;
+    const char *nptr = SvPV_nolen(obj);
+    if (nptr) {
+      char *endptr;
+      long long v;
+      errno = 0;
+      v = strtoll(nptr, &endptr,0);
+      if (errno == ERANGE) {
+	errno = 0;
+	return SWIG_OverflowError;
+      } else {
+	if (*endptr == '\0') {
+	  if (val) *val = v;
+	  return SWIG_Str2NumCast(SWIG_OK);
+	}
+      }
+    }
+    if (!dispatch) {
+      const double mant_max = 1LL << DBL_MANT_DIG;
+      const double mant_min = -mant_max;
+      double d;
+      int res = SWIG_AddCast(SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(obj,&d));
+      if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, mant_min, mant_max)) {
+	if (val) *val = (long long)(d);
+	return res;
+      }
+    }
+  }
+  return SWIG_TypeError; 
 }
 
 #ifdef __cplusplus
@@ -2800,6 +2870,358 @@ XS(_wrap_CASignalingCallEventObj_unWrap) {
     arg1 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp1);
     result = (CASignalingCallEvent *)(arg1)->unWrap();
     ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CASignalingCallEvent, 0 | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_new_CASessionCallObj__SWIG_0) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CAObjWrapper< CASessionCall * > *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: new_CASessionCallObj(obj);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallObj" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >(arg1);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_new_CASessionCallObj__SWIG_1) {
+  {
+    CAObjWrapper< CASessionCall * > *arg1 = 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CAObjWrapper< CASessionCall * > *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: new_CASessionCallObj(obj);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > const &""'"); 
+    }
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_CASessionCallObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > const &""'"); 
+    }
+    arg1 = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp1);
+    result = (CAObjWrapper< CASessionCall * > *)new CAObjWrapper< CASessionCall * >((CAObjWrapper< CASessionCall * > const &)*arg1);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_new_CASessionCallObj) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_new_CASessionCallObj__SWIG_0); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_new_CASessionCallObj__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'new_CASessionCallObj'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_delete_CASessionCallObj) {
+  {
+    CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: delete_CASessionCallObj(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_DISOWN |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCallObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > *""'"); 
+    }
+    arg1 = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp1);
+    delete arg1;
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCallObj_unWrap) {
+  {
+    CAObjWrapper< CASessionCall * > *arg1 = (CAObjWrapper< CASessionCall * > *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CASessionCall *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCallObj_unWrap(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCallObj_unWrap" "', argument " "1"" of type '" "CAObjWrapper< CASessionCall * > *""'"); 
+    }
+    arg1 = reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp1);
+    result = (CASessionCall *)(arg1)->unWrap();
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CASessionCall, 0 | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_new_CASessionCallIceCallbackObj__SWIG_0) {
+  {
+    CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: new_CASessionCallIceCallbackObj(obj);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCallIceCallback, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CASessionCallIceCallback *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCallIceCallback * >(argp1);
+    result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >(arg1);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_new_CASessionCallIceCallbackObj__SWIG_1) {
+  {
+    CAObjWrapper< CASessionCallIceCallback * > *arg1 = 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CAObjWrapper< CASessionCallIceCallback * > *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: new_CASessionCallIceCallbackObj(obj);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "new_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > const &""'"); 
+    }
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "new_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > const &""'"); 
+    }
+    arg1 = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp1);
+    result = (CAObjWrapper< CASessionCallIceCallback * > *)new CAObjWrapper< CASessionCallIceCallback * >((CAObjWrapper< CASessionCallIceCallback * > const &)*arg1);
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_OWNER | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_new_CASessionCallIceCallbackObj) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCallIceCallback, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_new_CASessionCallIceCallbackObj__SWIG_0); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_new_CASessionCallIceCallbackObj__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'new_CASessionCallIceCallbackObj'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_delete_CASessionCallIceCallbackObj) {
+  {
+    CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: delete_CASessionCallIceCallbackObj(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, SWIG_POINTER_DISOWN |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCallIceCallbackObj" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > *""'"); 
+    }
+    arg1 = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp1);
+    delete arg1;
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCallIceCallbackObj_unWrap) {
+  {
+    CAObjWrapper< CASessionCallIceCallback * > *arg1 = (CAObjWrapper< CASessionCallIceCallback * > *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CASessionCallIceCallback *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCallIceCallbackObj_unWrap(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCallIceCallbackObj_unWrap" "', argument " "1"" of type '" "CAObjWrapper< CASessionCallIceCallback * > *""'"); 
+    }
+    arg1 = reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp1);
+    result = (CASessionCallIceCallback *)(arg1)->unWrap();
+    ST(argvi) = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CASessionCallIceCallback, 0 | SWIG_SHADOW); argvi++ ;
     
     XSRETURN(argvi);
   fail:
@@ -5658,6 +6080,1708 @@ XS(_wrap_CASignaling_newObj) {
 }
 
 
+XS(_wrap_CASignaling_getCredUserId) {
+  {
+    CASignaling *arg1 = (CASignaling *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    std::string result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASignaling_getCredUserId(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASignaling, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASignaling_getCredUserId" "', argument " "1"" of type '" "CASignaling *""'"); 
+    }
+    arg1 = reinterpret_cast< CASignaling * >(argp1);
+    result = (arg1)->getCredUserId();
+    ST(argvi) = SWIG_From_std_string  SWIG_PERL_CALL_ARGS_1(static_cast< std::string >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASignaling_getCredPassword) {
+  {
+    CASignaling *arg1 = (CASignaling *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    std::string result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASignaling_getCredPassword(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASignaling, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASignaling_getCredPassword" "', argument " "1"" of type '" "CASignaling *""'"); 
+    }
+    arg1 = reinterpret_cast< CASignaling * >(argp1);
+    result = (arg1)->getCredPassword();
+    ST(argvi) = SWIG_From_std_string  SWIG_PERL_CALL_ARGS_1(static_cast< std::string >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_delete_CASession) {
+  {
+    CASession *arg1 = (CASession *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: delete_CASession(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASession, SWIG_POINTER_DISOWN |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASession" "', argument " "1"" of type '" "CASession *""'"); 
+    }
+    arg1 = reinterpret_cast< CASession * >(argp1);
+    delete arg1;
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASession_getObjectId) {
+  {
+    CASession *arg1 = (CASession *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    char *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASession_getObjectId(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASession, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASession_getObjectId" "', argument " "1"" of type '" "CASession *""'"); 
+    }
+    arg1 = reinterpret_cast< CASession * >(argp1);
+    result = (char *)(arg1)->getObjectId();
+    ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASession_getType) {
+  {
+    CASession *arg1 = (CASession *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CASessionType_t result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASession_getType(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASession, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASession_getType" "', argument " "1"" of type '" "CASession const *""'"); 
+    }
+    arg1 = reinterpret_cast< CASession * >(argp1);
+    result = (CASessionType_t)((CASession const *)arg1)->getType();
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCallIceCallback_onStateChanged) {
+  {
+    CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+    SwigValueWrapper< CAObjWrapper< CASessionCall * > > arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    void *argp2 ;
+    int res2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCallIceCallback_onStateChanged(self,oCall);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCallIceCallback, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCallIceCallback_onStateChanged" "', argument " "1"" of type '" "CASessionCallIceCallback *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCallIceCallback * >(argp1);
+    {
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t,  0 );
+      if (!SWIG_IsOK(res2)) {
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCallIceCallback_onStateChanged" "', argument " "2"" of type '" "CAObjWrapper< CASessionCall * >""'"); 
+      }  
+      if (!argp2) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCallIceCallback_onStateChanged" "', argument " "2"" of type '" "CAObjWrapper< CASessionCall * >""'");
+      } else {
+        arg2 = *(reinterpret_cast< CAObjWrapper< CASessionCall * > * >(argp2));
+      }
+    }
+    result = (bool)(arg1)->onStateChanged(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_delete_CASessionCallIceCallback) {
+  {
+    CASessionCallIceCallback *arg1 = (CASessionCallIceCallback *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: delete_CASessionCallIceCallback(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCallIceCallback, SWIG_POINTER_DISOWN |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCallIceCallback" "', argument " "1"" of type '" "CASessionCallIceCallback *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCallIceCallback * >(argp1);
+    delete arg1;
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_delete_CASessionCall) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: delete_CASessionCall(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, SWIG_POINTER_DISOWN |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CASessionCall" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    delete arg1;
+    ST(argvi) = sv_newmortal();
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_getObjectId) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    char *result = 0 ;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCall_getObjectId(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getObjectId" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    result = (char *)(arg1)->getObjectId();
+    ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setIceCallback) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    SwigValueWrapper< CAObjWrapper< CASessionCallIceCallback * > > arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    void *argp2 ;
+    int res2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_setIceCallback(self,oIceCallback);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setIceCallback" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    {
+      res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t,  0 );
+      if (!SWIG_IsOK(res2)) {
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_setIceCallback" "', argument " "2"" of type '" "CAObjWrapper< CASessionCallIceCallback * >""'"); 
+      }  
+      if (!argp2) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_setIceCallback" "', argument " "2"" of type '" "CAObjWrapper< CASessionCallIceCallback * >""'");
+      } else {
+        arg2 = *(reinterpret_cast< CAObjWrapper< CASessionCallIceCallback * > * >(argp2));
+      }
+    }
+    result = (bool)(arg1)->setIceCallback(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoDisplays__SWIG_0) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    CAMediaType_t arg2 ;
+    int64_t arg3 ;
+    int64_t arg4 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    long long val3 ;
+    int ecode3 = 0 ;
+    long long val4 ;
+    int ecode4 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 4) || (items > 4)) {
+      SWIG_croak("Usage: CASessionCall_setVideoDisplays(self,eVideoType,displayLocal,displayRemote);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoDisplays" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoDisplays" "', argument " "2"" of type '" "CAMediaType_t""'");
+    } 
+    arg2 = static_cast< CAMediaType_t >(val2);
+    ecode3 = SWIG_AsVal_long_SS_long SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoDisplays" "', argument " "3"" of type '" "int64_t""'");
+    } 
+    arg3 = static_cast< int64_t >(val3);
+    ecode4 = SWIG_AsVal_long_SS_long SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
+    if (!SWIG_IsOK(ecode4)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "CASessionCall_setVideoDisplays" "', argument " "4"" of type '" "int64_t""'");
+    } 
+    arg4 = static_cast< int64_t >(val4);
+    result = (bool)(arg1)->setVideoDisplays(arg2,arg3,arg4);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoDisplays__SWIG_1) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    CAMediaType_t arg2 ;
+    int64_t arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    long long val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: CASessionCall_setVideoDisplays(self,eVideoType,displayLocal);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoDisplays" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoDisplays" "', argument " "2"" of type '" "CAMediaType_t""'");
+    } 
+    arg2 = static_cast< CAMediaType_t >(val2);
+    ecode3 = SWIG_AsVal_long_SS_long SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoDisplays" "', argument " "3"" of type '" "int64_t""'");
+    } 
+    arg3 = static_cast< int64_t >(val3);
+    result = (bool)(arg1)->setVideoDisplays(arg2,arg3);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoDisplays__SWIG_2) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    CAMediaType_t arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_setVideoDisplays(self,eVideoType);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoDisplays" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoDisplays" "', argument " "2"" of type '" "CAMediaType_t""'");
+    } 
+    arg2 = static_cast< CAMediaType_t >(val2);
+    result = (bool)(arg1)->setVideoDisplays(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoDisplays) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_long_SS_long SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+    if (items == 4) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_long_SS_long SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_long_SS_long SWIG_PERL_CALL_ARGS_2(ST(3), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_3;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 3;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_3:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoDisplays__SWIG_2); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoDisplays__SWIG_1); return;
+    case 3:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoDisplays__SWIG_0); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'CASessionCall_setVideoDisplays'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_CASessionCall_call) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    CAMediaType_t arg2 ;
+    std::string arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: CASessionCall_call(self,eMediaType,strDestUserId);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_call" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_call" "', argument " "2"" of type '" "CAMediaType_t""'");
+    } 
+    arg2 = static_cast< CAMediaType_t >(val2);
+    {
+      std::string *ptr = (std::string *)0;
+      int res = SWIG_AsPtr_std_string SWIG_PERL_CALL_ARGS_2(ST(2), &ptr);
+      if (!SWIG_IsOK(res) || !ptr) {
+        SWIG_exception_fail(SWIG_ArgError((ptr ? res : SWIG_TypeError)), "in method '" "CASessionCall_call" "', argument " "3"" of type '" "std::string""'"); 
+      }
+      arg3 = *ptr;
+      if (SWIG_IsNewObj(res)) delete ptr;
+    }
+    result = (bool)(arg1)->call(arg2,arg3);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_acceptEvent) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    void *argp2 = 0 ;
+    int res2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_acceptEvent(self,e);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_acceptEvent" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_acceptEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+    }
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_acceptEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+    }
+    arg2 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp2);
+    result = (bool)(arg1)->acceptEvent(*arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_rejectEvent) {
+  {
+    SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+    CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    void *argp2 = 0 ;
+    int res2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_rejectEvent(oSignaling,e);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_rejectEvent" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_rejectEvent" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'");
+      } else {
+        arg1 = *(reinterpret_cast< CAObjWrapper< CASignaling * > * >(argp1));
+      }
+    }
+    res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_rejectEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+    }
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_rejectEvent" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+    }
+    arg2 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp2);
+    result = (bool)CASessionCall::rejectEvent(arg1,*arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setMute__SWIG_0) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    bool arg2 ;
+    CAMediaType_t arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    bool val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: CASessionCall_setMute(self,bMuted,eMediaType);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setMute" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_bool SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setMute" "', argument " "2"" of type '" "bool""'");
+    } 
+    arg2 = static_cast< bool >(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setMute" "', argument " "3"" of type '" "CAMediaType_t""'");
+    } 
+    arg3 = static_cast< CAMediaType_t >(val3);
+    result = (bool)(arg1)->setMute(arg2,arg3);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setMute__SWIG_1) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    bool arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    bool val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_setMute(self,bMuted);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setMute" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_bool SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setMute" "', argument " "2"" of type '" "bool""'");
+    } 
+    arg2 = static_cast< bool >(val2);
+    result = (bool)(arg1)->setMute(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setMute) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_bool SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_bool SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setMute__SWIG_1); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setMute__SWIG_0); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'CASessionCall_setMute'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_CASessionCall_hangup) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCall_hangup(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_hangup" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    result = (bool)(arg1)->hangup();
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoFps__SWIG_0) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    int arg2 ;
+    CAMediaType_t arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: CASessionCall_setVideoFps(self,nFps,eMediaType);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoFps" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoFps" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoFps" "', argument " "3"" of type '" "CAMediaType_t""'");
+    } 
+    arg3 = static_cast< CAMediaType_t >(val3);
+    result = (bool)(arg1)->setVideoFps(arg2,arg3);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoFps__SWIG_1) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    int arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_setVideoFps(self,nFps);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoFps" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoFps" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+    result = (bool)(arg1)->setVideoFps(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoFps) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoFps__SWIG_1); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoFps__SWIG_0); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'CASessionCall_setVideoFps'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_0) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    int arg2 ;
+    CAMediaType_t arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: CASessionCall_setVideoBandwidthUploadMax(self,nMax,eMediaType);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "3"" of type '" "CAMediaType_t""'");
+    } 
+    arg3 = static_cast< CAMediaType_t >(val3);
+    result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2,arg3);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_1) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    int arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_setVideoBandwidthUploadMax(self,nMax);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthUploadMax" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+    result = (bool)(arg1)->setVideoBandwidthUploadMax(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoBandwidthUploadMax) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_1); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoBandwidthUploadMax__SWIG_0); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'CASessionCall_setVideoBandwidthUploadMax'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_0) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    int arg2 ;
+    CAMediaType_t arg3 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int val3 ;
+    int ecode3 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: CASessionCall_setVideoBandwidthDownloadMax(self,nMax,eMediaType);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+    ecode3 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), &val3);
+    if (!SWIG_IsOK(ecode3)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "3"" of type '" "CAMediaType_t""'");
+    } 
+    arg3 = static_cast< CAMediaType_t >(val3);
+    result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2,arg3);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_1) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    int arg2 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int val2 ;
+    int ecode2 = 0 ;
+    int argvi = 0;
+    bool result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_setVideoBandwidthDownloadMax(self,nMax);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CASessionCall_setVideoBandwidthDownloadMax" "', argument " "2"" of type '" "int""'");
+    } 
+    arg2 = static_cast< int >(val2);
+    result = (bool)(arg1)->setVideoBandwidthDownloadMax(arg2);
+    ST(argvi) = SWIG_From_bool  SWIG_PERL_CALL_ARGS_1(static_cast< bool >(result)); argvi++ ;
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_setVideoBandwidthDownloadMax) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 3) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CASessionCall, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        {
+          int res = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(2), NULL);
+          _v = SWIG_CheckState(res);
+        }
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_1); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_setVideoBandwidthDownloadMax__SWIG_0); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'CASessionCall_setVideoBandwidthDownloadMax'");
+  XSRETURN(0);
+}
+
+
+XS(_wrap_CASessionCall_getCallId) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    std::string result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCall_getCallId(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getCallId" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    result = (arg1)->getCallId();
+    ST(argvi) = SWIG_From_std_string  SWIG_PERL_CALL_ARGS_1(static_cast< std::string >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_getMediaType) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    CAMediaType_t result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCall_getMediaType(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getMediaType" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    result = (CAMediaType_t)(arg1)->getMediaType();
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_getIceState) {
+  {
+    CASessionCall *arg1 = (CASessionCall *) 0 ;
+    void *argp1 = 0 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    enum CAIceState_e result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCall_getIceState(self);");
+    }
+    res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_CASessionCall, 0 |  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_getIceState" "', argument " "1"" of type '" "CASessionCall *""'"); 
+    }
+    arg1 = reinterpret_cast< CASessionCall * >(argp1);
+    result = (enum CAIceState_e)(arg1)->getIceState();
+    ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(result)); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_newObj__SWIG_0) {
+  {
+    SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    int argvi = 0;
+    SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+    dXSARGS;
+    
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: CASessionCall_newObj(signalingSession);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'");
+      } else {
+        arg1 = *(reinterpret_cast< CAObjWrapper< CASignaling * > * >(argp1));
+      }
+    }
+    result = CASessionCall::newObj(arg1);
+    ST(argvi) = SWIG_NewPointerObj((new CAObjWrapper< CASessionCall * >(static_cast< const CAObjWrapper< CASessionCall * >& >(result))), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    XSRETURN(argvi);
+  fail:
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_newObj__SWIG_1) {
+  {
+    SwigValueWrapper< CAObjWrapper< CASignaling * > > arg1 ;
+    CAObjWrapper< CASignalingCallEvent * > *arg2 = 0 ;
+    void *argp1 ;
+    int res1 = 0 ;
+    void *argp2 = 0 ;
+    int res2 = 0 ;
+    int argvi = 0;
+    SwigValueWrapper< CAObjWrapper< CASessionCall * > > result;
+    dXSARGS;
+    
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: CASessionCall_newObj(signalingSession,offer);");
+    }
+    {
+      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t,  0 );
+      if (!SWIG_IsOK(res1)) {
+        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'"); 
+      }  
+      if (!argp1) {
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_newObj" "', argument " "1"" of type '" "CAObjWrapper< CASignaling * >""'");
+      } else {
+        arg1 = *(reinterpret_cast< CAObjWrapper< CASignaling * > * >(argp1));
+      }
+    }
+    res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t,  0 );
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CASessionCall_newObj" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+    }
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "CASessionCall_newObj" "', argument " "2"" of type '" "CAObjWrapper< CASignalingCallEvent * > &""'"); 
+    }
+    arg2 = reinterpret_cast< CAObjWrapper< CASignalingCallEvent * > * >(argp2);
+    result = CASessionCall::newObj(arg1,*arg2);
+    ST(argvi) = SWIG_NewPointerObj((new CAObjWrapper< CASessionCall * >(static_cast< const CAObjWrapper< CASessionCall * >& >(result))), SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    XSRETURN(argvi);
+  fail:
+    
+    SWIG_croak_null();
+  }
+}
+
+
+XS(_wrap_CASessionCall_newObj) {
+  dXSARGS;
+  
+  {
+    unsigned long _index = 0;
+    SWIG_TypeRank _rank = 0; 
+    if (items == 1) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_1;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 1;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_1:
+    
+    if (items == 2) {
+      SWIG_TypeRank _ranki = 0;
+      SWIG_TypeRank _rankm = 0;
+      SWIG_TypeRank _pi = 1;
+      int _v = 0;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(0), &vptr, SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      {
+        void *vptr = 0;
+        int res = SWIG_ConvertPtr(ST(1), &vptr, SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t, 0);
+        _v = SWIG_CheckState(res);
+      }
+      if (!_v) goto check_2;
+      _ranki += _v*_pi;
+      _rankm += _pi;
+      _pi *= SWIG_MAXCASTRANK;
+      if (!_index || (_ranki < _rank)) {
+        _rank = _ranki; _index = 2;
+        if (_rank == _rankm) goto dispatch;
+      }
+    }
+  check_2:
+    
+  dispatch:
+    switch(_index) {
+    case 1:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_newObj__SWIG_0); return;
+    case 2:
+      PUSHMARK(MARK); SWIG_CALLXS(_wrap_CASessionCall_newObj__SWIG_1); return;
+    }
+  }
+  
+  croak("No matching function for overloaded 'CASessionCall_newObj'");
+  XSRETURN(0);
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -5670,29 +7794,49 @@ static void *_p_CAEngineTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
 static void *_p_CASignalingTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CAObj *)  ((CASignaling *) x));
 }
+static void *_p_CASessionCallTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CAObj *) (CASession *) ((CASessionCall *) x));
+}
 static void *_p_CASignalingEventTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CAObj *)  ((CASignalingEvent *) x));
 }
 static void *_p_CASignalingCallbackTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CAObj *)  ((CASignalingCallback *) x));
 }
+static void *_p_CASessionTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CAObj *)  ((CASession *) x));
+}
+static void *_p_CASessionCallIceCallbackTo_p_CAObj(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CAObj *)  ((CASessionCallIceCallback *) x));
+}
 static void *_p_CASignalingCallEventTo_p_CASignalingEvent(void *x, int *SWIGUNUSEDPARM(newmemory)) {
     return (void *)((CASignalingEvent *)  ((CASignalingCallEvent *) x));
 }
+static void *_p_CASessionCallTo_p_CASession(void *x, int *SWIGUNUSEDPARM(newmemory)) {
+    return (void *)((CASession *)  ((CASessionCall *) x));
+}
 static swig_type_info _swigt__p_CADebugLevel_e = {"_p_CADebugLevel_e", "enum CADebugLevel_e *|CADebugLevel_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAEngine = {"_p_CAEngine", "CAEngine *", 0, 0, (void*)"clWRAP::CAEngine", 0};
+static swig_type_info _swigt__p_CAIceState_e = {"_p_CAIceState_e", "enum CAIceState_e *|CAIceState_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CAMediaType_e = {"_p_CAMediaType_e", "enum CAMediaType_e *|CAMediaType_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CAObj = {"_p_CAObj", "CAObj *", 0, 0, (void*)"clWRAP::CAObj", 0};
+static swig_type_info _swigt__p_CAObjWrapperT_CASessionCallIceCallback_p_t = {"_p_CAObjWrapperT_CASessionCallIceCallback_p_t", "CAObjWrapper< CASessionCallIceCallback * > *", 0, 0, (void*)"clWRAP::CASessionCallIceCallbackObj", 0};
+static swig_type_info _swigt__p_CAObjWrapperT_CASessionCall_p_t = {"_p_CAObjWrapperT_CASessionCall_p_t", "CAObjWrapper< CASessionCall * > *", 0, 0, (void*)"clWRAP::CASessionCallObj", 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignalingCallEvent_p_t = {"_p_CAObjWrapperT_CASignalingCallEvent_p_t", "CAObjWrapper< CASignalingCallEvent * > *", 0, 0, (void*)"clWRAP::CASignalingCallEventObj", 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignalingCallback_p_t = {"_p_CAObjWrapperT_CASignalingCallback_p_t", "CAObjWrapper< CASignalingCallback * > *", 0, 0, (void*)"clWRAP::CASignalingCallbackObj", 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignalingEvent_p_t = {"_p_CAObjWrapperT_CASignalingEvent_p_t", "CAObjWrapper< CASignalingEvent * > *", 0, 0, (void*)"clWRAP::CASignalingEventObj", 0};
 static swig_type_info _swigt__p_CAObjWrapperT_CASignaling_p_t = {"_p_CAObjWrapperT_CASignaling_p_t", "CAObjWrapper< CASignaling * > *", 0, 0, (void*)"clWRAP::CASignalingObj", 0};
+static swig_type_info _swigt__p_CASession = {"_p_CASession", "CASession *", 0, 0, (void*)"clWRAP::CASession", 0};
+static swig_type_info _swigt__p_CASessionCall = {"_p_CASessionCall", "CASessionCall *", 0, 0, (void*)"clWRAP::CASessionCall", 0};
+static swig_type_info _swigt__p_CASessionCallIceCallback = {"_p_CASessionCallIceCallback", "CASessionCallIceCallback *", 0, 0, (void*)"clWRAP::CASessionCallIceCallback", 0};
+static swig_type_info _swigt__p_CASessionType_e = {"_p_CASessionType_e", "enum CASessionType_e *|CASessionType_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CASignaling = {"_p_CASignaling", "CASignaling *", 0, 0, (void*)"clWRAP::CASignaling", 0};
 static swig_type_info _swigt__p_CASignalingCallEvent = {"_p_CASignalingCallEvent", "CASignalingCallEvent *", 0, 0, (void*)"clWRAP::CASignalingCallEvent", 0};
 static swig_type_info _swigt__p_CASignalingCallback = {"_p_CASignalingCallback", "CASignalingCallback *", 0, 0, (void*)"clWRAP::CASignalingCallback", 0};
 static swig_type_info _swigt__p_CASignalingEvent = {"_p_CASignalingEvent", "CASignalingEvent *", 0, 0, (void*)"clWRAP::CASignalingEvent", 0};
 static swig_type_info _swigt__p_CASignalingEventType_e = {"_p_CASignalingEventType_e", "enum CASignalingEventType_e *|CASignalingEventType_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_int = {"_p_int", "intptr_t *|int *|int_least32_t *|int_fast32_t *|int32_t *|int_fast16_t *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int = {"_p_int", "intptr_t *|int *|int_least32_t *|int_fast32_t *|int32_t *|CARoType *|int_fast16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long_long = {"_p_long_long", "int_least64_t *|int_fast64_t *|int64_t *|long long *|intmax_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_short = {"_p_short", "short *|int_least16_t *|int16_t *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_signed_char = {"_p_signed_char", "signed char *|int_least8_t *|int_fast8_t *|int8_t *", 0, 0, (void*)0, 0};
@@ -5705,11 +7849,19 @@ static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_CADebugLevel_e,
   &_swigt__p_CAEngine,
+  &_swigt__p_CAIceState_e,
+  &_swigt__p_CAMediaType_e,
   &_swigt__p_CAObj,
+  &_swigt__p_CAObjWrapperT_CASessionCallIceCallback_p_t,
+  &_swigt__p_CAObjWrapperT_CASessionCall_p_t,
   &_swigt__p_CAObjWrapperT_CASignalingCallEvent_p_t,
   &_swigt__p_CAObjWrapperT_CASignalingCallback_p_t,
   &_swigt__p_CAObjWrapperT_CASignalingEvent_p_t,
   &_swigt__p_CAObjWrapperT_CASignaling_p_t,
+  &_swigt__p_CASession,
+  &_swigt__p_CASessionCall,
+  &_swigt__p_CASessionCallIceCallback,
+  &_swigt__p_CASessionType_e,
   &_swigt__p_CASignaling,
   &_swigt__p_CASignalingCallEvent,
   &_swigt__p_CASignalingCallback,
@@ -5729,11 +7881,19 @@ static swig_type_info *swig_type_initial[] = {
 
 static swig_cast_info _swigc__p_CADebugLevel_e[] = {  {&_swigt__p_CADebugLevel_e, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAEngine[] = {  {&_swigt__p_CAEngine, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_CAObj[] = {  {&_swigt__p_CAObj, 0, 0, 0},  {&_swigt__p_CASignalingCallEvent, _p_CASignalingCallEventTo_p_CAObj, 0, 0},  {&_swigt__p_CAEngine, _p_CAEngineTo_p_CAObj, 0, 0},  {&_swigt__p_CASignaling, _p_CASignalingTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingEvent, _p_CASignalingEventTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingCallback, _p_CASignalingCallbackTo_p_CAObj, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAIceState_e[] = {  {&_swigt__p_CAIceState_e, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAMediaType_e[] = {  {&_swigt__p_CAMediaType_e, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAObj[] = {  {&_swigt__p_CAObj, 0, 0, 0},  {&_swigt__p_CASignalingCallEvent, _p_CASignalingCallEventTo_p_CAObj, 0, 0},  {&_swigt__p_CAEngine, _p_CAEngineTo_p_CAObj, 0, 0},  {&_swigt__p_CASignaling, _p_CASignalingTo_p_CAObj, 0, 0},  {&_swigt__p_CASessionCall, _p_CASessionCallTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingEvent, _p_CASignalingEventTo_p_CAObj, 0, 0},  {&_swigt__p_CASignalingCallback, _p_CASignalingCallbackTo_p_CAObj, 0, 0},  {&_swigt__p_CASession, _p_CASessionTo_p_CAObj, 0, 0},  {&_swigt__p_CASessionCallIceCallback, _p_CASessionCallIceCallbackTo_p_CAObj, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAObjWrapperT_CASessionCallIceCallback_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASessionCallIceCallback_p_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CAObjWrapperT_CASessionCall_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASessionCall_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignalingCallEvent_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignalingCallEvent_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignalingCallback_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignalingCallback_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignalingEvent_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignalingEvent_p_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CAObjWrapperT_CASignaling_p_t[] = {  {&_swigt__p_CAObjWrapperT_CASignaling_p_t, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASession[] = {  {&_swigt__p_CASessionCall, _p_CASessionCallTo_p_CASession, 0, 0},  {&_swigt__p_CASession, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASessionCall[] = {  {&_swigt__p_CASessionCall, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASessionCallIceCallback[] = {  {&_swigt__p_CASessionCallIceCallback, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CASessionType_e[] = {  {&_swigt__p_CASessionType_e, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CASignaling[] = {  {&_swigt__p_CASignaling, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CASignalingCallEvent[] = {  {&_swigt__p_CASignalingCallEvent, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CASignalingCallback[] = {  {&_swigt__p_CASignalingCallback, 0, 0, 0},{0, 0, 0, 0}};
@@ -5753,11 +7913,19 @@ static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0,
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_CADebugLevel_e,
   _swigc__p_CAEngine,
+  _swigc__p_CAIceState_e,
+  _swigc__p_CAMediaType_e,
   _swigc__p_CAObj,
+  _swigc__p_CAObjWrapperT_CASessionCallIceCallback_p_t,
+  _swigc__p_CAObjWrapperT_CASessionCall_p_t,
   _swigc__p_CAObjWrapperT_CASignalingCallEvent_p_t,
   _swigc__p_CAObjWrapperT_CASignalingCallback_p_t,
   _swigc__p_CAObjWrapperT_CASignalingEvent_p_t,
   _swigc__p_CAObjWrapperT_CASignaling_p_t,
+  _swigc__p_CASession,
+  _swigc__p_CASessionCall,
+  _swigc__p_CASessionCallIceCallback,
+  _swigc__p_CASessionType_e,
   _swigc__p_CASignaling,
   _swigc__p_CASignalingCallEvent,
   _swigc__p_CASignalingCallback,
@@ -5804,6 +7972,12 @@ static swig_command_info swig_commands[] = {
 {"clWRAPc::new_CASignalingCallEventObj", _wrap_new_CASignalingCallEventObj},
 {"clWRAPc::delete_CASignalingCallEventObj", _wrap_delete_CASignalingCallEventObj},
 {"clWRAPc::CASignalingCallEventObj_unWrap", _wrap_CASignalingCallEventObj_unWrap},
+{"clWRAPc::new_CASessionCallObj", _wrap_new_CASessionCallObj},
+{"clWRAPc::delete_CASessionCallObj", _wrap_delete_CASessionCallObj},
+{"clWRAPc::CASessionCallObj_unWrap", _wrap_CASessionCallObj_unWrap},
+{"clWRAPc::new_CASessionCallIceCallbackObj", _wrap_new_CASessionCallIceCallbackObj},
+{"clWRAPc::delete_CASessionCallIceCallbackObj", _wrap_delete_CASessionCallIceCallbackObj},
+{"clWRAPc::CASessionCallIceCallbackObj_unWrap", _wrap_CASessionCallIceCallbackObj_unWrap},
 {"clWRAPc::delete_CAEngine", _wrap_delete_CAEngine},
 {"clWRAPc::CAEngine_getObjectId", _wrap_CAEngine_getObjectId},
 {"clWRAPc::CAEngine_init", _wrap_CAEngine_init},
@@ -5854,6 +8028,29 @@ static swig_command_info swig_commands[] = {
 {"clWRAPc::CASignaling_sendData", _wrap_CASignaling_sendData},
 {"clWRAPc::CASignaling_disConnect", _wrap_CASignaling_disConnect},
 {"clWRAPc::CASignaling_newObj", _wrap_CASignaling_newObj},
+{"clWRAPc::CASignaling_getCredUserId", _wrap_CASignaling_getCredUserId},
+{"clWRAPc::CASignaling_getCredPassword", _wrap_CASignaling_getCredPassword},
+{"clWRAPc::delete_CASession", _wrap_delete_CASession},
+{"clWRAPc::CASession_getObjectId", _wrap_CASession_getObjectId},
+{"clWRAPc::CASession_getType", _wrap_CASession_getType},
+{"clWRAPc::CASessionCallIceCallback_onStateChanged", _wrap_CASessionCallIceCallback_onStateChanged},
+{"clWRAPc::delete_CASessionCallIceCallback", _wrap_delete_CASessionCallIceCallback},
+{"clWRAPc::delete_CASessionCall", _wrap_delete_CASessionCall},
+{"clWRAPc::CASessionCall_getObjectId", _wrap_CASessionCall_getObjectId},
+{"clWRAPc::CASessionCall_setIceCallback", _wrap_CASessionCall_setIceCallback},
+{"clWRAPc::CASessionCall_setVideoDisplays", _wrap_CASessionCall_setVideoDisplays},
+{"clWRAPc::CASessionCall_call", _wrap_CASessionCall_call},
+{"clWRAPc::CASessionCall_acceptEvent", _wrap_CASessionCall_acceptEvent},
+{"clWRAPc::CASessionCall_rejectEvent", _wrap_CASessionCall_rejectEvent},
+{"clWRAPc::CASessionCall_setMute", _wrap_CASessionCall_setMute},
+{"clWRAPc::CASessionCall_hangup", _wrap_CASessionCall_hangup},
+{"clWRAPc::CASessionCall_setVideoFps", _wrap_CASessionCall_setVideoFps},
+{"clWRAPc::CASessionCall_setVideoBandwidthUploadMax", _wrap_CASessionCall_setVideoBandwidthUploadMax},
+{"clWRAPc::CASessionCall_setVideoBandwidthDownloadMax", _wrap_CASessionCall_setVideoBandwidthDownloadMax},
+{"clWRAPc::CASessionCall_getCallId", _wrap_CASessionCall_getCallId},
+{"clWRAPc::CASessionCall_getMediaType", _wrap_CASessionCall_getMediaType},
+{"clWRAPc::CASessionCall_getIceState", _wrap_CASessionCall_getIceState},
+{"clWRAPc::CASessionCall_newObj", _wrap_CASessionCall_newObj},
 {0,0}
 };
 /* -----------------------------------------------------------------------------
@@ -6201,16 +8398,86 @@ XS(SWIG_init) {
     sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CASignalingEventType_Call)));
     SvREADONLY_on(sv);
   } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAMediaType_None", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAMediaType_None)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAMediaType_Audio", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAMediaType_Audio)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAMediaType_Video", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAMediaType_Video)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAMediaType_ScreenCast", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAMediaType_ScreenCast)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAMediaType_AudioVideo", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAMediaType_AudioVideo)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAMediaType_All", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAMediaType_All)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAIceState_None", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAIceState_None)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAIceState_Failed", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAIceState_Failed)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAIceState_GatheringDone", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAIceState_GatheringDone)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAIceState_Connected", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAIceState_Connected)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CAIceState_Teminated", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CAIceState_Teminated)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CASessionType_None", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CASessionType_None)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
+  /*@SWIG:/usr/local/share/swig/2.0.9/perl5/perltypemaps.swg,65,%set_constant@*/ do {
+    SV *sv = get_sv((char*) SWIG_prefix "CASessionType_Call", TRUE | 0x2 | GV_ADDMULTI);
+    sv_setsv(sv, SWIG_From_int  SWIG_PERL_CALL_ARGS_1(static_cast< int >(CASessionType_Call)));
+    SvREADONLY_on(sv);
+  } while(0) /*@SWIG@*/;
   SWIG_TypeClientData(SWIGTYPE_p_CAObj, (void*) "clWRAP::CAObj");
   SWIG_TypeClientData(SWIGTYPE_p_CAObjWrapperT_CASignaling_p_t, (void*) "clWRAP::CASignalingObj");
   SWIG_TypeClientData(SWIGTYPE_p_CAObjWrapperT_CASignalingCallback_p_t, (void*) "clWRAP::CASignalingCallbackObj");
   SWIG_TypeClientData(SWIGTYPE_p_CAObjWrapperT_CASignalingEvent_p_t, (void*) "clWRAP::CASignalingEventObj");
   SWIG_TypeClientData(SWIGTYPE_p_CAObjWrapperT_CASignalingCallEvent_p_t, (void*) "clWRAP::CASignalingCallEventObj");
+  SWIG_TypeClientData(SWIGTYPE_p_CAObjWrapperT_CASessionCall_p_t, (void*) "clWRAP::CASessionCallObj");
+  SWIG_TypeClientData(SWIGTYPE_p_CAObjWrapperT_CASessionCallIceCallback_p_t, (void*) "clWRAP::CASessionCallIceCallbackObj");
   SWIG_TypeClientData(SWIGTYPE_p_CAEngine, (void*) "clWRAP::CAEngine");
   SWIG_TypeClientData(SWIGTYPE_p_CASignalingEvent, (void*) "clWRAP::CASignalingEvent");
   SWIG_TypeClientData(SWIGTYPE_p_CASignalingCallEvent, (void*) "clWRAP::CASignalingCallEvent");
   SWIG_TypeClientData(SWIGTYPE_p_CASignalingCallback, (void*) "clWRAP::CASignalingCallback");
   SWIG_TypeClientData(SWIGTYPE_p_CASignaling, (void*) "clWRAP::CASignaling");
+  SWIG_TypeClientData(SWIGTYPE_p_CASession, (void*) "clWRAP::CASession");
+  SWIG_TypeClientData(SWIGTYPE_p_CASessionCallIceCallback, (void*) "clWRAP::CASessionCallIceCallback");
+  SWIG_TypeClientData(SWIGTYPE_p_CASessionCall, (void*) "clWRAP::CASessionCall");
   ST(0) = &PL_sv_yes;
   XSRETURN(1);
 }

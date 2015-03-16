@@ -172,6 +172,13 @@ public:
 
 	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
 
+	virtual CA_INLINE std::string getCredUserId() {
+		return m_strCredUserId;
+	}
+	virtual CA_INLINE std::string getCredPassword() {
+		return m_strCredPassword;
+	}
+
 private:
 	bool handleData(const char* pcData, size_t nDataSize);
 	bool raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
