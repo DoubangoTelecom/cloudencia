@@ -39,11 +39,65 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CADebugLevel_t.cs">
+      <Link>CADebugLevel_t.cs</Link>
+    </Compile>
     <Compile Include="..\CAEngine.cs">
       <Link>CAEngine.cs</Link>
     </Compile>
+    <Compile Include="..\CAIceState_t.cs">
+      <Link>CAIceState_t.cs</Link>
+    </Compile>
+    <Compile Include="..\CAMediaType_t.cs">
+      <Link>CAMediaType_t.cs</Link>
+    </Compile>
     <Compile Include="..\CAObj.cs">
       <Link>CAObj.cs</Link>
+    </Compile>
+    <Compile Include="..\CASession.cs">
+      <Link>CASession.cs</Link>
+    </Compile>
+    <Compile Include="..\CASessionCall.cs">
+      <Link>CASessionCall.cs</Link>
+    </Compile>
+    <Compile Include="..\CASessionCallIceCallback.cs">
+      <Link>CASessionCallIceCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\CASessionCallIceCallbackObj.cs">
+      <Link>CASessionCallIceCallbackObj.cs</Link>
+    </Compile>
+    <Compile Include="..\CASessionCallObj.cs">
+      <Link>CASessionCallObj.cs</Link>
+    </Compile>
+    <Compile Include="..\CASessionType_t.cs">
+      <Link>CASessionType_t.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignaling.cs">
+      <Link>CASignaling.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingCallback.cs">
+      <Link>CASignalingCallback.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingCallbackObj.cs">
+      <Link>CASignalingCallbackObj.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingCallEvent.cs">
+      <Link>CASignalingCallEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingCallEventObj.cs">
+      <Link>CASignalingCallEventObj.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingEvent.cs">
+      <Link>CASignalingEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingEventObj.cs">
+      <Link>CASignalingEventObj.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingEventType_t.cs">
+      <Link>CASignalingEventType_t.cs</Link>
+    </Compile>
+    <Compile Include="..\CASignalingObj.cs">
+      <Link>CASignalingObj.cs</Link>
     </Compile>
     <Compile Include="..\clWRAP.cs">
       <Link>clWRAP.cs</Link>

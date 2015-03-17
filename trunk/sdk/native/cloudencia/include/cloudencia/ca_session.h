@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "cloudencia/ca_obj.h"
 #include "cloudencia/ca_signaling.h"
 
-class CASession : public CAObj
+class CLOUDENCIA_API CASession : public CAObj
 {
 protected:
 	CASession(CASessionType_t eType, CAObjWrapper<CASignaling* > oSignaling);
@@ -39,7 +39,9 @@ public:
 	}
 
 protected:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
 	CAObjWrapper<CASignaling* > m_oSignaling;
+	CA_DISABLE_WARNINGS_END()
 
 private:
 	CASessionType_t m_eType;

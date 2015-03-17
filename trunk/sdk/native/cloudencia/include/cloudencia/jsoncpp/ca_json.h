@@ -1,5 +1,7 @@
 /// Json-cpp amalgated header (http://jsoncpp.sourceforge.net/).
 /// It is intented to be used with #include <json/json.h>
+#include "ca_config.h"
+CA_DISABLE_WARNINGS_BEGIN(4251)
 
 // //////////////////////////////////////////////////////////////////////
 // Beginning of content of file: LICENSE
@@ -128,7 +130,7 @@ license you like.
 
 # ifdef JSON_IN_CPPTL
 #  define JSON_API CPPTL_API
-# elif defined(JSON_DLL_BUILD)
+# elif defined(JSON_DLL_BUILD) || defined(CLOUDENCIA_EXPORTS)
 #  define JSON_API __declspec(dllexport)
 # elif defined(JSON_DLL)
 #  define JSON_API __declspec(dllimport)
@@ -155,7 +157,7 @@ license you like.
 # define JSONCPP_DEPRECATED(message)
 #endif // if !defined(JSONCPP_DEPRECATED)
 
-namespace Json
+namespace CAJson
 {
 typedef int Int;
 typedef unsigned int UInt;
@@ -176,7 +178,7 @@ typedef Int64 LargestInt;
 typedef UInt64 LargestUInt;
 #  define JSON_HAS_INT64
 # endif // if defined(JSON_NO_INT64)
-} // end namespace Json
+} // end namespace CAJson
 
 
 #endif // JSON_CONFIG_H_INCLUDED
@@ -206,7 +208,7 @@ typedef UInt64 LargestUInt;
 # include "config.h"
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
-namespace Json
+namespace CAJson
 {
 
 // writer.h
@@ -235,7 +237,7 @@ class ValueInternalArray;
 class ValueInternalMap;
 #endif // #ifdef JSON_VALUE_USE_INTERNAL_MAP
 
-} // namespace Json
+} // namespace CAJson
 
 
 #endif // JSON_FORWARDS_H_INCLUDED
@@ -265,7 +267,7 @@ class ValueInternalMap;
 # include "forwards.h"
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
-namespace Json
+namespace CAJson
 {
 
 /** \brief Configuration passed to reader and writer.
@@ -300,7 +302,7 @@ public:
     bool strictRoot_;
 };
 
-} // namespace Json
+} // namespace CAJson
 
 #endif // CPPTL_JSON_FEATURES_H_INCLUDED
 
@@ -342,7 +344,7 @@ public:
 
 /** \brief JSON (JavaScript Object Notation).
  */
-namespace Json
+namespace CAJson
 {
 
 /** \brief Type of the value held by a Value object.
@@ -378,8 +380,8 @@ enum CommentPlacement {
  *
  * Example of usage:
  * \code
- * Json::Value aValue( StaticString("some text") );
- * Json::Value object;
+ * CAJson::Value aValue( StaticString("some text") );
+ * CAJson::Value object;
  * static const StaticString code("code");
  * object[code] = 1234;
  * \endcode
@@ -441,36 +443,36 @@ public:
     typedef std::vector<std::string> Members;
     typedef ValueIterator iterator;
     typedef ValueConstIterator const_iterator;
-    typedef Json::UInt UInt;
-    typedef Json::Int Int;
+    typedef CAJson::UInt UInt;
+    typedef CAJson::Int Int;
 # if defined(JSON_HAS_INT64)
-    typedef Json::UInt64 UInt64;
-    typedef Json::Int64 Int64;
+    typedef CAJson::UInt64 UInt64;
+    typedef CAJson::Int64 Int64;
 #endif // defined(JSON_HAS_INT64)
-    typedef Json::LargestInt LargestInt;
-    typedef Json::LargestUInt LargestUInt;
-    typedef Json::ArrayIndex ArrayIndex;
+    typedef CAJson::LargestInt LargestInt;
+    typedef CAJson::LargestUInt LargestUInt;
+    typedef CAJson::ArrayIndex ArrayIndex;
 
     static const Value null;
-    /// Minimum signed integer value that can be stored in a Json::Value.
+    /// Minimum signed integer value that can be stored in a CAJson::Value.
     static const LargestInt minLargestInt;
-    /// Maximum signed integer value that can be stored in a Json::Value.
+    /// Maximum signed integer value that can be stored in a CAJson::Value.
     static const LargestInt maxLargestInt;
-    /// Maximum unsigned integer value that can be stored in a Json::Value.
+    /// Maximum unsigned integer value that can be stored in a CAJson::Value.
     static const LargestUInt maxLargestUInt;
 
-    /// Minimum signed int value that can be stored in a Json::Value.
+    /// Minimum signed int value that can be stored in a CAJson::Value.
     static const Int minInt;
-    /// Maximum signed int value that can be stored in a Json::Value.
+    /// Maximum signed int value that can be stored in a CAJson::Value.
     static const Int maxInt;
-    /// Maximum unsigned int value that can be stored in a Json::Value.
+    /// Maximum unsigned int value that can be stored in a CAJson::Value.
     static const UInt maxUInt;
 
-    /// Minimum signed 64 bits int value that can be stored in a Json::Value.
+    /// Minimum signed 64 bits int value that can be stored in a CAJson::Value.
     static const Int64 minInt64;
-    /// Maximum signed 64 bits int value that can be stored in a Json::Value.
+    /// Maximum signed 64 bits int value that can be stored in a CAJson::Value.
     static const Int64 maxInt64;
-    /// Maximum unsigned 64 bits int value that can be stored in a Json::Value.
+    /// Maximum unsigned 64 bits int value that can be stored in a CAJson::Value.
     static const UInt64 maxUInt64;
 
 private:
@@ -520,9 +522,9 @@ public:
 
       Examples:
     \code
-    Json::Value null_value; // null
-    Json::Value arr_value(Json::arrayValue); // []
-    Json::Value obj_value(Json::objectValue); // {}
+    CAJson::Value null_value; // null
+    CAJson::Value arr_value(CAJson::arrayValue); // []
+    CAJson::Value obj_value(CAJson::objectValue); // {}
     \endcode
     */
     Value( ValueType type = nullValue );
@@ -542,7 +544,7 @@ public:
      * constructor.
      * Example of usage:
      * \code
-     * Json::Value aValue( StaticString("some text") );
+     * CAJson::Value aValue( StaticString("some text") );
      * \endcode
      */
     Value( const StaticString &value );
@@ -671,7 +673,7 @@ public:
      * the new entry is not duplicated.
      * Example of use:
      * \code
-     * Json::Value object;
+     * CAJson::Value object;
      * static const StaticString code("code");
      * object[code] = 1234;
      * \endcode
@@ -1386,7 +1388,7 @@ public:
 };
 
 
-} // namespace Json
+} // namespace CAJson
 
 
 #endif // CPPTL_JSON_H_INCLUDED
@@ -1421,7 +1423,7 @@ public:
 # include <string>
 # include <iostream>
 
-namespace Json
+namespace CAJson
 {
 
 /** \brief Unserialize a <a HREF="http://www.json.org">JSON</a> document into a Value.
@@ -1474,7 +1476,7 @@ public:
                 bool collectComments = true );
 
     /// \brief Parse from input stream.
-    /// \see Json::operator>>(std::istream&, Json::Value&).
+    /// \see CAJson::operator>>(std::istream&, CAJson::Value&).
     bool parse( std::istream &is,
                 Value &root,
                 bool collectComments = true );
@@ -1596,7 +1598,7 @@ private:
  This can be used to read a file into a particular sub-object.
  For example:
  \code
- Json::Value root;
+ CAJson::Value root;
  cin >> root["dir"]["file"];
  cout << root;
  \endcode
@@ -1611,11 +1613,11 @@ private:
  }
  \endverbatim
  \throw std::exception on parse error.
- \see Json::operator<<()
+ \see CAJson::operator<<()
 */
 std::istream& operator>>( std::istream&, Value& );
 
-} // namespace Json
+} // namespace CAJson
 
 #endif // CPPTL_JSON_READER_H_INCLUDED
 
@@ -1647,7 +1649,7 @@ std::istream& operator>>( std::istream&, Value& );
 # include <string>
 # include <iostream>
 
-namespace Json
+namespace CAJson
 {
 
 class Value;
@@ -1810,10 +1812,10 @@ std::string JSON_API valueToString( bool value );
 std::string JSON_API valueToQuotedString( const char *value );
 
 /// \brief Output using the StyledStreamWriter.
-/// \see Json::operator>>()
+/// \see CAJson::operator>>()
 std::ostream& operator<<( std::ostream&, const Value &root );
 
-} // namespace Json
+} // namespace CAJson
 
 
 
@@ -1828,3 +1830,5 @@ std::ostream& operator<<( std::ostream&, const Value &root );
 
 
 #endif //ifndef JSON_AMALGATED_H_INCLUDED
+
+CA_DISABLE_WARNINGS_END()

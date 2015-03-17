@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ class CASignaling;
 /**@ingroup _Group_CPP_Signaling
 * Signaling event.
 */
-class CASignalingEvent : public CAObj
+class CLOUDENCIA_API CASignalingEvent : public CAObj
 {
 	friend class CASignaling;
 public:
@@ -60,17 +60,19 @@ public:
 	}
 
 private:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
 	CASignalingEventType_t m_eType;
 	std::string m_strDescription;
 	void* m_pDataPtr;
 	size_t m_nDataSize;
+	CA_DISABLE_WARNINGS_END()
 };
 
 
 /**@ingroup _Group_CPP_Signaling
 * Signaling event for call sessions.
 */
-class CASignalingCallEvent : public CASignalingEvent
+class CLOUDENCIA_API CASignalingCallEvent : public CASignalingEvent
 {
 	friend class CASignaling;
 public:
@@ -106,18 +108,20 @@ public:
 	}
 
 private:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
 	std::string m_strFrom;
 	std::string m_strTo;
 	std::string m_strSdp;
 	std::string m_strType;
 	std::string m_strCallId;
 	std::string m_strTransacId;
+	CA_DISABLE_WARNINGS_END()
 };
 
 /**@ingroup _Group_CPP_Signaling
 * Callback class for the signaling session. You must override this call.
 */
-class CASignalingCallback : public CAObj
+class CLOUDENCIA_API CASignalingCallback : public CAObj
 {
 protected:
 	CASignalingCallback() {}
@@ -151,7 +155,7 @@ private:
 };
 #endif /* !defined(SWIG) */
 
-class CASignaling : public CAObj
+class CLOUDENCIA_API CASignaling : public CAObj
 {
 	friend class CASignalingTransportCallback;
 	friend class CAAutoLock<CASignaling >;
@@ -187,6 +191,7 @@ private:
 	void unlock();
 
 private:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
 	CAObjWrapper<CANetTransport* > m_oNetTransport;
 	CAObjWrapper<CAUrl* > m_oConnectionUrl;
 	CAObjWrapper<CASignalingTransportCallback* > m_oNetCallback;
@@ -198,6 +203,7 @@ private:
 	CAObjWrapper<CAMutex* > m_oMutex;
 	std::string m_strCredUserId;
 	std::string m_strCredPassword;
+	CA_DISABLE_WARNINGS_END()
 };
 
 #endif /* _CLOUDENCIA_SIGNALING_H_ */

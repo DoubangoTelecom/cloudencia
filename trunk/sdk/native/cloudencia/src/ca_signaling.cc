@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
 		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "JSON '%s' not an object", (fieldName)); \
 		return false; \
 		} \
-	const Json::Value fieldVarName = (fieldParent)[(fieldName)]; \
+	const CAJson::Value fieldVarName = (fieldParent)[(fieldName)]; \
 	if((fieldVarName).isNull()) \
 		{ \
 		if(!(couldBeNull)) \
@@ -295,14 +295,14 @@ CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std
     CAObjWrapper<CAUrl*> oUrl;
     CAObjWrapper<CANetTransport*> oTransport;
 
-	if (pcConnectionUri.empty()) {
-		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "RequestUri is null or empty");
-		goto bail;
-	}
-	if (strCredUserId.empty() || strCredPassword.empty()) {
-		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "User credentials (id and password) are required");
-		goto bail;
-	}
+    if (pcConnectionUri.empty()) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "RequestUri is null or empty");
+        goto bail;
+    }
+    if (strCredUserId.empty() || strCredPassword.empty()) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "User credentials (id and password) are required");
+        goto bail;
+    }
 
     if (!CAEngine::isInitialized()) {
         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Engine not initialized");
@@ -334,8 +334,8 @@ CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std
     }
 
     oSignaling = new CASignaling(oTransport, oUrl);
-	oSignaling->m_strCredUserId = strCredUserId;
-	oSignaling->m_strCredPassword = strCredPassword;
+    oSignaling->m_strCredUserId = strCredUserId;
+    oSignaling->m_strCredPassword = strCredPassword;
 
 bail:
     return oSignaling;
@@ -351,8 +351,8 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
 {
     CAAutoLock<CASignaling> autoLock(this);
 
-    Json::Value root;
-    Json::Reader reader;
+    CAJson::Value root;
+    CAJson::Reader reader;
 
     // Parse JSON content
     bool parsingSuccessful = reader.parse((const char*)pcData, (((const char*)pcData) + nDataSize), root);

@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -144,8 +144,8 @@ bool CAEngine::deInit()
 */
 bool CAEngine::setDebugLevel(CADebugLevel_t eLevel)
 {
-	tsk_debug_set_level((int)eLevel);
-	return true;
+    tsk_debug_set_level((int)eLevel);
+    return true;
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -160,35 +160,35 @@ bool CAEngine::setDebugLevel(CADebugLevel_t eLevel)
 bool CAEngine::setSSLCertificates(std::string strPublicKey /*= ""*/, std::string strPrivateKey /*= ""*/, std::string strCA /*= ""*/, bool bMutualAuth /*= false*/)
 {
 #if CA_UNDER_WINDOWS
-	char ssl_file_priv[MAX_PATH] = { '\0' };
-	char ssl_file_pub[MAX_PATH] = { '\0' };
-	char ssl_file_ca[MAX_PATH] = { '\0' };
+    char ssl_file_priv[MAX_PATH] = { '\0' };
+    char ssl_file_pub[MAX_PATH] = { '\0' };
+    char ssl_file_ca[MAX_PATH] = { '\0' };
 
-	if (!strPublicKey.empty()) {
-		if (!CAUtils::fileExists(strPublicKey.c_str())) {
-			snprintf(ssl_file_pub, sizeof(ssl_file_pub), "%s/%s", CAUtils::currentDirectoryPath(), strPublicKey);
-			strPublicKey = ssl_file_pub;
-		}
-	}
-	if (!strPrivateKey.empty()) {
-		if (!CAUtils::fileExists(strPrivateKey.c_str())) {
-			snprintf(ssl_file_priv, sizeof(ssl_file_priv), "%s/%s", CAUtils::currentDirectoryPath(), strPrivateKey);
-			strPrivateKey = ssl_file_priv;
-		}
-	}
-	if (!strCA.empty()) {
-		if (!CAUtils::fileExists(strCA.c_str())) {
-			snprintf(ssl_file_ca, sizeof(ssl_file_ca), "%s/%s", CAUtils::currentDirectoryPath(), strCA);
-			strCA = ssl_file_ca;
-		}
-	}
+    if (!strPublicKey.empty()) {
+        if (!CAUtils::fileExists(strPublicKey.c_str())) {
+            snprintf(ssl_file_pub, sizeof(ssl_file_pub), "%s/%s", CAUtils::currentDirectoryPath(), strPublicKey);
+            strPublicKey = ssl_file_pub;
+        }
+    }
+    if (!strPrivateKey.empty()) {
+        if (!CAUtils::fileExists(strPrivateKey.c_str())) {
+            snprintf(ssl_file_priv, sizeof(ssl_file_priv), "%s/%s", CAUtils::currentDirectoryPath(), strPrivateKey);
+            strPrivateKey = ssl_file_priv;
+        }
+    }
+    if (!strCA.empty()) {
+        if (!CAUtils::fileExists(strCA.c_str())) {
+            snprintf(ssl_file_ca, sizeof(ssl_file_ca), "%s/%s", CAUtils::currentDirectoryPath(), strCA);
+            strCA = ssl_file_ca;
+        }
+    }
 #endif /* CA_UNDER_WINDOWS */
 
-	return (tmedia_defaults_set_ssl_certs(
-		strPrivateKey.empty() ? NULL : strPrivateKey.c_str(),
-		strPublicKey.empty() ? NULL : strPublicKey.c_str(),
-		strCA.empty() ? NULL : strCA.c_str(),
-		bMutualAuth ? tsk_true : tsk_false) == 0);
+    return (tmedia_defaults_set_ssl_certs(
+                strPrivateKey.empty() ? NULL : strPrivateKey.c_str(),
+                strPublicKey.empty() ? NULL : strPublicKey.c_str(),
+                strCA.empty() ? NULL : strCA.c_str(),
+                bMutualAuth ? tsk_true : tsk_false) == 0);
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -212,42 +212,42 @@ bool CAEngine::setSSLCertificates(std::string strPublicKey /*= ""*/, std::string
 */
 bool CAEngine::setVideoPrefSize(std::string strPrefVideoSize)
 {
-	CA_ASSERT(!strPrefVideoSize.empty());
-	int i;
-	struct pref_video_size {
-		const char* name;
-		tmedia_pref_video_size_t size;
-		size_t w;
-		size_t h;
-	};
-	static const pref_video_size pref_video_sizes[] = {
-		{ "sqcif", tmedia_pref_video_size_sqcif, 128, 98 }, // 128 x 98
-		{ "qcif", tmedia_pref_video_size_qcif, 176, 144 }, // 176 x 144
-		{ "qvga", tmedia_pref_video_size_qvga, 320, 240 }, // 320 x 240
-		{ "cif", tmedia_pref_video_size_cif, 352, 288 }, // 352 x 288
-		{ "hvga", tmedia_pref_video_size_hvga, 480, 320 }, // 480 x 320
-		{ "vga", tmedia_pref_video_size_vga, 640, 480 }, // 640 x 480
-		{ "4cif", tmedia_pref_video_size_4cif, 704, 576 }, // 704 x 576
-		{ "wvga", tmedia_pref_video_size_wvga, 800, 480 }, // 800 x 480
-		{ "svga", tmedia_pref_video_size_svga, 800, 600 }, // 800 x 600
-		{ "xga", tmedia_pref_video_size_xga, 1024, 768 }, // 1024 x 768
-		{ "480p", tmedia_pref_video_size_480p, 852, 480 }, // 852 x 480
-		{ "720p", tmedia_pref_video_size_720p, 1280, 720 }, // 1280 x 720
-		{ "16cif", tmedia_pref_video_size_16cif, 1408, 1152 }, // 1408 x 1152
-		{ "1080p", tmedia_pref_video_size_1080p, 1920, 1080 }, // 1920 x 1080
-		{ "2160p", tmedia_pref_video_size_2160p, 3840, 2160 }, // 3840 x 2160
-	};
-	static const int pref_video_sizes_count = sizeof(pref_video_sizes) / sizeof(pref_video_sizes[0]);
+    CA_ASSERT(!strPrefVideoSize.empty());
+    int i;
+    struct pref_video_size {
+        const char* name;
+        tmedia_pref_video_size_t size;
+        size_t w;
+        size_t h;
+    };
+    static const pref_video_size pref_video_sizes[] = {
+        { "sqcif", tmedia_pref_video_size_sqcif, 128, 98 }, // 128 x 98
+        { "qcif", tmedia_pref_video_size_qcif, 176, 144 }, // 176 x 144
+        { "qvga", tmedia_pref_video_size_qvga, 320, 240 }, // 320 x 240
+        { "cif", tmedia_pref_video_size_cif, 352, 288 }, // 352 x 288
+        { "hvga", tmedia_pref_video_size_hvga, 480, 320 }, // 480 x 320
+        { "vga", tmedia_pref_video_size_vga, 640, 480 }, // 640 x 480
+        { "4cif", tmedia_pref_video_size_4cif, 704, 576 }, // 704 x 576
+        { "wvga", tmedia_pref_video_size_wvga, 800, 480 }, // 800 x 480
+        { "svga", tmedia_pref_video_size_svga, 800, 600 }, // 800 x 600
+        { "xga", tmedia_pref_video_size_xga, 1024, 768 }, // 1024 x 768
+        { "480p", tmedia_pref_video_size_480p, 852, 480 }, // 852 x 480
+        { "720p", tmedia_pref_video_size_720p, 1280, 720 }, // 1280 x 720
+        { "16cif", tmedia_pref_video_size_16cif, 1408, 1152 }, // 1408 x 1152
+        { "1080p", tmedia_pref_video_size_1080p, 1920, 1080 }, // 1920 x 1080
+        { "2160p", tmedia_pref_video_size_2160p, 3840, 2160 }, // 3840 x 2160
+    };
+    static const int pref_video_sizes_count = sizeof(pref_video_sizes) / sizeof(pref_video_sizes[0]);
 
-	for (i = 0; i < pref_video_sizes_count; ++i) {
-		if (tsk_striequals(pref_video_sizes[i].name, strPrefVideoSize.c_str())) {
-			if (tmedia_defaults_set_pref_video_size(pref_video_sizes[i].size) == 0) {
-				return true;
-			}
-		}
-	}
-	CA_DEBUG_ERROR("%s not valid as video size. Valid values: ...", strPrefVideoSize);
-	return false;
+    for (i = 0; i < pref_video_sizes_count; ++i) {
+        if (tsk_striequals(pref_video_sizes[i].name, strPrefVideoSize.c_str())) {
+            if (tmedia_defaults_set_pref_video_size(pref_video_sizes[i].size) == 0) {
+                return true;
+            }
+        }
+    }
+    CA_DEBUG_ERROR("%s not valid as video size. Valid values: ...", strPrefVideoSize);
+    return false;
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -257,7 +257,7 @@ bool CAEngine::setVideoPrefSize(std::string strPrefVideoSize)
 */
 bool CAEngine::setVideoFps(int fps)
 {
-	return ((tmedia_defaults_set_video_fps(fps) == 0));
+    return ((tmedia_defaults_set_video_fps(fps) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -268,7 +268,7 @@ bool CAEngine::setVideoFps(int fps)
 */
 bool CAEngine::setVideoBandwidthUpMax(int bandwwidthMax)
 {
-	return ((tmedia_defaults_set_bandwidth_video_upload_max(bandwwidthMax) == 0));
+    return ((tmedia_defaults_set_bandwidth_video_upload_max(bandwwidthMax) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -279,7 +279,7 @@ bool CAEngine::setVideoBandwidthUpMax(int bandwwidthMax)
 */
 bool CAEngine::setVideoBandwidthDownMax(int bandwwidthMax)
 {
-	return ((tmedia_defaults_set_bandwidth_video_download_max(bandwwidthMax) == 0));
+    return ((tmedia_defaults_set_bandwidth_video_download_max(bandwwidthMax) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -293,7 +293,7 @@ bool CAEngine::setVideoBandwidthDownMax(int bandwwidthMax)
 */
 bool CAEngine::setVideoMotionRank(int motionRank)
 {
-	return ((tmedia_defaults_set_video_motion_rank(motionRank) == 0));
+    return ((tmedia_defaults_set_video_motion_rank(motionRank) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -303,7 +303,7 @@ bool CAEngine::setVideoMotionRank(int motionRank)
 */
 bool CAEngine::setVideoCongestionCtrlEnabled(bool congestionCtrl)
 {
-	return ((tmedia_defaults_set_congestion_ctrl_enabled(congestionCtrl ? tsk_true : tsk_false) == 0));
+    return ((tmedia_defaults_set_congestion_ctrl_enabled(congestionCtrl ? tsk_true : tsk_false) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -314,7 +314,7 @@ bool CAEngine::setVideoCongestionCtrlEnabled(bool congestionCtrl)
 */
 bool CAEngine::setVideoJbEnabled(bool enabled)
 {
-	return ((tmedia_defaults_set_videojb_enabled(enabled ? tsk_true : tsk_false) == 0));
+    return ((tmedia_defaults_set_videojb_enabled(enabled ? tsk_true : tsk_false) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -325,7 +325,7 @@ bool CAEngine::setVideoJbEnabled(bool enabled)
 */
 bool CAEngine::setVideoAvpfTail(int min, int max)
 {
-	return ((tmedia_defaults_set_avpf_tail(min, max) == 0));
+    return ((tmedia_defaults_set_avpf_tail(min, max) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -336,7 +336,7 @@ bool CAEngine::setVideoAvpfTail(int min, int max)
 */
 bool CAEngine::setVideoZeroArtifactsEnabled(bool enabled)
 {
-	return ((tmedia_defaults_set_video_zeroartifacts_enabled(enabled ? tsk_true : tsk_false) == 0));
+    return ((tmedia_defaults_set_video_zeroartifacts_enabled(enabled ? tsk_true : tsk_false) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -346,7 +346,7 @@ bool CAEngine::setVideoZeroArtifactsEnabled(bool enabled)
 */
 bool CAEngine::setAudioEchoSuppEnabled(bool enabled)
 {
-	return ((tmedia_defaults_set_echo_supp_enabled(enabled ? tsk_true : tsk_false) == 0));
+    return ((tmedia_defaults_set_echo_supp_enabled(enabled ? tsk_true : tsk_false) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -356,7 +356,7 @@ bool CAEngine::setAudioEchoSuppEnabled(bool enabled)
 */
 bool CAEngine::setAudioEchoTail(int tailLength)
 {
-	return(tmedia_defaults_set_echo_tail(tailLength) == 0);
+    return(tmedia_defaults_set_echo_tail(tailLength) == 0);
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -373,30 +373,30 @@ bool CAEngine::setAudioEchoTail(int tailLength)
 */
 bool CAEngine::addNattIceServer(std::string strTransportProto, std::string strServerHost, unsigned short serverPort, bool useTurn /*= false*/, bool useStun /*= true*/, std::string strUsername /*= ""*/, std::string strPassword /*= ""*/)
 {
-	if (strTransportProto.empty() || strServerHost.empty() || !serverPort || (!useTurn && !useStun)) {
-		CA_DEBUG_ERROR("Invalid paramter");
-		return false;
-	}
-	if (!tsk_striequals(strTransportProto.c_str(), "udp") && !tsk_striequals(strTransportProto.c_str(), "tcp") && !tsk_striequals(strTransportProto.c_str(), "tls")) {
-		CA_DEBUG_ERROR("'%s' not valid as ICE server transport protocol", strTransportProto.c_str());
-		return false;
-	}
+    if (strTransportProto.empty() || strServerHost.empty() || !serverPort || (!useTurn && !useStun)) {
+        CA_DEBUG_ERROR("Invalid paramter");
+        return false;
+    }
+    if (!tsk_striequals(strTransportProto.c_str(), "udp") && !tsk_striequals(strTransportProto.c_str(), "tcp") && !tsk_striequals(strTransportProto.c_str(), "tls")) {
+        CA_DEBUG_ERROR("'%s' not valid as ICE server transport protocol", strTransportProto.c_str());
+        return false;
+    }
 
-	CAObjWrapper<CAIceServer* >iceServer = new CAIceServer(
-		strTransportProto,
-		strServerHost,
-		serverPort,
-		useTurn,
-		useStun,
-		strUsername,
-		strPassword);
-	if (iceServer) {
-		CAEngine::s_listIceServersMutex->lock();
-		CAEngine::s_listIceServers.push_back(iceServer);
-		CAEngine::s_listIceServersMutex->unlock();
-		return true;
-	}
-	return false;
+    CAObjWrapper<CAIceServer* >iceServer = new CAIceServer(
+        strTransportProto,
+        strServerHost,
+        serverPort,
+        useTurn,
+        useStun,
+        strUsername,
+        strPassword);
+    if (iceServer) {
+        CAEngine::s_listIceServersMutex->lock();
+        CAEngine::s_listIceServers.push_back(iceServer);
+        CAEngine::s_listIceServersMutex->unlock();
+        return true;
+    }
+    return false;
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -407,10 +407,10 @@ bool CAEngine::addNattIceServer(std::string strTransportProto, std::string strSe
 */
 bool CAEngine::clearNattIceServers()
 {
-	CAEngine::s_listIceServersMutex->lock();
-	CAEngine::s_listIceServers.clear();
-	CAEngine::s_listIceServersMutex->unlock();
-	return true;
+    CAEngine::s_listIceServersMutex->lock();
+    CAEngine::s_listIceServers.clear();
+    CAEngine::s_listIceServersMutex->unlock();
+    return true;
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -420,7 +420,7 @@ bool CAEngine::clearNattIceServers()
 */
 bool CAEngine::setNattIceStunEnabled(bool enabled)
 {
-	return ((tmedia_defaults_set_icestun_enabled(enabled ? tsk_true : tsk_false) == 0));
+    return ((tmedia_defaults_set_icestun_enabled(enabled ? tsk_true : tsk_false) == 0));
 }
 
 /**@ingroup _Group_CPP_Engine
@@ -430,5 +430,5 @@ bool CAEngine::setNattIceStunEnabled(bool enabled)
 */
 bool CAEngine::setNattIceTurnEnabled(bool enabled)
 {
-	return ((tmedia_defaults_set_iceturn_enabled(enabled ? tsk_true : tsk_false) == 0));
+    return ((tmedia_defaults_set_iceturn_enabled(enabled ? tsk_true : tsk_false) == 0));
 }

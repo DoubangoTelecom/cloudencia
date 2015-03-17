@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -25,5 +25,9 @@
 #include "cloudencia/ca_engine.h"
 #include "cloudencia/ca_mutex.h"
 #include "cloudencia/ca_thread.h"
+#include "cloudencia/ca_session_call.h"
+#include "cloudencia/ca_signaling.h"
+#include "cloudencia/ca_utils.h"
+#include "cloudencia/jsoncpp/ca_json.h"
 
 #endif /* _CLOUDENCIA_API_H_ */

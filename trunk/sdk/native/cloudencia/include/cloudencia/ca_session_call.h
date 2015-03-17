@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ class CASessionCall;
 //
 //	CASessionCallIceCallback
 //
-class CASessionCallIceCallback : public CAObj
+class CLOUDENCIA_API CASessionCallIceCallback : public CAObj
 {
 public:
 	CASessionCallIceCallback() {
@@ -43,7 +43,7 @@ public:
 	virtual bool onStateChanged(CAObjWrapper<CASessionCall* > oCall) = 0;
 };
 
-class CASessionCall : public CASession
+class CLOUDENCIA_API CASessionCall : public CASession
 {
 	friend class CAAutoLock<CASessionCall >;
 protected:
@@ -109,6 +109,7 @@ private:
 	bool sendSdp();
 
 private:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
 	CAMediaType_t m_eMediaType;
 
 	struct tnet_ice_ctx_s *m_pIceCtxVideo;
@@ -136,6 +137,7 @@ private:
 	int m_nVideoBandwidthUploadMax;
 	int m_nVideoBandwidthDownloadMax;
 	int m_nVideoFps;
+	CA_DISABLE_WARNINGS_END()
 };
 
 #endif /* _CLOUDENCIA_SESSION_CALL_H_ */
