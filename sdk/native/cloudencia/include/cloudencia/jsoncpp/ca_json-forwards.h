@@ -155,7 +155,7 @@ license you like.
 # define JSONCPP_DEPRECATED(message)
 #endif // if !defined(JSONCPP_DEPRECATED)
 
-namespace Json
+namespace CAJson
 {
 typedef int Int;
 typedef unsigned int UInt;
@@ -176,7 +176,7 @@ typedef Int64 LargestInt;
 typedef UInt64 LargestUInt;
 #  define JSON_HAS_INT64
 # endif // if defined(JSON_NO_INT64)
-} // end namespace Json
+} // end namespace CAJson
 
 
 #endif // JSON_CONFIG_H_INCLUDED
@@ -206,7 +206,7 @@ typedef UInt64 LargestUInt;
 # include "config.h"
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
-namespace Json
+namespace CAJson
 {
 
 // writer.h
@@ -235,7 +235,7 @@ class ValueInternalArray;
 class ValueInternalMap;
 #endif // #ifdef JSON_VALUE_USE_INTERNAL_MAP
 
-} // namespace Json
+} // namespace CAJson
 
 
 #endif // JSON_FORWARDS_H_INCLUDED

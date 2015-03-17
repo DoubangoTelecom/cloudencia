@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -39,8 +39,12 @@
 #	define stricmp		strcasecmp
 #	define strnicmp		strncasecmp
 #	endif
-#endif /* _MSC_VER */
+#endif /* _MCA_VER */
 
+static CAJson::Value jsonConfig;
+static CAObjWrapper<CASessionCall*>callSession;
+static CAObjWrapper<CASignaling*>signalSession;
+static CAObjWrapper<CASignalingCallEvent*>pendingOffer;
 static CAObjWrapper<CAThread*>threadConsoleReader;
 
 #if CA_UNDER_WINDOWS
@@ -73,6 +77,113 @@ static CAVideoDisplay displayScreenCastLocal = NULL;
 static CAVideoDisplay displayScreenCastRemote = NULL;
 static bool connected = false;
 
+#define kCAMobuleNameTest "CA Test"
+
+class CASessionCallIceCallbackDummy : public CASessionCallIceCallback
+{
+public:
+    CASessionCallIceCallbackDummy() {
+    }
+    virtual ~CASessionCallIceCallbackDummy() {
+        CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CASessionCallIceCallbackDummy destroyed ***");
+    }
+    virtual CA_INLINE const char* getObjectId() {
+        return "CASessionCallIceCallbackDummy";
+    }
+    virtual bool onStateChanged(CAObjWrapper<CASessionCall* > oCall) {
+        CA_DEBUG_INFO_EX(kCAMobuleNameTest, "ICE new state = %d", oCall->getIceState());
+        return true;
+    }
+    static CAObjWrapper<CASessionCallIceCallback*> newObj() {
+        return new CASessionCallIceCallbackDummy();
+    }
+};
+
+
+class CASignalingCallbackDummy : public CASignalingCallback
+{
+protected:
+    CASignalingCallbackDummy() {
+
+    }
+public:
+    virtual ~CASignalingCallbackDummy() {
+        CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CASignalingCallbackDummy destroyed ***");
+    }
+
+    virtual bool onEventNet(CAObjWrapper<CASignalingEvent* >& e) {
+        //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
+        switch (e->getType()) {
+        case CASignalingEventType_NetReady: {
+            connected = true;
+            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module connected ***");
+            break;
+        }
+        case CASignalingEventType_NetDisconnected:
+        case CASignalingEventType_NetError: {
+            connected = false;
+            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module disconnected ***");
+            break;
+        }
+        case CASignalingEventType_NetData: {
+            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module passthrough DATA:%.*s ***", e->getDataSize(), (const char*)e->getDataPtr());
+            break;
+        }
+        }
+
+        return true;
+    }
+    virtual CA_INLINE const char* getObjectId() {
+        return "CASignalingCallbackDummy";
+    }
+    virtual bool onEventCall(CAObjWrapper<CASignalingCallEvent* >& e) {
+        //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
+        if (callSession) {
+            if (callSession->getCallId() != e->getCallId()) {
+                CA_DEBUG_ERROR("Call id mismatch: '%s'<>'%s'", callSession->getCallId().c_str(), e->getCallId().c_str());
+                return CASessionCall::rejectEvent(signalSession, e);
+            }
+            bool ret = callSession->acceptEvent(e);
+            if (e->getType() == "hangup") {
+#if 1
+                callSession = NULL;
+                CA_DEBUG_INFO("+++Call ended +++");
+#else		// auto-call
+                CA_DEBUG_INFO("+++ call('%s',%d) +++", "002", CAMediaType_ScreenCast);
+                CA_ASSERT(callSession = CASessionCall::newObj(signalSession));
+                CA_ASSERT(callSession->setIceCallback(CASessionCallIceCallbackDummy::newObj()));
+                CA_ASSERT(callSession->call(CAMediaType_ScreenCast, "002"));
+                CA_ASSERT(attachDisplays());
+#endif
+            }
+            return ret;
+        }
+        else {
+            if (e->getType() == "offer") {
+                if (callSession || pendingOffer) { // already in call?
+                    return CASessionCall::rejectEvent(signalSession, e);
+                }
+                pendingOffer = e;
+                CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++Incoming call: 'accept'/'reject'? +++");
+            }
+            if (e->getType() == "hangup") {
+                if (pendingOffer && pendingOffer->getCallId() == e->getCallId()) {
+                    pendingOffer = NULL;
+                    CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++ pending call cancelled +++");
+                }
+            }
+
+            // Silently ignore any other event type
+        }
+
+        return true;
+    }
+
+    static CAObjWrapper<CASignalingCallback*> newObj() {
+        return new CASignalingCallbackDummy();
+    }
+};
+
 #if defined(_WIN32_WCE) || defined(UNDER_CE)
 int _tmain(int argc, _TCHAR* argv[])
 #else
@@ -92,6 +203,97 @@ int main(int argc, char* argv[])
            "*******************************************************************\n\n"
            , CA_VERSION_STRING);
 
+    /* load configuration */
+    CA_ASSERT(loadConfig());
+
+    CA_ASSERT(CAEngine::init());
+    CA_ASSERT(CAEngine::setDebugLevel(jsonConfig["debug_level"].isNumeric() ? (CADebugLevel_t)jsonConfig["debug_level"].asInt() : CADebugLevel_Info));
+
+#if 0
+    static const char* __entries[] = {
+        "debug_level",
+        "ssl_file_pub", "ssl_file_priv", "ssl_file_ca", "connection_url", "local_id", "remote_id",
+        "video_pref_size", "video_fps", "video_bandwidth_up_max", "video_bandwidth_down_max", "video_motion_rank", "video_congestion_ctrl_enabled",
+        "video_jb_enabled", "video_zeroartifacts_enabled", "video_avpf_tail",
+        "audio_echo_supp_enabled", "audio_echo_tail",
+        "natt_ice_servers", "natt_ice_stun_enabled", "natt_ice_turn_enabled"
+    };
+    for (size_t i = 0; i < sizeof(__entries) / sizeof(__entries[0]); ++i) {
+        CA_DEBUG_INFO_EX("CONFIG", "%s: %s", __entries[i], jsonConfig[__entries[i]].toStyledString().c_str());
+    }
+#else
+    CA_DEBUG_INFO_EX(kCAMobuleNameTest, "Config = %s", jsonConfig.toStyledString().c_str());
+#endif
+
+    CA_ASSERT(CAEngine::setSSLCertificates(
+                  jsonConfig["ssl_file_pub"].isString() ? jsonConfig["ssl_file_pub"].asCString() : "SSL_Pub.pem",
+                  jsonConfig["ssl_file_priv"].isString() ? jsonConfig["ssl_file_priv"].asCString() : "SSL_Priv.pem",
+                  jsonConfig["ssl_file_ca"].isString() ? jsonConfig["ssl_file_ca"].asCString() : "SSL_CA.pem"
+              ));
+    if (jsonConfig["video_pref_size"].isString()) {
+        CA_ASSERT(CAEngine::setVideoPrefSize(jsonConfig["video_pref_size"].asCString()));
+    }
+    if (jsonConfig["video_fps"].isNumeric()) {
+        CA_ASSERT(CAEngine::setVideoFps(jsonConfig["video_fps"].asInt()));
+    }
+    if (jsonConfig["video_bandwidth_up_max"].isNumeric()) {
+        CA_ASSERT(CAEngine::setVideoBandwidthUpMax(jsonConfig["video_bandwidth_up_max"].asInt()));
+    }
+    if (jsonConfig["video_bandwidth_down_max"].isNumeric()) {
+        CA_ASSERT(CAEngine::setVideoBandwidthDownMax(jsonConfig["video_bandwidth_down_max"].asInt()));
+    }
+    if (jsonConfig["video_motion_rank"].isNumeric()) {
+        CA_ASSERT(CAEngine::setVideoMotionRank(jsonConfig["video_motion_rank"].asInt()));
+    }
+    if (jsonConfig["video_congestion_ctrl_enabled"].isBool()) {
+        CA_ASSERT(CAEngine::setVideoCongestionCtrlEnabled(jsonConfig["video_congestion_ctrl_enabled"].asBool()));
+    }
+    if (jsonConfig["video_jb_enabled"].isBool()) {
+        CA_ASSERT(CAEngine::setVideoJbEnabled(jsonConfig["video_jb_enabled"].asBool()));
+    }
+    if (jsonConfig["video_zeroartifacts_enabled"].isBool()) {
+        CA_ASSERT(CAEngine::setVideoZeroArtifactsEnabled(jsonConfig["video_zeroartifacts_enabled"].asBool()));
+    }
+    if (jsonConfig["video_avpf_tail"].isString()) {
+        char min[24], max[24];
+        CA_ASSERT(sscanf(jsonConfig["video_avpf_tail"].asCString(), "%23s %23s", min, max) != EOF);
+        CA_ASSERT(CAEngine::setVideoAvpfTail(atoi(min), atoi(max)));
+    }
+    if (jsonConfig["audio_echo_supp_enabled"].isBool()) {
+        CA_ASSERT(CAEngine::setAudioEchoSuppEnabled(jsonConfig["audio_echo_supp_enabled"].asBool()));
+    }
+    if (jsonConfig["audio_echo_tail"].isNumeric()) {
+        CA_ASSERT(CAEngine::setAudioEchoTail(jsonConfig["audio_echo_tail"].asInt()));
+    }
+
+    if (jsonConfig["natt_ice_servers"].isArray() && jsonConfig["natt_ice_servers"].size() > 0) {
+        for (CAJson::ArrayIndex IceServerIndex = 0; IceServerIndex < jsonConfig["natt_ice_servers"].size(); ++IceServerIndex) {
+            CA_ASSERT(CAEngine::addNattIceServer(
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["protocol"].asCString(),
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["host"].asCString(),
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["port"].asUInt(),
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["enable_turn"].asBool(),
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["enable_stun"].asBool(),
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["login"].asCString(),
+                          jsonConfig["natt_ice_servers"][IceServerIndex]["password"].asCString()
+                      ));
+        }
+    }
+
+    if (jsonConfig["natt_ice_stun_enabled"].isBool()) {
+        CA_ASSERT(CAEngine::setNattIceStunEnabled(jsonConfig["natt_ice_stun_enabled"].asBool()));
+    }
+    if (jsonConfig["natt_ice_turn_enabled"].isBool()) {
+        CA_ASSERT(CAEngine::setNattIceTurnEnabled(jsonConfig["natt_ice_turn_enabled"].asBool()));
+    }
+
+    /* connect */
+    signalSession = CASignaling::newObj(jsonConfig["connection_url"].asString(), jsonConfig["local_id"].asString(), jsonConfig["local_password"].asString());
+    CA_ASSERT(signalSession);
+
+    CA_ASSERT(signalSession->setCallback(CASignalingCallbackDummy::newObj()));
+    CA_ASSERT(signalSession->connect());
+
     /* print help */
     printHelp();
 
@@ -103,7 +305,7 @@ int main(int argc, char* argv[])
             break;
         }
         else if (msg.message == WM_CA_ATTACH_DISPLAYS) {
-            CA_DEBUG_INFO("Catching 'WM_SC_ATTACH_DISPLAYS' windows event");
+            CA_DEBUG_INFO("Catching 'WM_CA_ATTACH_DISPLAYS' windows event");
             CA_ASSERT(attachDisplays());
         }
         TranslateMessage(&msg);
@@ -116,6 +318,45 @@ int main(int argc, char* argv[])
     threadConsoleReader = NULL;
 
     return 0;
+}
+
+static bool loadConfig()
+{
+    if (!CAUtils::fileExists(config_file_path)) {
+        snprintf(config_file_path, sizeof(config_file_path), "%s/%s", CAUtils::currentDirectoryPath(), "config.json");
+        if (!CAUtils::fileExists(config_file_path)) {
+            static const char* config_file_paths[] = { "../../config.json", "../config.json" };
+            for (size_t i = 0; i < sizeof(config_file_paths) / sizeof(config_file_paths[0]); ++i) {
+                if (CAUtils::fileExists(config_file_paths[i])) {
+                    memcpy(config_file_path, config_file_paths[i], strlen(config_file_paths[i]));
+                    config_file_path[strlen(config_file_paths[i])] = '\0';
+                    break;
+                }
+            }
+        }
+    }
+
+    FILE* p_file = fopen(config_file_path, "rb");
+    if (!p_file) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameTest, "Failed to open file at %s", config_file_path);
+        return false;
+    }
+    fseek(p_file, 0, SEEK_END);
+    long fsize = ftell(p_file);
+    fseek(p_file, 0, SEEK_SET);
+
+    char *p_buffer = new char[fsize + 1];
+    CA_ASSERT(p_buffer != NULL);
+    p_buffer[fsize] = 0;
+    CA_ASSERT(fread(p_buffer, 1, fsize, p_file) == fsize);
+    std::string jsonText(p_buffer);
+    fclose(p_file);
+    delete[] p_buffer;
+
+    CAJson::Reader reader;
+    CA_ASSERT(reader.parse(jsonText, jsonConfig, false));
+
+    return true;
 }
 
 static void printHelp()
@@ -147,16 +388,16 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
 
     (remoteId);
 
-    CA_DEBUG_INFO("consoleReaderProc \"ENTER\"");
+    CA_DEBUG_INFO_EX(kCAMobuleNameTest, "consoleReaderProc \"ENTER\"");
 
     while (fgets(command, sizeof(command), stdin) != NULL) {
 #define CHECK_CONNECTED() if (!connected){ CA_DEBUG_INFO("+++ not connected yet +++"); continue; }
         if (strnicmp(command, "quit", 4) == 0) {
-            CA_DEBUG_INFO("+++ quit() +++");
+            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++ quit() +++");
             break;
         }
         else if (strnicmp(command, "help", 4) == 0) {
-            CA_DEBUG_INFO("+++ help() +++");
+            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++ help() +++");
             printHelp();
         }
         else if (strnicmp(command, "chat", 4) == 0 || strnicmp(command, "audio", 5) == 0 || strnicmp(command, "video", 5) == 0 || strnicmp(command, "screencast", 10) == 0 || strnicmp(command, "call", 4) == 0) {
@@ -179,7 +420,7 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
         }
     }
 
-    CA_DEBUG_INFO("consoleReaderProc \"EXIT\"");
+    CA_DEBUG_INFO_EX(kCAMobuleNameTest, "consoleReaderProc \"EXIT\"");
 
 #if CA_UNDER_WINDOWS
     PostThreadMessage(mainThreadId, WM_QUIT, NULL, NULL);
@@ -190,8 +431,23 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
 
 static bool attachDisplays()
 {
-    CA_ASSERT(false);
-    return false;
+#if CA_UNDER_WINDOWS
+    if ((mainThreadId != GetCurrentThreadId())) {
+        CA_DEBUG_INFO_EX(kCAMobuleNameTest, "attachDisplays deferred because we are not on the main thread.... %lu<>%lu", mainThreadId, GetCurrentThreadId());
+        PostThreadMessage(mainThreadId, WM_CA_ATTACH_DISPLAYS, NULL, NULL);
+        return true;
+    }
+#endif /* CA_UNDER_WINDOWS */
+
+    if (callSession) {
+        if ((callSession->getMediaType() & CAMediaType_ScreenCast)) {
+            CA_ASSERT(callSession->setVideoDisplays(CAMediaType_ScreenCast, getDisplay(false/*remote?*/, true/*screencast?*/), getDisplay(true/*remote?*/, true/*screencast?*/)));
+        }
+        if ((callSession->getMediaType() & CAMediaType_Video)) {
+            CA_ASSERT(callSession->setVideoDisplays(CAMediaType_Video, getDisplay(false/*remote?*/, false/*screencast?*/), getDisplay(true/*remote?*/, false/*screencast?*/)));
+        }
+    }
+    return true;
 }
 
 static CAVideoDisplay getDisplay(bool bRemote, bool bScreenCast /*= false*/)
@@ -229,18 +485,18 @@ static CAVideoDisplay getDisplay(bool bRemote, bool bScreenCast /*= false*/)
                                 NULL)) != NULL);
 
         ::SetWindowText(*pHWND, bRemote ? DEFAULT_VIDEO_REMOTE_WINDOW_NAME : DEFAULT_VIDEO_LOCAL_WINDOW_NAME);
-#if SC_UNDER_WINDOWS_CE
+#if CA_UNDER_WINDOWS_CE
         ::ShowWindow(*pHWND, SW_SHOWNORMAL);
 #else
         ::ShowWindow(*pHWND, SW_SHOWDEFAULT);
-#endif /* SC_UNDER_WINDOWS_CE */
+#endif /* CA_UNDER_WINDOWS_CE */
 
         ::UpdateWindow(*pHWND);
     }
     return *pHWND;
 #else
     return NULL;
-#endif /* SC_UNDER_WINDOWS */
+#endif /* CA_UNDER_WINDOWS */
 }
 
 #if CA_UNDER_WINDOWS

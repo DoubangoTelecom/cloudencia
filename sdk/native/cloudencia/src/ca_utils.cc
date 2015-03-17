@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -29,25 +29,25 @@
 
 std::string CAUtils::randomString()
 {
-	tsk_uuidstring_t result;
-	if (tsk_uuidgenerate(&result) != 0) {
-		return std::string("ERROR");
-	}
-	return std::string(result);
+    tsk_uuidstring_t result;
+    if (tsk_uuidgenerate(&result) != 0) {
+        return std::string("ERROR");
+    }
+    return std::string(result);
 }
 
 bool CAUtils::fileExists(const char* path)
 {
 #define _file_exists(path) tsk_plugin_file_exist((path))
-	return !!_file_exists(path);
+    return !!_file_exists(path);
 }
 
 const char* CAUtils::currentDirectoryPath()
 {
 #if SC_UNDER_WINDOWS
-	return tdav_get_current_directory_const();
+    return tdav_get_current_directory_const();
 #else
-	return ".";
+    return ".";
 #endif
 }
 

@@ -95,7 +95,7 @@ license you like.
  * It is an internal header that must not be exposed.
  */
 
-namespace Json
+namespace CAJson
 {
 
 /// Converts a unicode code-point to UTF-8.
@@ -167,7 +167,7 @@ uintToString( LargestUInt value,
     while ( value != 0 );
 }
 
-} // namespace Json {
+} // namespace CAJson {
 
 #endif // LIB_JSONCPP_JSON_TOOL_H_INCLUDED
 
@@ -205,7 +205,7 @@ uintToString( LargestUInt value,
 #pragma warning( disable : 4996 )   // disable warning about strdup being deprecated.
 #endif
 
-namespace Json
+namespace CAJson
 {
 
 // Implementation of class Features
@@ -1080,7 +1080,7 @@ Reader::getFormattedErrorMessages() const
 
 std::istream& operator>>( std::istream &sin, Value &root )
 {
-    Json::Reader reader;
+    CAJson::Reader reader;
     bool ok = reader.parse(sin, root, true);
     //JSON_ASSERT( ok );
     if (!ok) {
@@ -1090,7 +1090,7 @@ std::istream& operator>>( std::istream &sin, Value &root )
 }
 
 
-} // namespace Json
+} // namespace CAJson
 
 // //////////////////////////////////////////////////////////////////////
 // End of content of file: src/lib_json/json_reader.cpp
@@ -1118,7 +1118,7 @@ std::istream& operator>>( std::istream &sin, Value &root )
 
 # ifndef JSONCPP_DOC_EXCLUDE_IMPLEMENTATION
 
-namespace Json
+namespace CAJson
 {
 
 /* Fast memory allocator.
@@ -1221,7 +1221,7 @@ private:
 };
 
 
-} // namespace Json
+} // namespace CAJson
 
 # endif // ifndef JSONCPP_DOC_INCLUDE_IMPLEMENTATION
 
@@ -1248,7 +1248,7 @@ private:
 
 // included by json_value.cpp
 
-namespace Json
+namespace CAJson
 {
 
 // //////////////////////////////////////////////////////////////////
@@ -1549,7 +1549,7 @@ ValueIterator::operator =( const SelfType &other )
     return *this;
 }
 
-} // namespace Json
+} // namespace CAJson
 
 // //////////////////////////////////////////////////////////////////////
 // End of content of file: src/lib_json/json_valueiterator.inl
@@ -1591,7 +1591,7 @@ ValueIterator::operator =( const SelfType &other )
 #define JSON_FAIL_MESSAGE( message ) throw std::runtime_error( message );
 #define JSON_ASSERT_MESSAGE( condition, message ) if (!( condition )) JSON_FAIL_MESSAGE( message )
 
-namespace Json
+namespace CAJson
 {
 
 const Value Value::null;
@@ -1642,7 +1642,7 @@ releaseStringValue( char *value )
     }
 }
 
-} // namespace Json
+} // namespace CAJson
 
 
 // //////////////////////////////////////////////////////////////////
@@ -1661,7 +1661,7 @@ releaseStringValue( char *value )
 # include "json_valueiterator.inl"
 #endif // if !defined(JSON_IS_AMALGAMATION)
 
-namespace Json
+namespace CAJson
 {
 
 // //////////////////////////////////////////////////////////////////
@@ -2176,7 +2176,7 @@ Value::operator ==( const Value &other ) const
 {
     //if ( type_ != other.type_ )
     // GCC 2.95.3 says:
-    // attempt to take address of bit-field structure member `Json::Value::type_'
+    // attempt to take address of bit-field structure member `CAJson::Value::type_'
     // Beats me, but a temp solves the problem.
     int temp = other.type_;
     if ( type_ != temp ) {
@@ -3384,7 +3384,7 @@ Path::make( Value &root ) const
 }
 
 
-} // namespace Json
+} // namespace CAJson
 
 // //////////////////////////////////////////////////////////////////////
 // End of content of file: src/lib_json/json_value.cpp
@@ -3420,7 +3420,7 @@ Path::make( Value &root ) const
 #pragma warning( disable : 4996 )   // disable warning about strdup being deprecated.
 #endif
 
-namespace Json
+namespace CAJson
 {
 
 static bool containsControlCharacter( const char* str )
@@ -4214,13 +4214,13 @@ StyledStreamWriter::normalizeEOL( const std::string &text )
 
 std::ostream& operator<<( std::ostream &sout, const Value &root )
 {
-    Json::StyledStreamWriter writer;
+    CAJson::StyledStreamWriter writer;
     writer.write(sout, root);
     return sout;
 }
 
 
-} // namespace Json
+} // namespace CAJson
 
 // //////////////////////////////////////////////////////////////////////
 // End of content of file: src/lib_json/json_writer.cpp

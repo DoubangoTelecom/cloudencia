@@ -1,7 +1,7 @@
 /* Copyright (C) 2011-2015 Mamadou DIOP
 * Copyright (C) 2011-2015 Doubango Telecom <http://www.doubango.org>
 *
-* This file is part of Open Source Cloudendia WebRTC PaaS.
+* This file is part of Open Source Cloudencia WebRTC PaaS.
 *
 * DOUBANGO is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ static const char* getHttpContentType(const thttp_message_t *pcHttpMessage);
 		CA_DEBUG_ERROR_EX(kCAMobuleNameWsTransport, "JSON '%s' not an object", (fieldName)); \
 		return new CAWsResult(kCAWsResultCode_InvalidDataType, kCAWsResultPhrase_InvalidDataType); \
 		} \
-	const Json::Value fieldVarName = (fieldParent)[(fieldName)]; \
+	const CAJson::Value fieldVarName = (fieldParent)[(fieldName)]; \
 	if((fieldVarName).isNull()) \
 		{ \
 		if(!(couldBeNull)){ \
@@ -155,7 +155,7 @@ bool CAWsTransport::handshaking(CAObjWrapper<CANetPeer*> oPeer, CAObjWrapper<CAU
 	   "Connection: Upgrade\r\n" \
 	   "Sec-WebSocket-Key: %s\r\n" \
 	   "Origin: %s\r\n" \
-	   "Sec-WebSocket-Protocol: ge-webrtc-signaling\r\n" \
+	   "Sec-WebSocket-Protocol: cloudencia-signaling\r\n" \
 	   "Sec-WebSocket-Version: 13\r\n" \
 		"\r\n"
 
