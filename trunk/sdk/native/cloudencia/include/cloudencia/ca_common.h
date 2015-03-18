@@ -76,6 +76,8 @@ typedef enum CASignalingEventType_e {
 	CASignalingEventType_NetDisconnected,
 	CASignalingEventType_NetError,
 
+	CASignalingEventType_Error,
+
 	CASignalingEventType_Call
 }
 CASignalingEventType_t;
@@ -133,6 +135,13 @@ typedef enum CASessionType_e {
 }
 CASessionType_t;
 
+typedef enum CAMsgType_e {
+	CAMsgType_Unknown,
+	CAMsgType_Error,
+	CAMsgType_AuthConn,
+}
+CAMsgType_t;
+
 typedef enum CANetTransporType_e {
 	CANetTransporType_None = 0x00,
 	CANetTransporType_TCP = (0x01 << 0),
@@ -184,9 +193,22 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kCAMobuleNameNetTransport "NetTransport"
 #define kCAMobuleNameWsTransport "WebSocketTransport"
 #define kCAMobuleNameSignaling "Signaling"
+#define kCAMobuleNameMsg "MSG"
+#define kCAMobuleNameUtils "Utils"
 #define kCAMobuleNameFakeDisplay "Fake display"
 #define kCAMobuleNameWEC7 "WEC7"
 
+#define kMsgFieldType "type"
+#define kMsgFieldFrom "from"
+#define kMsgFieldTo "to"
+#define kMsgFieldCallId "cid"
+#define kMsgFieldTransactionId "tid"
+#define kMsgFieldAuthToken "authToken"
+#define kMsgFieldReason "reason"
+
+#define kMsgTypeUnknown "unknown"
+#define kMsgTypeError "error"
+#define kMsgTypeAuthConn "authConn"
 
 template <typename T>
 class CAAutoLock

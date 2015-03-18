@@ -25,6 +25,7 @@
 #include "cloudencia/ca_nettransport.h"
 #include "cloudencia/ca_url.h"
 #include "cloudencia/ca_mutex.h"
+#include "cloudencia/ca_msg.h"
 
 #include <string>
 
@@ -186,6 +187,10 @@ public:
 private:
 	bool handleData(const char* pcData, size_t nDataSize);
 	bool raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
+	bool canSendData();
+	std::string randomString();
+
+	bool authConnection();
 
 	void lock();
 	void unlock();
@@ -196,13 +201,16 @@ private:
 	CAObjWrapper<CAUrl* > m_oConnectionUrl;
 	CAObjWrapper<CASignalingTransportCallback* > m_oNetCallback;
 	CAObjWrapper<CASignalingCallback* > m_oSignCallback;
+	CAObjWrapper<CAMsgAuthConn* > m_oMsgAuthConn;
 	CANetFd m_Fd;
 	bool m_bWsHandshakingDone;
 	void* m_pWsSendBufPtr;
+	bool m_bConnAuthenticated;
 	tsk_size_t m_nWsSendBuffSize;
 	CAObjWrapper<CAMutex* > m_oMutex;
 	std::string m_strCredUserId;
 	std::string m_strCredPassword;
+	std::string m_strAuthToken;
 	CA_DISABLE_WARNINGS_END()
 };
 

@@ -110,6 +110,8 @@ bool CANetPeerStream::cleanupData()
 CANetTransport::CANetTransport(CANetTransporType_t eType, const char* pcLocalIP, unsigned short nLocalPort)
     : m_bValid(false)
     , m_bStarted(false)
+    , m_nLocalPort(0)
+    , m_strLocalIP(pcLocalIP ? pcLocalIP : "0.0.0.0")
 {
     m_eType = eType;
     const char *pcDescription;
@@ -169,6 +171,14 @@ bool CANetTransport::setSSLCertificates(const char* pcPrivateKey, const char* pc
 bool CANetTransport::start()
 {
     m_bStarted = (tnet_transport_start(m_pWrappedTransport) == 0);
+    if (m_bStarted) {
+        tnet_ip_t ip;
+        tnet_port_t port;
+        if (tnet_transport_get_ip_n_port_2(m_pWrappedTransport, &ip, &port) == 0) {
+            m_strLocalIP = std::string(ip);
+            m_nLocalPort = port;
+        }
+    }
     return m_bStarted;
 }
 

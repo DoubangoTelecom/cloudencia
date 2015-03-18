@@ -72,6 +72,9 @@
     <ClInclude Include="include\cloudencia\ca_signaling.h">
       <Filter>include\cloudencia</Filter>
     </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_msg.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_mutex.cc">
@@ -111,6 +114,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ca_utils.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_msg.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
