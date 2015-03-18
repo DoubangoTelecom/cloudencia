@@ -19,6 +19,7 @@
 #include "cloudencia/ca_signaling.h"
 #include "cloudencia/ca_nettransport_ws.h"
 #include "cloudencia/ca_engine.h"
+#include "cloudencia/ca_utils.h"
 #include "cloudencia/ca_parser_url.h"
 #include "cloudencia/jsoncpp/ca_json.h"
 
@@ -60,6 +61,7 @@ CASignaling::CASignaling(CAObjWrapper<CANetTransport*>& oNetTransport, CAObjWrap
     , m_oConnectionUrl(oConnectionUrl)
     , m_Fd(kCANetFdInvalid)
     , m_bWsHandshakingDone(false)
+    , m_bConnAuthenticated(false)
     , m_pWsSendBufPtr(NULL)
     , m_nWsSendBuffSize(0)
     , m_oMutex(new CAMutex())
@@ -336,6 +338,7 @@ CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std
     oSignaling = new CASignaling(oTransport, oUrl);
     oSignaling->m_strCredUserId = strCredUserId;
     oSignaling->m_strCredPassword = strCredPassword;
+    oSignaling->m_strAuthToken = CAUtils::buildAuthToken(strCredUserId, strCredPassword);
 
 bail:
     return oSignaling;
@@ -351,6 +354,25 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
 {
     CAAutoLock<CASignaling> autoLock(this);
 
+    if (!pcData || !nDataSize) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Invalid parameter");
+        return false;
+    }
+
+    CAObjWrapper<CAMsg* >oMsg = CAMsg::parse(std::string((const char*)pcData, nDataSize));
+    if (!oMsg) {
+        return false;
+    }
+
+    if (oMsg->getType() == CAMsgType_Error) {
+        CAObjWrapper<CAMsgError* >oMsgError = dynamic_cast<CAMsgError* >(*oMsg);
+        CA_ASSERT(oMsgError);
+        return raiseEvent(CASignalingEventType_Error, oMsgError->getReason());
+    }
+    else if (oMsg->getType() == CAMsgType_AuthConn) {
+    }
+
+#if 0 // FIXME
     CAJson::Value root;
     CAJson::Reader reader;
 
@@ -360,8 +382,6 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Failed to parse JSON content: %.*s", nDataSize, pcData);
         return false;
     }
-
-#if 0 // FIXME
 
     CA_JSON_GET(root, passthrough, "passthrough", isBool, true);
 
@@ -428,6 +448,57 @@ bool CASignaling::raiseEvent(CASignalingEventType_t eType, std::string strDescri
         return m_oSignCallback->onEventNet(e);
     }
     return true;
+}
+
+/*
+Checks we can send data.
+*/
+bool CASignaling::canSendData()
+{
+    CAAutoLock<CASignaling> autoLock(this);
+
+    if (!isConnected()) {
+        return false;
+    }
+    if ((m_oConnectionUrl->getType() == CAUrlType_WS || m_oConnectionUrl->getType() == CAUrlType_WSS)) {
+        return m_bWsHandshakingDone;
+    }
+    return true;
+}
+
+/*
+Generates random string.
+*/
+std::string CASignaling::randomString()
+{
+    return CAUtils::randomString(m_oNetTransport->getLocalIP(), "@", CAUtils::itoa(m_oNetTransport->getLocalPort()), "@");
+}
+
+/*
+Authenticate the connection. Must be established
+*/
+bool CASignaling::authConnection()
+{
+    CAAutoLock<CASignaling> autoLock(this);
+
+    if (m_bConnAuthenticated) {
+        return true;
+    }
+    if (!canSendData()) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not ready to send data");
+        return false;
+    }
+
+    m_oMsgAuthConn = new CAMsgAuthConn(
+        m_strCredUserId, // from
+        m_strAuthToken, // authToken
+        randomString(), // callId
+        randomString() // transactionId
+    );
+    CA_ASSERT(m_oMsgAuthConn);
+    std::string jsonContent = m_oMsgAuthConn->toJson();
+    CA_ASSERT(!jsonContent.empty());
+    return sendData(jsonContent.c_str(), jsonContent.length());
 }
 
 //
@@ -504,6 +575,9 @@ bool CASignalingTransportCallback::onData(CAObjWrapper<CANetPeer*> oPeer, size_t
 
                     const_cast<CASignaling*>(m_pcCASignaling)->m_bWsHandshakingDone = true;
                     nConsumedBytes = endOfMessage;
+                    if (!m_pcCASignaling->m_bConnAuthenticated) {
+                        return const_cast<CASignaling*>(m_pcCASignaling)->authConnection();
+                    }
                     return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetReady, "WebSocket handshaking: done");
                 }
             }
@@ -606,11 +680,15 @@ bool CASignalingTransportCallback::onConnectionStateChanged(CAObjWrapper<CANetPe
                 return const_cast<CAWsTransport*>(pcTransport)->handshaking(oPeer, const_cast<CASignaling*>(m_pcCASignaling)->m_oConnectionUrl);
             }
         }
+        if (!m_pcCASignaling->m_bConnAuthenticated) {
+            return const_cast<CASignaling*>(m_pcCASignaling)->authConnection();
+        }
         return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetReady, "Ready");
     }
     else if (m_pcCASignaling->m_Fd == oPeer->getFd() && !oPeer->isConnected()) {
         const_cast<CASignaling*>(m_pcCASignaling)->m_Fd = kCANetFdInvalid;
         const_cast<CASignaling*>(m_pcCASignaling)->m_bWsHandshakingDone = false;
+        const_cast<CASignaling*>(m_pcCASignaling)->m_bConnAuthenticated = false;
         return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetDisconnected, "Disconnected");
     }
 

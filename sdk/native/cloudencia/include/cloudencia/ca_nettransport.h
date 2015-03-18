@@ -147,6 +147,12 @@ public:
 	virtual CA_INLINE bool isValid() {
 		return m_bValid;
 	}
+	virtual CA_INLINE std::string getLocalIP() {
+		return m_strLocalIP;
+	}
+	virtual CA_INLINE unsigned short getLocalPort() {
+		return m_nLocalPort;
+	}
 	virtual CA_INLINE void setCallback(CAObjWrapper<CANetTransportCallback*> oCallback) {
 		m_oCallback = oCallback;
 	}
@@ -170,6 +176,8 @@ protected:
 	CANativeNetTransportHandle_t* m_pWrappedTransport;
 	CANetTransporType_t m_eType;
 	bool m_bValid, m_bStarted;
+	unsigned short m_nLocalPort;
+	std::string m_strLocalIP;
 	std::map<CANetFd, CAObjWrapper<CANetPeer*> > m_Peers;
 	CAObjWrapper<CANetTransportCallback*> m_oCallback;
 	CAObjWrapper<CAMutex*> m_oPeersMutex;

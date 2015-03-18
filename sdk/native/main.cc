@@ -119,6 +119,10 @@ public:
             CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module connected ***");
             break;
         }
+        case CASignalingEventType_Error: {
+            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module error: %s ***", e->getDescription().c_str());
+            break;
+        }
         case CASignalingEventType_NetDisconnected:
         case CASignalingEventType_NetError: {
             connected = false;

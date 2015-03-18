@@ -17,6 +17,8 @@ typedef enum CASignalingEventType_e {
 	CASignalingEventType_NetDisconnected,
 	CASignalingEventType_NetError,
 
+	CASignalingEventType_Error,
+
 	CASignalingEventType_Call
 }
 CASignalingEventType_t;

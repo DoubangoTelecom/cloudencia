@@ -27,7 +27,10 @@
 class CLOUDENCIA_API CAUtils
 {
 public:
-    static std::string randomString();
+	static std::string randomString(std::string token1 = "", std::string token2 = "", std::string token3 = "", std::string token4 = "", std::string token5 = "");
+	static std::string itoa(int64_t i);
+	static std::string buildAuthToken(std::string strLogin, std::string strPassword);
+	static std::string buildHa1(std::string strLogin, std::string strPassword, std::string strRealm);
     static bool fileExists(const char* path);
     static const char* currentDirectoryPath();
 };

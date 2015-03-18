@@ -24,16 +24,53 @@
 #	include "tinydav/tdav_apple.h"
 #endif
 
+#include "tsk_md5.h"
+#include "tsk_string.h"
 #include "tsk_uuid.h"
 #include "tsk_plugin.h"
 
-std::string CAUtils::randomString()
+std::string CAUtils::randomString(std::string token1 /*= ""*/, std::string token2 /*= ""*/, std::string token3 /*= ""*/, std::string token4 /*= ""*/, std::string token5 /*= ""*/)
 {
     tsk_uuidstring_t result;
     if (tsk_uuidgenerate(&result) != 0) {
-        return std::string("ERROR");
+        return token1 + token2 + token3 + token4 + token5 + std::string("ERROR");
     }
-    return std::string(result);
+    return token1 + token2 + token3 + token4 + token5 + std::string(result);
+}
+
+std::string CAUtils::itoa(int64_t i)
+{
+    tsk_istr_t a;
+    tsk_itoa(i, &a);
+    return std::string(a);
+}
+
+std::string CAUtils::buildAuthToken(std::string strLogin, std::string strPassword)
+{
+    // auth-token = md5('password' ':' 'login' ':' 'doubango.org');
+    std::string str = strPassword + ":" + strLogin + ":" + "doubango.org";
+    tsk_md5string_t md5;
+    int ret;
+    if ((ret = tsk_md5compute(str.c_str(), str.length(), &md5)) != 0) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameUtils, "tsk_md5compute failed with error code = %s", ret);
+        return "D41D8CD98F00B204E9800998ECF8427E"; // MD5(empty string)
+    }
+    return std::string(md5);
+}
+
+std::string CAUtils::buildHa1(std::string strLogin, std::string strPassword, std::string strRealm)
+{
+    /* RFC 2617 - 3.2.2.2 A1
+    A1       = unq(username-value) ":" unq(realm-value) ":" passwd
+    */
+    std::string str = strLogin + ":" + strRealm + ":" + strPassword;
+    tsk_md5string_t md5;
+    int ret;
+    if ((ret = tsk_md5compute(str.c_str(), str.length(), &md5)) != 0) {
+        CA_DEBUG_ERROR_EX(kCAMobuleNameUtils, "tsk_md5compute failed with error code = %s", ret);
+        return "D41D8CD98F00B204E9800998ECF8427E"; // MD5(empty string)
+    }
+    return std::string(md5);
 }
 
 bool CAUtils::fileExists(const char* path)
