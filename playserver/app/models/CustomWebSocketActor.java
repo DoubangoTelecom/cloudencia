@@ -16,6 +16,7 @@ import akka.actor.UntypedActor;
 public class CustomWebSocketActor extends UntypedActor {
 	int mCount;
 	boolean mConnAuthenticated;
+	boolean mConnected;
 	final ActorRef mOut;
 	final long mId;
 	String mEmail;
@@ -37,6 +38,7 @@ public class CustomWebSocketActor extends UntypedActor {
 
 	@Override
 	public void preStart() throws Exception {
+		mConnected = true;
 		// Disconnect the socket if not authenticated after 3000ms
 		// FIXME: the 3000ms must come from the application config
 		mConnAuth = Akka.system().scheduler().scheduleOnce(
@@ -84,17 +86,17 @@ public class CustomWebSocketActor extends UntypedActor {
 				if (mConnAuth != null && !mConnAuth.isCancelled()) {
 					mConnAuth.cancel();
 				}
-				final String errorMsgString = authenticateConn(jsonMessage.getFrom(), jsonMessage.getAuthToken());
-				if (errorMsgString != null) {
+				final BasicResult result = authenticateConn(jsonMessage.getFrom(), jsonMessage.getAuthToken());
+				if (result.isNok()) {
 					// authentication = NOK
-					final JsonMsg.Error error = new JsonMsg.Error((short)403, errorMsgString);
+					final JsonMsg.Error error = new JsonMsg.Error((short)403, result.getReason());
 					error.copyRequestToResponse(jsonMessage);
 					mOut.tell(error.asText(), self());
 					disconnect();
 				}
 				else {
 					// authentication = OK
-					final JsonMsg.Success success = new JsonMsg.Success((short)200, errorMsgString);
+					final JsonMsg.Success success = new JsonMsg.Success((short)200, result.getReason());
 					success.copyRequestToResponse(jsonMessage);
 					mOut.tell(success.asText(), self());
 				}
@@ -109,6 +111,7 @@ public class CustomWebSocketActor extends UntypedActor {
 	
 	@Override
 	public void postStop() throws Exception {
+		mConnected = false;
 		// stop timers
 		if (mConnAuth != null && !mConnAuth.isCancelled()) {
 			mConnAuth.cancel();
@@ -116,20 +119,38 @@ public class CustomWebSocketActor extends UntypedActor {
 		if (mHeartbeat != null && !mHeartbeat.isCancelled()) {
 			mHeartbeat.cancel();
 		}
-		// clear resources
-		synchronized(actors) {
-			if (mEmail != null) {
-				actors.get(mEmail).remove(mId);
-				if (actors.get(mEmail).isEmpty()) {
-					actors.remove(mEmail);
-				}
-			}
-		}
+		// remove actor
+		removeActor(this);
+		// cleanup authentication fields
+		mAuthToken = null;
+		mEmail = null;
+		mConnAuthenticated = false;
 		super.postStop();
 	}
 	
 	public boolean isConnAuthenticated() {
 		return mConnAuthenticated;
+	}
+	
+	public boolean isConnected() {
+		return mConnected;
+	}
+	
+	public BasicResult forwardMessage(Object message) {
+		if (message == null) {
+			return new BasicResult.BasicError("Null message");
+		}
+		if (!(message instanceof String)) {
+			return new BasicResult.BasicError("Only strings could be sent");
+		}
+		if (!isConnected()) {
+			return new BasicResult.BasicError("Not Connected");
+		}
+		if (!isConnAuthenticated()) {
+			return new BasicResult.BasicError("Connection not authenticated");
+		}
+		mOut.tell(message, self());
+		return BasicResult.ok;
 	}
 	
 	public static HashMap<Long/*actorId*/, CustomWebSocketActor> getActors(String email) {
@@ -138,22 +159,48 @@ public class CustomWebSocketActor extends UntypedActor {
 		}
 	}
 	
+	private static void addActor(CustomWebSocketActor actor) {
+		if (actor != null && actor.mEmail != null) {
+			synchronized(actors) {
+				if (!actors.containsKey(actor.mEmail)) {
+					actors.put(actor.mEmail, new HashMap<Long/*actorId*/, CustomWebSocketActor>());
+				}
+				actors.get(actor.mEmail).put(actor.mId, actor);
+			}
+		}
+	}
+	
+	private static void removeActor(CustomWebSocketActor actor) {
+		if (actor != null && actor.mEmail != null) {
+			synchronized(actors) {
+				if (actors.containsKey(actor.mEmail)) {
+					actors.get(actor.mEmail).remove(actor.mId);
+					if (actors.get(actor.mEmail).isEmpty()) {
+						actors.remove(actor.mEmail);
+					}
+				}
+			}
+		}
+	}
+	
 	private synchronized static long getUniqueId() {
 		return actorId++;
 	}
 	
-	// returns error message if fails
-	private String authenticateConn(final String email, final String authToken) {
+	private BasicResult authenticateConn(final String email, final String authToken) {
 		final User user = User.findByEmail(email);
 		if (user == null) {
-			return "Failed to find user with id = " + email;
+			return new BasicResult.BasicError("Failed to find user with id = " + email);
 		}
 		mAuthToken = Tools.buildAuthToken(email, user.password);
 		if (!mAuthToken.equalsIgnoreCase(authToken)) {
-			return "Invalid authentication token for user with id = " + email;
+			return new BasicResult.BasicError("Invalid authentication token for user with id = " + email);
 		}
+		mEmail = email;
 		mConnAuthenticated = true;
-		return null;
+		// add actor
+		addActor(this);
+		return BasicResult.ok;
 	}
 	
 	private void disconnect() {
