@@ -13,14 +13,19 @@ public class JsonMsg {
 	public static final String FIELD_TID = "tid";
 	public static final String FIELD_AUTH_TOKEN = "authToken";
 	public static final String FIELD_REASON = "reason";
+	public static final String FIELD_CODE = "code";
 	
 	public static final String FIELD_TYPE_ERROR = "error";
+	public static final String FIELD_TYPE_SUCCESS = "success";
+	public static final String FIELD_TYPE_PROVISIONAL = "provisional";
 	public static final String FIELD_TYPE_AUTH_CONN = "authConn";
 	
 	public enum TYPE
 	{
 		UNKNOWN,
 		ERROR,
+		SUCCESS,
+		PROVISIONAL,
 		AUTH_CONN
 	}
 	
@@ -90,6 +95,8 @@ public class JsonMsg {
 	public static String typeToString(final TYPE type) {
 		switch (type) {
 		case ERROR: return FIELD_TYPE_ERROR;
+		case SUCCESS: return FIELD_TYPE_SUCCESS;
+		case PROVISIONAL: return FIELD_TYPE_PROVISIONAL;
 		case AUTH_CONN: return FIELD_TYPE_AUTH_CONN;
 		default: return "unknown";
 		}
@@ -101,6 +108,12 @@ public class JsonMsg {
 		}
 		if (FIELD_TYPE_ERROR.equals(type)) {
 			return TYPE.ERROR;
+		}
+		if (FIELD_TYPE_SUCCESS.equals(type)) {
+			return TYPE.SUCCESS;
+		}
+		if (FIELD_TYPE_PROVISIONAL.equals(type)) {
+			return TYPE.PROVISIONAL;
 		}
 		if (FIELD_TYPE_AUTH_CONN.equals(type)) {
 			return TYPE.AUTH_CONN;
@@ -172,15 +185,22 @@ public class JsonMsg {
 		return parse(message) != null;
 	}
 	
-	
 	//
-	//	JsonMsgError
+	//	JsonMsgAnswer
 	//
-	public static class Error extends JsonMsg {
+	public static abstract class Answer extends JsonMsg {
 		String mReason;
+		short mCode;
 		
-		public Error(final String reason) {
-			mType = TYPE.ERROR;
+		public Answer(final TYPE type, final short code, final String reason) {
+			mType = type;
+			mCode = code;
+			mReason = reason;
+		}
+		
+		public Answer(final TYPE type, final String reason) {
+			mType = type;
+			mCode = 0;
 			mReason = reason;
 		}
 		
@@ -193,7 +213,46 @@ public class JsonMsg {
 			if (mReason != null) {
 				obj.put(FIELD_REASON, mReason);
 			}
+			if (mCode != 0) {
+				obj.put(JsonMsg.FIELD_CODE, mCode);
+			}
 			return obj.toString();
+		}
+	}
+	
+	//
+	//	JsonMsgError
+	//
+	public static class Error extends Answer {
+		public Error(final String reason) {
+			super(TYPE.ERROR, reason);
+		}
+		public Error(final short code, final String reason) {
+			super(TYPE.ERROR, code, reason);
+		}
+	}
+	
+	//
+	//	JsonMsgSuccess
+	//
+	public static class Success extends Answer {
+		public Success(final String reason) {
+			super(TYPE.SUCCESS, reason);
+		}
+		public Success(final short code, final String reason) {
+			super(TYPE.SUCCESS, code, reason);
+		}
+	}
+	
+	//
+	//	JsonMsgProvisional
+	//
+	public static class Provisional extends Answer {
+		public Provisional(final String reason) {
+			super(TYPE.PROVISIONAL, reason);
+		}
+		public Provisional(final short code, final String reason) {
+			super(TYPE.PROVISIONAL, code, reason);
 		}
 	}
 }

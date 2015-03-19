@@ -138,6 +138,8 @@ CASessionType_t;
 typedef enum CAMsgType_e {
 	CAMsgType_Unknown,
 	CAMsgType_Error,
+	CAMsgType_Success,
+	CAMsgType_Provisional,
 	CAMsgType_AuthConn,
 }
 CAMsgType_t;
@@ -198,16 +200,19 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kCAMobuleNameFakeDisplay "Fake display"
 #define kCAMobuleNameWEC7 "WEC7"
 
-#define kMsgFieldType "type"
-#define kMsgFieldFrom "from"
-#define kMsgFieldTo "to"
-#define kMsgFieldCallId "cid"
-#define kMsgFieldTransactionId "tid"
-#define kMsgFieldAuthToken "authToken"
-#define kMsgFieldReason "reason"
+#define kMsgFieldType "type" // string
+#define kMsgFieldFrom "from" // string
+#define kMsgFieldTo "to" // string
+#define kMsgFieldCallId "cid" // string
+#define kMsgFieldTransactionId "tid" // string
+#define kMsgFieldAuthToken "authToken" // string
+#define kMsgFieldCode "code" // short
+#define kMsgFieldReason "reason" // string
 
 #define kMsgTypeUnknown "unknown"
 #define kMsgTypeError "error"
+#define kMsgTypeSuccess "success"
+#define kMsgTypeProvisional "provisional"
 #define kMsgTypeAuthConn "authConn"
 
 template <typename T>

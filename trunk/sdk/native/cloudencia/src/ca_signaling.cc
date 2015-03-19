@@ -359,6 +359,8 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
         return false;
     }
 
+	CA_DEBUG_INFO_EX(kCAMobuleNameSignaling, "handleData(%.*s)", nDataSize, pcData);
+
     CAObjWrapper<CAMsg* >oMsg = CAMsg::parse(std::string((const char*)pcData, nDataSize));
     if (!oMsg) {
         return false;
@@ -369,6 +371,22 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
         CA_ASSERT(oMsgError);
         return raiseEvent(CASignalingEventType_Error, oMsgError->getReason());
     }
+	else if (oMsg->getType() == CAMsgType_Provisional) {
+		CAObjWrapper<CAMsgProvisional* >oMsgProvisional = dynamic_cast<CAMsgProvisional* >(*oMsg);
+		CA_ASSERT(oMsgProvisional);
+		
+	}
+	else if (oMsg->getType() == CAMsgType_Success) {
+		CAObjWrapper<CAMsgSuccess* >oMsgSuccess = dynamic_cast<CAMsgSuccess* >(*oMsg);
+		CA_ASSERT(oMsgSuccess);
+		
+		if (oMsgSuccess->isFor(*m_oMsgAuthConn)) {
+			if (!m_bConnAuthenticated) {
+				m_bConnAuthenticated = true;
+				raiseEvent(CASignalingEventType_NetReady, "Ready");
+			}
+		}
+	}
     else if (oMsg->getType() == CAMsgType_AuthConn) {
     }
 

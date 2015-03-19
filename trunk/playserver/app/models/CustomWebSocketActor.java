@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import models.JsonMsg.TYPE;
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
+import utils.Tools;
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
 import akka.actor.PoisonPill;
@@ -18,6 +19,7 @@ public class CustomWebSocketActor extends UntypedActor {
 	final ActorRef mOut;
 	final long mId;
 	String mEmail;
+	String mAuthToken; // MD5 ('password' ':' 'login' ':' 'doubango.org')
 	Cancellable mConnAuth;
 	Cancellable mHeartbeat;
 	
@@ -79,10 +81,23 @@ public class CustomWebSocketActor extends UntypedActor {
 				return;
 			}
 			if (jsonMessage.getType() == TYPE.AUTH_CONN) {
-				final JsonMsg.Error error = new JsonMsg.Error("Authentication error");
-				error.copyRequestToResponse(jsonMessage);
-				mOut.tell(error.asText(), self());
-				disconnect();
+				if (mConnAuth != null && !mConnAuth.isCancelled()) {
+					mConnAuth.cancel();
+				}
+				final String errorMsgString = authenticateConn(jsonMessage.getFrom(), jsonMessage.getAuthToken());
+				if (errorMsgString != null) {
+					// authentication = NOK
+					final JsonMsg.Error error = new JsonMsg.Error((short)403, errorMsgString);
+					error.copyRequestToResponse(jsonMessage);
+					mOut.tell(error.asText(), self());
+					disconnect();
+				}
+				else {
+					// authentication = OK
+					final JsonMsg.Success success = new JsonMsg.Success((short)200, errorMsgString);
+					success.copyRequestToResponse(jsonMessage);
+					mOut.tell(success.asText(), self());
+				}
 			}
 		}
 		else {
@@ -125,6 +140,20 @@ public class CustomWebSocketActor extends UntypedActor {
 	
 	private synchronized static long getUniqueId() {
 		return actorId++;
+	}
+	
+	// returns error message if fails
+	private String authenticateConn(final String email, final String authToken) {
+		final User user = User.findByEmail(email);
+		if (user == null) {
+			return "Failed to find user with id = " + email;
+		}
+		mAuthToken = Tools.buildAuthToken(email, user.password);
+		if (!mAuthToken.equalsIgnoreCase(authToken)) {
+			return "Invalid authentication token for user with id = " + email;
+		}
+		mConnAuthenticated = true;
+		return null;
 	}
 	
 	private void disconnect() {
