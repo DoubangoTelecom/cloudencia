@@ -48,67 +48,120 @@ CAMsg::~CAMsg()
 
 }
 
-std::string CAMsg::toJson()
+bool CAMsg::toJson(CAJson::Value* jsonValue)
 {
-    CAJson::Value message;
-    message[kMsgFieldType] = m_strType;
-    if (!m_strFrom.empty()) {
-        message[kMsgFieldFrom] = m_strFrom;
-    }
-    if (!m_strAuthToken.empty()) {
-        message[kMsgFieldAuthToken] = m_strAuthToken;
-    }
-    if (!m_strCallId.empty()) {
-        message[kMsgFieldCallId] = m_strCallId;
-    }
-    if (!m_strTransacId.empty()) {
-        message[kMsgFieldTransactionId] = m_strTransacId;
-    }
-
-    CAJson::StyledWriter writer;
-    return writer.write(message);
+	if (!jsonValue) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameMsg, "Invalid parameter");
+		return false;
+	}
+	CAJson::Value& root = *jsonValue;
+	root[kMsgFieldType] = m_strType;
+	if (!m_strFrom.empty()) {
+		root[kMsgFieldFrom] = m_strFrom;
+	}
+	if (!m_strAuthToken.empty()) {
+		root[kMsgFieldAuthToken] = m_strAuthToken;
+	}
+	if (!m_strCallId.empty()) {
+		root[kMsgFieldCallId] = m_strCallId;
+	}
+	if (!m_strTransacId.empty()) {
+		root[kMsgFieldTransactionId] = m_strTransacId;
+	}
+	if (m_oContent) {
+		CAJson::Value content;
+		if (!m_oContent->toJson(&content)) {
+			return false;
+		}
+		root[kMsgFieldContent] = content;
+	}
+	return true;
 }
 
-CAObjWrapper<CAMsg* > CAMsg::parse(std::string jsonString)
+std::string CAMsg::toJson()
+{
+    CAJson::Value jsonValue;
+	CA_ASSERT(toJson(&jsonValue));
+    CAJson::StyledWriter writer;
+	return writer.write(jsonValue);
+}
+
+bool CAMsg::setContent(CAObjWrapper<CAContent* > oContent)
+{
+	m_oContent = oContent;
+	return true;
+}
+
+CAObjWrapper<CAMsg* > CAMsg::parse(const CAJson::Value* jsonValue)
+{
+	CAObjWrapper<CAMsg* > oMsg;
+	CAObjWrapper<CAContent* > oContent;
+	if (!jsonValue) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameMsg, "Invalid parameter");
+		return NULL;
+	}
+	const CAJson::Value& root = *jsonValue;
+
+	if (root[kMsgFieldType].isNull() || !root[kMsgFieldType].isString()) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameMsg, "JSON field %s is missing or invalid", kMsgFieldType);
+		return NULL;
+	}
+
+	std::string strType = root[kMsgFieldType].asString();
+	std::string strCallId = (!root[kMsgFieldCallId].isNull() && root[kMsgFieldCallId].isString()) ? root[kMsgFieldCallId].asString() : "";
+	std::string strTransacId = (!root[kMsgFieldTransactionId].isNull() && root[kMsgFieldTransactionId].isString()) ? root[kMsgFieldTransactionId].asString() : "";
+	std::string strFrom = (!root[kMsgFieldFrom].isNull() && root[kMsgFieldFrom].isString()) ? root[kMsgFieldFrom].asString() : "";
+	std::string strTo = (!root[kMsgFieldTo].isNull() && root[kMsgFieldTo].isString()) ? root[kMsgFieldTo].asString() : "";
+	std::string strAuthToken = (!root[kMsgFieldAuthToken].isNull() && root[kMsgFieldAuthToken].isString()) ? root[kMsgFieldAuthToken].asString() : "";
+
+	if (!root[kMsgFieldContent].isNull() && root[kMsgFieldContent].isObject()) {
+		oContent = CAContent::parse(&root[kMsgFieldContent]);
+	}
+
+	CAMsgType_t eType = typeFromString(strType);
+
+	if (eType == CAMsgType_Error || eType == CAMsgType_Success || eType == CAMsgType_Provisional) {
+		std::string strReason = (!root[kMsgFieldReason].isNull() && root[kMsgFieldReason].isString()) ? root[kMsgFieldReason].asString() : "";
+		short code = (!root[kMsgFieldCode].isNull() && root[kMsgFieldCode].isIntegral()) ? root[kMsgFieldCode].asInt() : 0;
+		if (eType == CAMsgType_Error) {
+			oMsg = new CAMsgError(code, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo);
+		}
+		else if (eType == CAMsgType_Success) {
+			oMsg = new CAMsgSuccess(code, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo);
+		}
+		else if (eType == CAMsgType_Provisional) {
+			oMsg = new CAMsgProvisional(code, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo);
+		}
+	}
+	else if (eType == CAMsgType_Chat) {
+		oMsg = new CAMsgChat(strFrom, strAuthToken, strCallId, strTransacId, strTo);
+	}
+
+	if (!oMsg) {
+		oMsg = new CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, strTo);
+	}
+
+	if (oMsg && oContent) {
+		oMsg->setContent(oContent);
+	}
+
+	return oMsg;
+}
+
+CAObjWrapper<CAMsg* > CAMsg::parse(const std::string& jsonString)
 {
     CAJson::Value root;
     CAJson::Reader reader;
+	
     bool parsingSuccessful = reader.parse(jsonString, root, false);
     if (!parsingSuccessful) {
         CA_DEBUG_ERROR_EX(kCAMobuleNameMsg, "Failed to parse JSON content: %.*s", jsonString.length(), jsonString.c_str());
         return NULL;
     }
-    if (root[kMsgFieldType].isNull() || !root[kMsgFieldType].isString()) {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameMsg, "JSON field %s is missing or invalid", kMsgFieldType);
-        return false;
-    }
-
-    std::string strType = root[kMsgFieldType].asString();
-    std::string strCallId = (!root[kMsgFieldCallId].isNull() && root[kMsgFieldCallId].isString()) ? root[kMsgFieldCallId].asString() : "";
-    std::string strTransacId = (!root[kMsgFieldTransactionId].isNull() && root[kMsgFieldTransactionId].isString()) ? root[kMsgFieldTransactionId].asString() : "";
-    std::string strFrom = (!root[kMsgFieldFrom].isNull() && root[kMsgFieldFrom].isString()) ? root[kMsgFieldFrom].asString() : "";
-    std::string strTo = (!root[kMsgFieldTo].isNull() && root[kMsgFieldTo].isString()) ? root[kMsgFieldTo].asString() : "";
-    std::string strAuthToken = (!root[kMsgFieldAuthToken].isNull() && root[kMsgFieldAuthToken].isString()) ? root[kMsgFieldAuthToken].asString() : "";
-
-    CAMsgType_t eType = typeFromString(strType);
-
-	if (eType == CAMsgType_Error || eType == CAMsgType_Success || eType == CAMsgType_Provisional) {
-        std::string strReason = (!root[kMsgFieldReason].isNull() && root[kMsgFieldReason].isString()) ? root[kMsgFieldReason].asString() : "";
-		short code = (!root[kMsgFieldCode].isNull() && root[kMsgFieldCode].isIntegral()) ? root[kMsgFieldCode].asInt() : 0;
-		if (eType == CAMsgType_Error) {
-			return new CAMsgError(code, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo);
-		}
-		else if (eType == CAMsgType_Success) {
-			return new CAMsgSuccess(code, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo);
-		}
-		else if (eType == CAMsgType_Provisional) {
-			return new CAMsgProvisional(code, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo);
-		}
-    }
-    return new CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, strTo);
+	return parse(&root);
 }
 
-CAMsgType_t CAMsg::typeFromString(std::string strType)
+CAMsgType_t CAMsg::typeFromString(const std::string& strType)
 {
     if (strType == kMsgTypeAuthConn) {
         return CAMsgType_AuthConn;
@@ -121,6 +174,9 @@ CAMsgType_t CAMsg::typeFromString(std::string strType)
 	}
 	else if (strType == kMsgTypeProvisional) {
 		return CAMsgType_Provisional;
+	}
+	else if (strType == kMsgTypeChat) {
+		return CAMsgType_Chat;
 	}
     return CAMsgType_Unknown;
 }
@@ -136,6 +192,8 @@ std::string CAMsg::typeToString(CAMsgType_t eType)
 		return kMsgTypeSuccess;
 	case CAMsgType_Provisional:
 		return kMsgTypeProvisional;
+	case CAMsgType_Chat:
+		return kMsgTypeChat;
     default:
         return kMsgTypeUnknown;
     }
@@ -213,6 +271,25 @@ CAMsgAuthConn::CAMsgAuthConn(std::string strFrom /*= ""*/, std::string strAuthTo
 }
 
 CAMsgAuthConn::~CAMsgAuthConn()
+{
+
+}
+
+
+
+//
+//	CAMsgChat
+//
+
+CAMsgChat::CAMsgChat(std::string strFrom, std::string strAuthToken, std::string strCallId, std::string strTransacId, std::string m_strTo, const std::string& strContentType /*= ""*/, const void* pcDataPtr /*= NULL*/, size_t nDataSize /*= 0*/, std::string strSubType /*= ""*/)
+	: CAMsg(kMsgTypeChat, strFrom, strAuthToken, strCallId, strTransacId, m_strTo)
+{
+	if (!strContentType.empty() && pcDataPtr && nDataSize) {
+		CA_ASSERT(setContent(new CAContent(strContentType, pcDataPtr, nDataSize, strSubType)));
+	}
+}
+
+CAMsgChat::~CAMsgChat()
 {
 
 }

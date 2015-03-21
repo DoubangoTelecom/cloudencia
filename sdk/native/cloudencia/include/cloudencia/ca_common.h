@@ -141,8 +141,17 @@ typedef enum CAMsgType_e {
 	CAMsgType_Success,
 	CAMsgType_Provisional,
 	CAMsgType_AuthConn,
+	CAMsgType_Chat
 }
 CAMsgType_t;
+
+typedef enum CAContentType_e {
+	CAContentType_Unknown,
+	CAContentType_Text,
+	CAContentType_Html,
+	CAContentType_Base64
+}
+CAContentType_t;
 
 typedef enum CANetTransporType_e {
 	CANetTransporType_None = 0x00,
@@ -195,7 +204,8 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kCAMobuleNameNetTransport "NetTransport"
 #define kCAMobuleNameWsTransport "WebSocketTransport"
 #define kCAMobuleNameSignaling "Signaling"
-#define kCAMobuleNameMsg "MSG"
+#define kCAMobuleNameMsg "Message"
+#define kCAMobuleNameContent "Content"
 #define kCAMobuleNameUtils "Utils"
 #define kCAMobuleNameFakeDisplay "Fake display"
 #define kCAMobuleNameWEC7 "WEC7"
@@ -208,12 +218,23 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kMsgFieldAuthToken "authToken" // string
 #define kMsgFieldCode "code" // short
 #define kMsgFieldReason "reason" // string
+#define kMsgFieldContent "content" // object
 
 #define kMsgTypeUnknown "unknown"
 #define kMsgTypeError "error"
 #define kMsgTypeSuccess "success"
 #define kMsgTypeProvisional "provisional"
 #define kMsgTypeAuthConn "authConn"
+#define kMsgTypeChat "chat"
+
+#define kContentFieldType "type" // string
+#define kContentFieldSubType "subtype" // string
+#define kContentFieldData "data" // string
+
+#define kContentTypeUnknown "unknown"
+#define kContentTypeText "text"
+#define kContentTypeHtml "html"
+#define kContentTypeBase64 "base64" // will need subtype
 
 template <typename T>
 class CAAutoLock

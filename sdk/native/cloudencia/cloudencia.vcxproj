@@ -22,6 +22,7 @@
     <ClInclude Include="include\ca_config.h" />
     <ClInclude Include="include\cloudencia\ca_api.h" />
     <ClInclude Include="include\cloudencia\ca_common.h" />
+    <ClInclude Include="include\cloudencia\ca_content.h" />
     <ClInclude Include="include\cloudencia\ca_engine.h" />
     <ClInclude Include="include\cloudencia\ca_msg.h" />
     <ClInclude Include="include\cloudencia\ca_mutex.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="include\cloudencia\jsoncpp\ca_json.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ca_content.cc" />
     <ClCompile Include="src\ca_engine.cc" />
     <ClCompile Include="src\ca_jsoncpp.cc" />
     <ClCompile Include="src\ca_msg.cc" />

@@ -22,8 +22,13 @@
 #include "ca_config.h"
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_obj.h"
+#include "cloudencia/ca_content.h"
 
 #include <string>
+
+namespace CAJson {
+	class Value;
+}
 
 //
 //	CAMsg
@@ -39,10 +44,13 @@ public:
 		return "CAMsg";
 	}
 
+	bool toJson(CAJson::Value* jsonValue);
 	std::string toJson();
+	bool setContent(CAObjWrapper<CAContent* > oContent);
 
-	static CAObjWrapper<CAMsg* > parse(std::string jsonString);
-	static CAMsgType_t typeFromString(std::string strType);
+	static CAObjWrapper<CAMsg* > parse(const CAJson::Value* jsonValue);
+	static CAObjWrapper<CAMsg* > parse(const std::string& jsonString);
+	static CAMsgType_t typeFromString(const std::string& strType);
 	static std::string typeToString(CAMsgType_t eType);
 
 	CA_INLINE CAMsgType_t getType() {
@@ -54,6 +62,9 @@ public:
 	CA_INLINE std::string getTransacId() {
 		return m_strTransacId;
 	}
+	CA_INLINE CAObjWrapper<CAContent* >& getContent() {
+		return m_oContent;
+	}
 
 private:
 	CAMsgType_t m_eType;
@@ -63,6 +74,7 @@ private:
 	std::string m_strFrom;
 	std::string m_strTo;
 	std::string m_strAuthToken;
+	CAObjWrapper<CAContent* > m_oContent;
 };
 
 //
@@ -141,6 +153,20 @@ public:
 	virtual ~CAMsgAuthConn();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsgAuthConn";
+	}
+
+private:
+};
+
+//
+//	CAMsgChat
+//
+class CAMsgChat : public CAMsg {
+public:
+	CAMsgChat(std::string strFrom, std::string strAuthToken, std::string strCallId, std::string strTransacId, std::string m_strTo, const std::string& strContentType = "", const void* pcDataPtr = NULL, size_t nDataSize = 0, std::string strSubType = "");
+	virtual ~CAMsgChat();
+	virtual CA_INLINE const char* getObjectId() {
+		return "CAMsgChat";
 	}
 
 private:
