@@ -160,6 +160,7 @@ class CLOUDENCIA_API CASignaling : public CAObj
 {
 	friend class CASignalingTransportCallback;
 	friend class CAAutoLock<CASignaling >;
+	friend class CASessionCall;
 protected:
 	CASignaling(CAObjWrapper<CANetTransport* >& oNetTransport, CAObjWrapper<CAUrl* >& oConnectionUrl);
 public:
@@ -172,8 +173,8 @@ public:
 	bool isConnected();
 	bool isReady();
 	bool connect();
-	bool sendData(const void* pcData, size_t nDataSize);
 	bool disConnect();
+	bool sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType = kContentTypeText);
 
 	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
 
@@ -185,6 +186,7 @@ public:
 	}
 
 private:
+	bool sendData(const void* pcData, size_t nDataSize);
 	bool handleData(const char* pcData, size_t nDataSize);
 	bool raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
 	bool canSendData();

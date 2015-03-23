@@ -19,6 +19,7 @@ public class JsonMsg {
 	public static final String FIELD_TYPE_SUCCESS = "success";
 	public static final String FIELD_TYPE_PROVISIONAL = "provisional";
 	public static final String FIELD_TYPE_AUTH_CONN = "authConn";
+	public static final String FIELD_TYPE_CHAT = "chat";
 	
 	public enum TYPE
 	{
@@ -26,7 +27,8 @@ public class JsonMsg {
 		ERROR,
 		SUCCESS,
 		PROVISIONAL,
-		AUTH_CONN
+		AUTH_CONN,
+		CHAT
 	}
 	
 	TYPE mType = TYPE.UNKNOWN;
@@ -83,6 +85,11 @@ public class JsonMsg {
 		return result;
 	}
 	
+	public String asText() {
+		final ObjectNode obj = asObjectNode();
+		return obj.toString();
+	}
+	
 	public void copyRequestToResponse(final JsonMsg request) {
 		if (request != null) {
 			mFrom = request.mTo;
@@ -98,6 +105,7 @@ public class JsonMsg {
 		case SUCCESS: return FIELD_TYPE_SUCCESS;
 		case PROVISIONAL: return FIELD_TYPE_PROVISIONAL;
 		case AUTH_CONN: return FIELD_TYPE_AUTH_CONN;
+		case CHAT: return FIELD_TYPE_CHAT;
 		default: return "unknown";
 		}
 	}
@@ -117,6 +125,9 @@ public class JsonMsg {
 		}
 		if (FIELD_TYPE_AUTH_CONN.equals(type)) {
 			return TYPE.AUTH_CONN;
+		}
+		if (FIELD_TYPE_CHAT.equals(type)) {
+			return TYPE.CHAT;
 		}
 		return TYPE.UNKNOWN;
 	}
@@ -172,12 +183,25 @@ public class JsonMsg {
 		if (authToken == null || !authToken.isTextual() || authToken.toString().isEmpty()) {
 			return null;
 		}
+		
 		JsonMsg jsonMessage = new JsonMsg();
 		jsonMessage.mType = type;
 		jsonMessage.mFrom = from.asText();
 		jsonMessage.mCallId = cid.asText();
 		jsonMessage.mTransacId = tid.asText();
 		jsonMessage.mAuthToken = authToken.asText();
+		
+		switch(type) {
+		case CHAT:
+			final JsonNode to = json.get(FIELD_TO);
+			if (to == null || !to.isTextual() || to.toString().isEmpty()) {
+				return null;
+			}
+			jsonMessage.mTo = to.asText();
+			break;
+			default: break;
+		}
+		
 		return jsonMessage;
 	}
 	

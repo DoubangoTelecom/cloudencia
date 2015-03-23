@@ -369,7 +369,7 @@ static void printHelp()
            "                               COMMANDS                                     \n"
            "----------------------------------------------------------------------------\n"
            "\"help\"               Prints this message\n"
-           "\"chat [dest]\"        Audio/Video call to \"dest\" (opt., default from config.json)\n"
+           "\"chat [dest]\"        Sends random string to \"dest\" (opt., default from config.json)\n"
            "\"audio [dest]\"       Audio call to \"dest\" (opt., default from config.json)\n"
            "\"video [dest]\"       Video call to \"dest\" (opt., default from config.json)\n"
            "\"screencast [dest]\"  Share screen with \"dest\" (opt., default from config.json)\n"
@@ -380,6 +380,7 @@ static void printHelp()
            "\"hangup\"             Terminates the active call\n"
            "\"accept\"             Accepts the incoming call\n"
            "\"reject\"             Rejects the incoming call\n"
+		   "\"connect\"            Connects the signaling layer\n"
            "\"quit\"               Teminates the application\n"
            "--------------------------------------------------------------------------\n\n"
           );
@@ -395,7 +396,8 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
     CA_DEBUG_INFO_EX(kCAMobuleNameTest, "consoleReaderProc \"ENTER\"");
 
     while (fgets(command, sizeof(command), stdin) != NULL) {
-#define CHECK_CONNECTED() if (!connected){ CA_DEBUG_INFO("+++ not connected yet +++"); continue; }
+#define CHECK_CONNECTED() if (!connected){ CA_DEBUG_ERROR_EX(kCAMobuleNameTest, "+++ not connected yet +++"); continue; }
+#define CHECK_NOT_CONNECTED() if (connected){ CA_DEBUG_ERROR_EX(kCAMobuleNameTest, "+++ already connected +++"); continue; }
         if (strnicmp(command, "quit", 4) == 0) {
             CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++ quit() +++");
             break;
@@ -404,24 +406,38 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
             CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++ help() +++");
             printHelp();
         }
-        else if (strnicmp(command, "chat", 4) == 0 || strnicmp(command, "audio", 5) == 0 || strnicmp(command, "video", 5) == 0 || strnicmp(command, "screencast", 10) == 0 || strnicmp(command, "call", 4) == 0) {
-
+		else if (strnicmp(command, "chat", 4) == 0) {
+			std::string strRemoteId = jsonConfig["remote_id"].asString();
+			std::string strIMContent = "Hello world :) <3";
+			CHECK_CONNECTED();
+			if (sscanf(command, "%*s %24s", remoteId) > 0 && strlen(remoteId) > 0) {
+				strRemoteId = std::string(remoteId);
+			}
+			signalSession->sendIM(strRemoteId, strIMContent.c_str(), strIMContent.length());
+		}
+        else if (strnicmp(command, "audio", 5) == 0 || strnicmp(command, "video", 5) == 0 || strnicmp(command, "screencast", 10) == 0 || strnicmp(command, "call", 4) == 0) {
+			std::string strRemoteId = jsonConfig["remote_id"].asString();
+			CHECK_CONNECTED();
         }
         else if (strnicmp(command, "mute", 4) == 0 || strnicmp(command, "unmute", 6) == 0) {
-
+			CHECK_CONNECTED();
         }
         else if (strnicmp(command, "hold", 4) == 0) {
-
+			CHECK_CONNECTED();
         }
         else if (strnicmp(command, "resume", 6) == 0) {
-
+			CHECK_CONNECTED();
         }
         else if (strnicmp(command, "hangup", 6) == 0 || strnicmp(command, "reject", 6) == 0) {
-
+			CHECK_CONNECTED();
         }
         else if (strnicmp(command, "accept", 6) == 0) {
-
+			CHECK_CONNECTED();
         }
+		else if (strnicmp(command, "connect", 6) == 0) {
+			CHECK_NOT_CONNECTED();
+			CA_ASSERT(signalSession->connect());
+		}		
     }
 
     CA_DEBUG_INFO_EX(kCAMobuleNameTest, "consoleReaderProc \"EXIT\"");

@@ -231,10 +231,10 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kContentFieldSubType "subtype" // string
 #define kContentFieldData "data" // string
 
-#define kContentTypeUnknown "unknown"
-#define kContentTypeText "text"
-#define kContentTypeHtml "html"
-#define kContentTypeBase64 "base64" // will need subtype
+#define kContentTypeUnknown "data/unknown"
+#define kContentTypeText "data/text"
+#define kContentTypeHtml "data/html"
+#define kContentTypeBase64 "data/base64" // will need subtype
 
 template <typename T>
 class CAAutoLock
