@@ -594,6 +594,9 @@ var CASignaling = {
             CAUtils.sendData(JSONText);
         }
     },
+    currnetAuthToken: function() {
+        return authConnection ? authConnection.authToken : CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password);
+    },
     isResponseFor: function(resp, req) {
         return req && req && req.cid === req.cid && req.tid === req.tid;
     }

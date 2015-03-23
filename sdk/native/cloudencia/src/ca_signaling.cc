@@ -188,98 +188,38 @@ bool CASignaling::disConnect()
 }
 
 /**@ingroup _Group_CPP_Signaling
-* Sends data to the server.
-* @param _pcData Pointer to the data to send.
-* @param _nDataSize Size (in bytes) of the data to send.
+* Sends Instant Message (IM).
+* @param strTo
+* @param pcData
+* @param nDataSize
+* @param dataType
 * @retval <b>true</b> if no error; otherwise <b>false</b>.
 */
-bool CASignaling::sendData(const void* _pcData, tsk_size_t _nDataSize)
+bool CASignaling::sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType /*= kContentTypeText*/)
 {
-    CAAutoLock<CASignaling> autoLock(this);
-
-    if (!_pcData || !_nDataSize) {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Invalid argument");
-        return false;
-    }
-
-    if (!isReady()) {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not ready yet");
-        return false;
-    }
-
-    CA_DEBUG_INFO_EX(kCAMobuleNameSignaling, "Send DATA:%.*s", _nDataSize, _pcData);
-
-    if (m_oConnectionUrl->getType() == CAUrlType_WS || m_oConnectionUrl->getType() == CAUrlType_WSS) {
-        if (!m_bWsHandshakingDone) {
-            CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "WebSocket handshaking not done yet");
-            return false;
-        }
-        uint8_t mask_key[4] = { 0x00, 0x00, 0x00, 0x00 };
-        const uint8_t* pcData = (const uint8_t*)_pcData;
-        uint64_t nDataSize = 1 + 1 + 4/*mask*/ + _nDataSize;
-        uint64_t lsize = (uint64_t)_nDataSize;
-        uint8_t* pws_snd_buffer;
-
-        if (lsize > 0x7D && lsize <= 0xFFFF) {
-            nDataSize += 2;
-        }
-        else if (lsize > 0xFFFF) {
-            nDataSize += 8;
-        }
-        if (m_nWsSendBuffSize < nDataSize) {
-            if (!(m_pWsSendBufPtr = tsk_realloc(m_pWsSendBufPtr, (tsk_size_t)nDataSize))) {
-                CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Failed to allocate buffer with size = %llu", nDataSize);
-                m_nWsSendBuffSize = 0;
-                return 0;
-            }
-            m_nWsSendBuffSize = (tsk_size_t)nDataSize;
-        }
-        pws_snd_buffer = (uint8_t*)m_pWsSendBufPtr;
-
-        pws_snd_buffer[0] = 0x81; // FIN | opcode-non-control::text
-        pws_snd_buffer[1] = 0x80; // Set Mask flag (required for data from client->sever)
-
-        if (lsize <= 0x7D) {
-            pws_snd_buffer[1] |= (uint8_t)lsize;
-            pws_snd_buffer = &pws_snd_buffer[2];
-        }
-        else if (lsize <= 0xFFFF) {
-            pws_snd_buffer[1] |= 0x7E;
-            pws_snd_buffer[2] = (lsize >> 8) & 0xFF;
-            pws_snd_buffer[3] = (lsize & 0xFF);
-            pws_snd_buffer = &pws_snd_buffer[4];
-        }
-        else {
-            pws_snd_buffer[1] |= 0x7F;
-            pws_snd_buffer[2] = (lsize >> 56) & 0xFF;
-            pws_snd_buffer[3] = (lsize >> 48) & 0xFF;
-            pws_snd_buffer[4] = (lsize >> 40) & 0xFF;
-            pws_snd_buffer[5] = (lsize >> 32) & 0xFF;
-            pws_snd_buffer[6] = (lsize >> 24) & 0xFF;
-            pws_snd_buffer[7] = (lsize >> 16) & 0xFF;
-            pws_snd_buffer[8] = (lsize >> 8) & 0xFF;
-            pws_snd_buffer[9] = (lsize & 0xFF);
-            pws_snd_buffer = &pws_snd_buffer[10];
-        }
-
-        // Mask Key
-        pws_snd_buffer[0] = mask_key[0];
-        pws_snd_buffer[1] = mask_key[1];
-        pws_snd_buffer[2] = mask_key[2];
-        pws_snd_buffer[3] = mask_key[3];
-        pws_snd_buffer = &pws_snd_buffer[4];
-        // Mask dat
-        // ... nothing done because key is always zeros
-
-        // append payload to headers
-        memcpy(pws_snd_buffer, pcData, (size_t)lsize);
-        // send() data
-        return m_oNetTransport->sendData(m_Fd, m_pWsSendBufPtr, (tsk_size_t)nDataSize);
-    }
-    else {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not implemented yet");
-        return false;
-    }
+	CAAutoLock<CASignaling> autoLock(this);
+	
+	if (strTo.empty() || !pcData || !nDataSize) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Invalid argument");
+		return false;
+	}
+	if (!isReady()) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not ready yet");
+		return false;
+	}
+	CAObjWrapper<CAMsgChat* > oMsg = new CAMsgChat(
+		m_strCredUserId,
+		m_strAuthToken,
+		randomString(),
+		randomString(),
+		strTo,
+		dataType,
+		pcData,
+		nDataSize);
+	CA_ASSERT(oMsg);
+	std::string jsonContent = oMsg->toJson();
+	CA_ASSERT(!jsonContent.empty());
+	return sendData(jsonContent.c_str(), jsonContent.length());
 }
 
 /**@ingroup _Group_CPP_Signaling
@@ -342,6 +282,101 @@ CAObjWrapper<CASignaling* > CASignaling::newObj(std::string pcConnectionUri, std
 
 bail:
     return oSignaling;
+}
+
+/*
+* Sends data to the server.
+* @param _pcData Pointer to the data to send.
+* @param _nDataSize Size (in bytes) of the data to send.
+* @retval <b>true</b> if no error; otherwise <b>false</b>.
+*/
+bool CASignaling::sendData(const void* _pcData, tsk_size_t _nDataSize)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+
+	if (!_pcData || !_nDataSize) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Invalid argument");
+		return false;
+	}
+
+	if (!isReady()) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not ready yet");
+		return false;
+	}
+
+	CA_DEBUG_INFO_EX(kCAMobuleNameSignaling, "Send DATA:%.*s", _nDataSize, _pcData);
+
+	if (m_oConnectionUrl->getType() == CAUrlType_WS || m_oConnectionUrl->getType() == CAUrlType_WSS) {
+		if (!m_bWsHandshakingDone) {
+			CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "WebSocket handshaking not done yet");
+			return false;
+		}
+		uint8_t mask_key[4] = { 0x00, 0x00, 0x00, 0x00 };
+		const uint8_t* pcData = (const uint8_t*)_pcData;
+		uint64_t nDataSize = 1 + 1 + 4/*mask*/ + _nDataSize;
+		uint64_t lsize = (uint64_t)_nDataSize;
+		uint8_t* pws_snd_buffer;
+
+		if (lsize > 0x7D && lsize <= 0xFFFF) {
+			nDataSize += 2;
+		}
+		else if (lsize > 0xFFFF) {
+			nDataSize += 8;
+		}
+		if (m_nWsSendBuffSize < nDataSize) {
+			if (!(m_pWsSendBufPtr = tsk_realloc(m_pWsSendBufPtr, (tsk_size_t)nDataSize))) {
+				CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Failed to allocate buffer with size = %llu", nDataSize);
+				m_nWsSendBuffSize = 0;
+				return 0;
+			}
+			m_nWsSendBuffSize = (tsk_size_t)nDataSize;
+		}
+		pws_snd_buffer = (uint8_t*)m_pWsSendBufPtr;
+
+		pws_snd_buffer[0] = 0x81; // FIN | opcode-non-control::text
+		pws_snd_buffer[1] = 0x80; // Set Mask flag (required for data from client->sever)
+
+		if (lsize <= 0x7D) {
+			pws_snd_buffer[1] |= (uint8_t)lsize;
+			pws_snd_buffer = &pws_snd_buffer[2];
+		}
+		else if (lsize <= 0xFFFF) {
+			pws_snd_buffer[1] |= 0x7E;
+			pws_snd_buffer[2] = (lsize >> 8) & 0xFF;
+			pws_snd_buffer[3] = (lsize & 0xFF);
+			pws_snd_buffer = &pws_snd_buffer[4];
+		}
+		else {
+			pws_snd_buffer[1] |= 0x7F;
+			pws_snd_buffer[2] = (lsize >> 56) & 0xFF;
+			pws_snd_buffer[3] = (lsize >> 48) & 0xFF;
+			pws_snd_buffer[4] = (lsize >> 40) & 0xFF;
+			pws_snd_buffer[5] = (lsize >> 32) & 0xFF;
+			pws_snd_buffer[6] = (lsize >> 24) & 0xFF;
+			pws_snd_buffer[7] = (lsize >> 16) & 0xFF;
+			pws_snd_buffer[8] = (lsize >> 8) & 0xFF;
+			pws_snd_buffer[9] = (lsize & 0xFF);
+			pws_snd_buffer = &pws_snd_buffer[10];
+		}
+
+		// Mask Key
+		pws_snd_buffer[0] = mask_key[0];
+		pws_snd_buffer[1] = mask_key[1];
+		pws_snd_buffer[2] = mask_key[2];
+		pws_snd_buffer[3] = mask_key[3];
+		pws_snd_buffer = &pws_snd_buffer[4];
+		// Mask dat
+		// ... nothing done because key is always zeros
+
+		// append payload to headers
+		memcpy(pws_snd_buffer, pcData, (size_t)lsize);
+		// send() data
+		return m_oNetTransport->sendData(m_Fd, m_pWsSendBufPtr, (tsk_size_t)nDataSize);
+	}
+	else {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not implemented yet");
+		return false;
+	}
 }
 
 /*

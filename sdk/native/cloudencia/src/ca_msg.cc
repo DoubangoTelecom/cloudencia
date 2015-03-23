@@ -27,14 +27,14 @@
 //
 
 
-CAMsg::CAMsg(std::string strType, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
+CAMsg::CAMsg(std::string strType, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
     : m_eType(typeFromString(strType))
     , m_strType(strType)
     , m_strFrom(strFrom)
     , m_strAuthToken(strAuthToken)
     , m_strCallId(strCallId)
     , m_strTransacId(strTransacId)
-    , m_strTo(m_strTo)
+    , m_strTo(strTo)
 {
     CA_ASSERT(!strType.empty());
 #if 0
@@ -58,6 +58,9 @@ bool CAMsg::toJson(CAJson::Value* jsonValue)
 	root[kMsgFieldType] = m_strType;
 	if (!m_strFrom.empty()) {
 		root[kMsgFieldFrom] = m_strFrom;
+	}
+	if (!m_strTo.empty()) {
+		root[kMsgFieldTo] = m_strTo;
 	}
 	if (!m_strAuthToken.empty()) {
 		root[kMsgFieldAuthToken] = m_strAuthToken;
@@ -204,13 +207,13 @@ std::string CAMsg::typeToString(CAMsgType_t eType)
 //	CAMsgAnswer
 //
 
-CAMsgAnswer::CAMsgAnswer(std::string strType, std::string strReason /*= ""*/, short nCode /* = 0 */, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, m_strTo)
+CAMsgAnswer::CAMsgAnswer(std::string strType, std::string strReason /*= ""*/, short nCode /* = 0 */, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, strTo)
 	, m_strReason(strReason)
 	, m_nCode(nCode) { }
 
-CAMsgAnswer::CAMsgAnswer(std::string strType, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, m_strTo)
+CAMsgAnswer::CAMsgAnswer(std::string strType, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, strTo)
 	, m_strReason(strReason)
 	, m_nCode(0) { }
 
@@ -225,11 +228,11 @@ bool CAMsgAnswer::isFor(CAObjWrapper<CAMsg* > oMsg)
 //	CAMsgError
 //
 
-CAMsgError::CAMsgError(std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsgAnswer(kMsgTypeError, strReason, strFrom, strAuthToken, strCallId, strTransacId, m_strTo) { }
+CAMsgError::CAMsgError(std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsgAnswer(kMsgTypeError, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo) { }
 
-CAMsgError::CAMsgError(short nCode, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsgAnswer(kMsgTypeError, strReason, nCode, strFrom, strAuthToken, strCallId, strTransacId, m_strTo) { }
+CAMsgError::CAMsgError(short nCode, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsgAnswer(kMsgTypeError, strReason, nCode, strFrom, strAuthToken, strCallId, strTransacId, strTo) { }
 
 CAMsgError::~CAMsgError() { }
 
@@ -237,11 +240,11 @@ CAMsgError::~CAMsgError() { }
 //	CAMsgSuccess
 //
 
-CAMsgSuccess::CAMsgSuccess(std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsgAnswer(kMsgTypeSuccess, strReason, strFrom, strAuthToken, strCallId, strTransacId, m_strTo) { }
+CAMsgSuccess::CAMsgSuccess(std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsgAnswer(kMsgTypeSuccess, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo) { }
 
-CAMsgSuccess::CAMsgSuccess(short nCode, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsgAnswer(kMsgTypeSuccess, strReason, nCode, strFrom, strAuthToken, strCallId, strTransacId, m_strTo) { }
+CAMsgSuccess::CAMsgSuccess(short nCode, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsgAnswer(kMsgTypeSuccess, strReason, nCode, strFrom, strAuthToken, strCallId, strTransacId, strTo) { }
 
 CAMsgSuccess::~CAMsgSuccess() { }
 
@@ -250,11 +253,11 @@ CAMsgSuccess::~CAMsgSuccess() { }
 //	CAMsgProvisional
 //
 
-CAMsgProvisional::CAMsgProvisional(std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsgAnswer(kMsgTypeProvisional, strReason, strFrom, strAuthToken, strCallId, strTransacId, m_strTo) { }
+CAMsgProvisional::CAMsgProvisional(std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsgAnswer(kMsgTypeProvisional, strReason, strFrom, strAuthToken, strCallId, strTransacId, strTo) { }
 
-CAMsgProvisional::CAMsgProvisional(short nCode, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-	: CAMsgAnswer(kMsgTypeProvisional, strReason, nCode, strFrom, strAuthToken, strCallId, strTransacId, m_strTo) { }
+CAMsgProvisional::CAMsgProvisional(short nCode, std::string strReason /*= ""*/, std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+	: CAMsgAnswer(kMsgTypeProvisional, strReason, nCode, strFrom, strAuthToken, strCallId, strTransacId, strTo) { }
 
 CAMsgProvisional::~CAMsgProvisional() { }
 
@@ -264,8 +267,8 @@ CAMsgProvisional::~CAMsgProvisional() { }
 //
 
 
-CAMsgAuthConn::CAMsgAuthConn(std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string m_strTo /*= ""*/)
-    : CAMsg(kMsgTypeAuthConn, strFrom, strAuthToken, strCallId, strTransacId, m_strTo)
+CAMsgAuthConn::CAMsgAuthConn(std::string strFrom /*= ""*/, std::string strAuthToken /*= ""*/, std::string strCallId /*= ""*/, std::string strTransacId /*= ""*/, std::string strTo /*= ""*/)
+    : CAMsg(kMsgTypeAuthConn, strFrom, strAuthToken, strCallId, strTransacId, strTo)
 {
 
 }
@@ -281,8 +284,8 @@ CAMsgAuthConn::~CAMsgAuthConn()
 //	CAMsgChat
 //
 
-CAMsgChat::CAMsgChat(std::string strFrom, std::string strAuthToken, std::string strCallId, std::string strTransacId, std::string m_strTo, const std::string& strContentType /*= ""*/, const void* pcDataPtr /*= NULL*/, size_t nDataSize /*= 0*/, std::string strSubType /*= ""*/)
-	: CAMsg(kMsgTypeChat, strFrom, strAuthToken, strCallId, strTransacId, m_strTo)
+CAMsgChat::CAMsgChat(std::string strFrom, std::string strAuthToken, std::string strCallId, std::string strTransacId, std::string strTo, const std::string& strContentType /*= ""*/, const void* pcDataPtr /*= NULL*/, size_t nDataSize /*= 0*/, std::string strSubType /*= ""*/)
+	: CAMsg(kMsgTypeChat, strFrom, strAuthToken, strCallId, strTransacId, strTo)
 {
 	if (!strContentType.empty() && pcDataPtr && nDataSize) {
 		CA_ASSERT(setContent(new CAContent(strContentType, pcDataPtr, nDataSize, strSubType)));

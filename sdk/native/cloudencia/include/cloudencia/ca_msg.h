@@ -38,7 +38,7 @@ namespace CAJson {
 class CAMsg : public CAObj
 {
 public:
-	CAMsg(std::string strType, std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
+	CAMsg(std::string strType, std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
 	virtual ~CAMsg();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsg";
@@ -83,8 +83,8 @@ private:
 
 class CAMsgAnswer : public CAMsg {
 protected:
-	CAMsgAnswer(std::string strType, std::string strReason = "", short nCode = 0, std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
-	CAMsgAnswer(std::string strType, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
+	CAMsgAnswer(std::string strType, std::string strReason = "", short nCode = 0, std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
+	CAMsgAnswer(std::string strType, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
 public:
 	virtual ~CAMsgAnswer();
 	virtual bool isFor(CAObjWrapper<CAMsg* > oMsg);
@@ -106,8 +106,8 @@ private:
 
 class CAMsgError : public CAMsgAnswer {
 public:
-	CAMsgError(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
-	CAMsgError(short nCode, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
+	CAMsgError(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
+	CAMsgError(short nCode, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
 	virtual ~CAMsgError();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsgError";
@@ -120,8 +120,8 @@ public:
 
 class CAMsgSuccess : public CAMsgAnswer {
 public:
-	CAMsgSuccess(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
-	CAMsgSuccess(short nCode, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
+	CAMsgSuccess(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
+	CAMsgSuccess(short nCode, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
 	virtual ~CAMsgSuccess();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsgSuccess";
@@ -134,8 +134,8 @@ public:
 
 class CAMsgProvisional : public CAMsgAnswer {
 public:
-	CAMsgProvisional(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
-	CAMsgProvisional(short nCode, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
+	CAMsgProvisional(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
+	CAMsgProvisional(short nCode, std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
 	virtual ~CAMsgProvisional();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsgProvisional";
@@ -149,7 +149,7 @@ public:
 
 class CAMsgAuthConn : public CAMsg {
 public:
-	CAMsgAuthConn(std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string m_strTo = "");
+	CAMsgAuthConn(std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
 	virtual ~CAMsgAuthConn();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsgAuthConn";
@@ -163,7 +163,7 @@ private:
 //
 class CAMsgChat : public CAMsg {
 public:
-	CAMsgChat(std::string strFrom, std::string strAuthToken, std::string strCallId, std::string strTransacId, std::string m_strTo, const std::string& strContentType = "", const void* pcDataPtr = NULL, size_t nDataSize = 0, std::string strSubType = "");
+	CAMsgChat(std::string strFrom, std::string strAuthToken, std::string strCallId, std::string strTransacId, std::string strTo, const std::string& strContentType = "", const void* pcDataPtr = NULL, size_t nDataSize = 0, std::string strSubType = "");
 	virtual ~CAMsgChat();
 	virtual CA_INLINE const char* getObjectId() {
 		return "CAMsgChat";

@@ -101,6 +101,19 @@ public class CustomWebSocketActor extends UntypedActor {
 					mOut.tell(success.asText(), self());
 				}
 			}
+			else if (jsonMessage.getType() == TYPE.CHAT) {
+				final BasicResult result = forwardData(jsonMessage.getTo(), message);
+				if (result.isNok()) {
+					final JsonMsg.Error error = new JsonMsg.Error((short)300, result.getReason());
+					error.copyRequestToResponse(jsonMessage);
+					mOut.tell(error.asText(), self());
+				}
+				else {
+					final JsonMsg.Success success = new JsonMsg.Success((short)200, result.getReason());
+					success.copyRequestToResponse(jsonMessage);
+					mOut.tell(success.asText(), self());
+				}
+			}
 		}
 		else {
 			mOut.tell(JsonMsg.Error.asText("Invalid content type: " + message), self());
@@ -136,12 +149,9 @@ public class CustomWebSocketActor extends UntypedActor {
 		return mConnected;
 	}
 	
-	public BasicResult forwardMessage(Object message) {
-		if (message == null) {
+	public BasicResult forwardData(final Object data) {
+		if (data == null) {
 			return new BasicResult.BasicError("Null message");
-		}
-		if (!(message instanceof String)) {
-			return new BasicResult.BasicError("Only strings could be sent");
 		}
 		if (!isConnected()) {
 			return new BasicResult.BasicError("Not Connected");
@@ -149,8 +159,33 @@ public class CustomWebSocketActor extends UntypedActor {
 		if (!isConnAuthenticated()) {
 			return new BasicResult.BasicError("Connection not authenticated");
 		}
-		mOut.tell(message, self());
+		mOut.tell(data, self());
 		return BasicResult.ok;
+	}
+	
+	public BasicResult forwardData(final String dstEmail, final Object data) {
+		final HashMap<Long/*actorId*/, CustomWebSocketActor> dstActors = getActors(dstEmail);
+		if (dstActors == null || dstActors.isEmpty()) {
+			// FIXME: store message
+		}
+		else {
+			BasicResult ret;
+			for (HashMap.Entry<Long, CustomWebSocketActor> entry : dstActors.entrySet()) {
+				ret = entry.getValue().forwardData(data);
+				if (ret.isNok()) {
+					return ret;
+				}
+			}
+		}
+		return BasicResult.ok;
+	}
+	
+	public BasicResult forwardMessage(final JsonMsg jsonMessage) {
+		return forwardData(jsonMessage.asText());
+	}
+	
+	private BasicResult forwardMessage(final String dstEmail, final JsonMsg jsonMessage) {
+		return forwardData(dstEmail, jsonMessage);
 	}
 	
 	public static HashMap<Long/*actorId*/, CustomWebSocketActor> getActors(String email) {
