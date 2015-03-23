@@ -5,7 +5,14 @@
 @author      Doubango Telecom
 @version     1.0.0
 */
-document.write(unescape("%3Cscript src='adapter.js' type='text/javascript'%3E%3C/script%3E"));
+if (!window.cloudencia) {
+    cloudencia = { debug: true };
+}
+if (window.cloudencia.debug) {
+    document.write(unescape("%3Cscript src='cloudencia-adapter.js' type='text/javascript'%3E%3C/script%3E"));
+    document.write(unescape("%3Cscript src='cloudencia-base64.js' type='text/javascript'%3E%3C/script%3E"));
+    document.write(unescape("%3Cscript src='cloudencia-md5.js' type='text/javascript'%3E%3C/script%3E"));
+}
 var WebSocket = (window['MozWebSocket'] || window['MozWebSocket'] || WebSocket);
 window.console = window.console || {};
 window.console.info = window.console.info || window.console.log || function(msg) { };
@@ -31,7 +38,10 @@ if (!!((Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(windo
 */
 var CAEngine = {
     /** @private */socket: null,
-    /** @private */config: null,
+    /** @private */config: {
+        "user_id": null,
+        "user_password": null,
+    },
     /** @private */connected: false,
 
     /* ===================================
@@ -77,6 +87,7 @@ var CA_EVENT_TYPE = {
         ERROR: "signaling-error",
         CONNECTING: "signaling-connecting",
         CONNECTED: "signaling-connected",
+        READY: "signaling-ready",
         DISCONNECTING: "signaling-disconnecting",
         DISCONNECTED: "signaling-disconnected",
     },
@@ -434,6 +445,16 @@ var CAUtils = {
             'video': (callConfig && callConfig.video_send)
         };
     },
+    buildAuthToken: function (email, password) {
+        // auth-token = md5('password' ':' 'login' ':' 'doubango.org');
+        return CAMD5.hexdigest(password + ':' + email + ':' + 'doubango.org');
+    },
+    buildHa1: function (impi, realm, password) {
+        /* RFC 2617 - 3.2.2.2 A1
+                    A1       = unq(username-value) ":" unq(realm-value) ":" passwd
+            */
+        return CAMD5.hexdigest(impi + ':' + realm + ':' + password);
+    },
     attachStream: function(call, stream, local) {
         var htmlElementVideo = local ? (call.config.video_local_elt || CAEngine.config.video_local_elt) : (call.config.video_remote_elt || CAEngine.config.video_remote_elt);
         var htmlElementAudio = local ? (call.config.localAudio || CAEngine.config.localAudio) : (call.config.audio_remote_elt || CAEngine.config.audio_remote_elt);
@@ -537,14 +558,44 @@ var CAUtils = {
     raiseSignalingEvent: function (type, description) {
         if (document != null) {
             // second argument for CustomEvent is CAEventSignaling object
-            var ev = new CustomEvent(CAEngine.EVENT_TYPE_SIGNALING, { 'detail': { type: type, description: description } });
-            document.dispatchEvent(ev);
+            document.dispatchEvent(new CustomEvent(CAEngine.EVENT_TYPE_SIGNALING, { 'detail': { type: type, description: description } }));
         }
     },
     raiseCallEvent: function(call, type, description, msg) {
         if (CAEngine.oncall) {
             CAEngine.oncall({ "type": type, "call": call, "description": description, "msg": msg });
         }
+    },
+    sendData: function (data) {
+        if (!CAEngine.socket || !CAEngine.connected) {
+            throw new Error("not connected");
+        }
+        if (data) {
+            console.info("sendData: " + data);
+            CAEngine.socket.send(data);
+        }
+    }
+};
+
+/** @private */
+var CASignaling = {
+    connectionAuthenticated: false,
+    msgAuthConnection: null,
+    authConnection: function () {
+        if (CAEngine.connected) {
+            CASignaling.msgAuthConnection = {
+                type: CA_MSG_TYPE.AUTHCONN,
+                from: CAEngine.config.user_id,
+                cid: CAUtils.stringRandomUuid(),
+                tid: CAUtils.stringRandomUuid(),
+                authToken: CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password)
+            };
+            var JSONText = JSON.stringify(CASignaling.msgAuthConnection);
+            CAUtils.sendData(JSONText);
+        }
+    },
+    isResponseFor: function(resp, req) {
+        return req && req && req.cid === req.cid && req.tid === req.tid;
     }
 };
 
@@ -573,6 +624,8 @@ CAEngine.connect = function(url) {
         console.info("signaling::onopen");
         CAEngine.connected = true;
         CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.CONNECTED, (e || {}).data);
+        // authenticate the newly connected connection
+        CASignaling.authConnection();
     }
     CAEngine.socket.onclose = function (e) {
         console.info("signaling::onclose");
@@ -586,15 +639,19 @@ CAEngine.connect = function(url) {
     }
     CAEngine.socket.onmessage = function(e) {
         console.info("signaling::onmessage: " + e.data);
-        
         var msg = JSON.parse(e.data);
-        if (msg)
-        {
-            if (msg.from == CAEngine.config.localId) {
-                console.info("message loopback for " + msg.from);
-                return;
+        if (msg) {
+            if (msg.type == CA_MSG_TYPE.SUCCESS) {
+                if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
+                    CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.READY);
+                }
             }
-            if (msg.type === CA_MSG_TYPE.OFFER || msg.type === CA_MSG_TYPE.ANSWER || msg.type == CA_MSG_TYPE.PRANSWER || msg.type == CA_MSG_TYPE.HANGUP) {
+           else if (msg.type == CA_MSG_TYPE.ERROR) {
+                if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
+                    CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.ERROR, msg.reason);
+                }
+            }
+            else if (msg.type === CA_MSG_TYPE.OFFER || msg.type === CA_MSG_TYPE.ANSWER || msg.type == CA_MSG_TYPE.PRANSWER || msg.type == CA_MSG_TYPE.HANGUP) {
                 CAUtils.raiseCallEvent(null, msg.type, msg.type, msg);
             }
         }
