@@ -10,6 +10,20 @@ var WebSocket = (window['MozWebSocket'] || window['MozWebSocket'] || WebSocket);
 window.console = window.console || {};
 window.console.info = window.console.info || window.console.log || function(msg) { };
 window.console.error = window.console.error || window.console.log || window.console.info;
+if (!!((Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(window, "ActiveXObject")) || ("ActiveXObject" in window))) { // Internet Explorer?
+    // CustomEvent
+    (function () {
+        function CustomEvent(event, params) {
+            params = params || { bubbles: false, cancelable: false, detail: undefined };
+            var evt = document.createEvent('CustomEvent');
+            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+            return evt;
+        };
+
+        CustomEvent.prototype = window.Event.prototype;
+        window.CustomEvent = CustomEvent;
+    })();
+}
 
 /**
 @namespace Anonymous
@@ -523,7 +537,8 @@ var CAUtils = {
     raiseSignalingEvent: function (type, description) {
         if (document != null) {
             // second argument for CustomEvent is CAEventSignaling object
-            document.dispatchEvent(new CustomEvent(CAEngine.EVENT_TYPE_SIGNALING, { 'detail': { type: type, description: description } }));
+            var ev = new CustomEvent(CAEngine.EVENT_TYPE_SIGNALING, { 'detail': { type: type, description: description } });
+            document.dispatchEvent(ev);
         }
     },
     raiseCallEvent: function(call, type, description, msg) {
