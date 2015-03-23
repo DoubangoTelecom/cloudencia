@@ -36,6 +36,7 @@
             switch (e.detail.type) {
                 case CA_EVENT_TYPE.SIGNALING.CONNECTING:
                 case CA_EVENT_TYPE.SIGNALING.CONNECTED:
+                case CA_EVENT_TYPE.SIGNALING.READY:
                     btnConnect.disabled = true;
                     btnDisConnect.disabled = false;
                     txtInfo.innerHTML = "<font color='green'>" + e.detail.type + " ("+ (e.detail.description || ".") +")</font>";
