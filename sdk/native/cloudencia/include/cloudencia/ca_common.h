@@ -76,6 +76,8 @@ typedef enum CASignalingEventType_e {
 	CASignalingEventType_NetDisconnected,
 	CASignalingEventType_NetError,
 
+	CASignalingEventType_ResultTransac,
+
 	CASignalingEventType_Error,
 
 	CASignalingEventType_Call
@@ -201,40 +203,53 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 	}
 }
 
-#define kCAMobuleNameNetTransport "NetTransport"
-#define kCAMobuleNameWsTransport "WebSocketTransport"
-#define kCAMobuleNameSignaling "Signaling"
-#define kCAMobuleNameMsg "Message"
-#define kCAMobuleNameContent "Content"
-#define kCAMobuleNameUtils "Utils"
-#define kCAMobuleNameFakeDisplay "Fake display"
-#define kCAMobuleNameWEC7 "WEC7"
+#define kCAMobuleNameNetTransport		"NetTransport"
+#define kCAMobuleNameWsTransport		"WebSocketTransport"
+#define kCAMobuleNameSignaling			"Signaling"
+#define kCAMobuleNameMsg				"Message"
+#define kCAMobuleNameContent			"Content"
+#define kCAMobuleNameUtils				"Utils"
+#define kCAMobuleNameFakeDisplay		"Fake display"
+#define kCAMobuleNameWEC7				"WEC7"
 
-#define kMsgFieldType "type" // string
-#define kMsgFieldFrom "from" // string
-#define kMsgFieldTo "to" // string
-#define kMsgFieldCallId "cid" // string
-#define kMsgFieldTransactionId "tid" // string
-#define kMsgFieldAuthToken "authToken" // string
-#define kMsgFieldCode "code" // short
-#define kMsgFieldReason "reason" // string
-#define kMsgFieldContent "content" // object
+#define kMsgFieldType					"type" // string
+#define kMsgFieldFrom					"from" // string
+#define kMsgFieldTo						"to" // string
+#define kMsgFieldCallId					"cid" // string
+#define kMsgFieldTransactionId			"tid" // string
+#define kMsgFieldAuthToken				"authToken" // string
+#define kMsgFieldCode					"code" // short
+#define kMsgFieldReason					"reason" // string
+#define kMsgFieldContent				"content" // object
 
-#define kMsgTypeUnknown "unknown"
-#define kMsgTypeError "error"
-#define kMsgTypeSuccess "success"
-#define kMsgTypeProvisional "provisional"
-#define kMsgTypeAuthConn "authConn"
-#define kMsgTypeChat "chat"
+#define kMsgTypeUnknown					"unknown"
+#define kMsgTypeError					"error"
+#define kMsgTypeSuccess					"success"
+#define kMsgTypeProvisional				"provisional"
+#define kMsgTypeAuthConn				"authConn"
+#define kMsgTypeChat					"chat"
 
-#define kContentFieldType "type" // string
-#define kContentFieldSubType "subtype" // string
-#define kContentFieldData "data" // string
+#define kContentFieldType				"type" // string
+#define kContentFieldSubType			"subtype" // string
+#define kContentFieldData				"data" // string
 
-#define kContentTypeUnknown "data/unknown"
-#define kContentTypeText "data/text"
-#define kContentTypeHtml "data/html"
-#define kContentTypeBase64 "data/base64" // will need subtype
+#define kContentTypeUnknown				"data/unknown"
+#define kContentTypeText				"data/text"
+#define kContentTypeHtml				"data/html"
+#define kContentTypeBase64				"data/base64" // will need subtype
+
+#define kProvisionalCodeTrying			100
+#define kProvisionalCodeRinging			101
+
+#define kSuccessCodeOk					200
+#define kSuccessCodeSent				201
+#define kSuccessCodeDelivered			202
+#define kSuccessCodeSeen				203
+
+#define kErrorCodeNOk					300
+#define kErrorCodeForbidden				301
+#define kErrorCodeNotFoud				302
+#define kErrorCodeNotSent				303
 
 template <typename T>
 class CAAutoLock

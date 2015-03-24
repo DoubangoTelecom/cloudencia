@@ -78,6 +78,9 @@
     <ClInclude Include="include\cloudencia\ca_content.h">
       <Filter>include\cloudencia</Filter>
     </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_result.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_mutex.cc">
@@ -123,6 +126,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ca_content.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ca_result.cc">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -215,7 +215,7 @@ bool CASessionCall::call(CAMediaType_t eMediaType, std::string strDestUserId)
 * @retval <b>true</b> if no error; otherwise <b>false</b>.
 * @sa @ref rejectEvent()
 */
-bool CASessionCall::acceptEvent(CAObjWrapper<CASignalingCallEvent*>& e)
+bool CASessionCall::acceptEvent(const CAObjWrapper<CASignalingCallEvent* >& e)
 {
     CAAutoLock<CASessionCall> autoLock(this);
 
@@ -319,7 +319,7 @@ bail:
 * @retval <b>true</b> if no error; otherwise <b>false</b>.
 * @sa @ref acceptEvent()
 */
-bool CASessionCall::rejectEvent(CAObjWrapper<CASignaling*> signalingSession, CAObjWrapper<CASignalingCallEvent*>& e)
+bool CASessionCall::rejectEvent(CAObjWrapper<CASignaling*> signalingSession, const CAObjWrapper<CASignalingCallEvent*>& e)
 {
     if (!signalingSession || !e) {
         CA_DEBUG_ERROR("Invalid argument");

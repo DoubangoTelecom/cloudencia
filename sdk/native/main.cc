@@ -110,8 +110,11 @@ public:
     virtual ~CASignalingCallbackDummy() {
         CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CASignalingCallbackDummy destroyed ***");
     }
+	virtual CA_INLINE const char* getObjectId() {
+		return "CASignalingCallbackDummy";
+	}
 
-    virtual bool onEventNet(CAObjWrapper<CASignalingEvent* >& e) {
+	virtual bool onEventNet(const CAObjWrapper<CASignalingEvent* >& e) {
         //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
         switch (e->getType()) {
         case CASignalingEventType_NetReady: {
@@ -137,10 +140,15 @@ public:
 
         return true;
     }
-    virtual CA_INLINE const char* getObjectId() {
-        return "CASignalingCallbackDummy";
-    }
-    virtual bool onEventCall(CAObjWrapper<CASignalingCallEvent* >& e) {
+    
+	virtual bool onEventResultTransac(const CAObjWrapper<CASignalingResultTransacEvent* >& e) {
+		CAObjWrapper<CAResultTransac* >& oResult = e->getResult();
+		CA_ASSERT(oResult);
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "onEventResultTransac(code = %u, callId = %s, transacId = %s)", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
+		return true;
+	}
+
+	virtual bool onEventCall(const CAObjWrapper<CASignalingCallEvent* >& e) {
         //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
         if (callSession) {
             if (callSession->getCallId() != e->getCallId()) {
@@ -413,7 +421,14 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
 			if (sscanf(command, "%*s %24s", remoteId) > 0 && strlen(remoteId) > 0) {
 				strRemoteId = std::string(remoteId);
 			}
-			signalSession->sendIM(strRemoteId, strIMContent.c_str(), strIMContent.length());
+			CAObjWrapper<CAResultTransac* >oResult;
+			CA_ASSERT((oResult = signalSession->sendIM(strRemoteId, strIMContent.c_str(), strIMContent.length())));
+			if (oResult->isOk()) {
+				CA_DEBUG_INFO_EX(kCAMobuleNameTest, "Chat message sent: code = %u, callId = %s, transacId = %s", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
+			}
+			else {
+				CA_DEBUG_ERROR_EX(kCAMobuleNameTest, "Failed to send chat message");
+			}
 		}
         else if (strnicmp(command, "audio", 5) == 0 || strnicmp(command, "video", 5) == 0 || strnicmp(command, "screencast", 10) == 0 || strnicmp(command, "call", 4) == 0) {
 			std::string strRemoteId = jsonConfig["remote_id"].asString();

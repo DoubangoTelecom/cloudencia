@@ -26,6 +26,7 @@
 #include "cloudencia/ca_url.h"
 #include "cloudencia/ca_mutex.h"
 #include "cloudencia/ca_msg.h"
+#include "cloudencia/ca_result.h"
 
 #include <string>
 
@@ -66,6 +67,27 @@ private:
 	std::string m_strDescription;
 	void* m_pDataPtr;
 	size_t m_nDataSize;
+	CA_DISABLE_WARNINGS_END()
+};
+
+/**@ingroup _Group_CPP_Signaling
+* Signaling event for transactions.
+*/
+class CLOUDENCIA_API CASignalingResultTransacEvent : public CASignalingEvent
+{
+	friend class CASignaling;
+public:
+	CASignalingResultTransacEvent(CAObjWrapper<CAResultTransac* > oResult);
+	virtual ~CASignalingResultTransacEvent();
+	virtual CA_INLINE const char* getObjectId() {
+		return "CASignalingResultTransacEvent";
+	}
+	CA_INLINE CAObjWrapper<CAResultTransac* >& getResult() {
+		return m_oResult;
+	}
+private:
+	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
+	CAObjWrapper<CAResultTransac* > m_oResult;
 	CA_DISABLE_WARNINGS_END()
 };
 
@@ -129,9 +151,11 @@ protected:
 public:
 	virtual ~CASignalingCallback() {}
 	/** Raised to signal events releated to the network connection states */
-	virtual bool onEventNet(CAObjWrapper<CASignalingEvent* >& e) = 0;
+	virtual bool onEventNet(const CAObjWrapper<CASignalingEvent* >& e) = 0;
+	/** Raised to signal events related to a transaction result */
+	virtual bool onEventResultTransac(const CAObjWrapper<CASignalingResultTransacEvent* >& e) = 0;
 	/** Raised to signal events related to the call states */
-	virtual bool onEventCall(CAObjWrapper<CASignalingCallEvent* >& e) = 0;
+	virtual bool onEventCall(const CAObjWrapper<CASignalingCallEvent* >& e) = 0;
 };
 
 
@@ -174,7 +198,7 @@ public:
 	bool isReady();
 	bool connect();
 	bool disConnect();
-	bool sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType = kContentTypeText);
+	CAObjWrapper<CAResultTransac* > sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType = kContentTypeText);
 
 	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
 
@@ -189,6 +213,7 @@ private:
 	bool sendData(const void* pcData, size_t nDataSize);
 	bool handleData(const char* pcData, size_t nDataSize);
 	bool raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
+	bool raiseEventResultTransac(CAObjWrapper<CAResultTransac* > oResult);
 	bool canSendData();
 	std::string randomString();
 

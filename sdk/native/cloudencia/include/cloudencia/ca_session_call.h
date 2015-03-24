@@ -62,8 +62,8 @@ public:
 #endif
 
 	virtual bool call(CAMediaType_t eMediaType, std::string strDestUserId);
-	virtual bool acceptEvent(CAObjWrapper<CASignalingCallEvent* >& e);
-	static bool rejectEvent(CAObjWrapper<CASignaling* > oSignaling, CAObjWrapper<CASignalingCallEvent* >& e);
+	virtual bool acceptEvent(const CAObjWrapper<CASignalingCallEvent* >& e);
+	static bool rejectEvent(CAObjWrapper<CASignaling* > oSignaling, const CAObjWrapper<CASignalingCallEvent* >& e);
 
 	virtual bool setMute(bool bMuted, CAMediaType_t eMediaType = CAMediaType_All);
 	virtual bool hangup();

@@ -101,6 +101,39 @@ var CA_EVENT_TYPE = {
 
 /**
 @namespace Anonymous
+@description Response code types
+*/
+var CA_RESPONSE_CODE_TYPE = {
+    PROVISIONAL: 100, // [100 - 199]
+    SUCCESS: 200, // [200 - 299]
+    ERROR: 300, // [300 - [
+};
+
+/**
+@namespace Anonymous
+@description Response codes
+*/
+var CA_RESPONSE_CODE = {
+    PROVISIONAL: {
+        TRYING: 100,
+        RINGING: 101
+    },
+    SUCCESS: {
+        OK: 200,
+        SENT: 201,
+        DELIVERED: 202,
+        SEEN: 203,
+    },
+    ERROR: {
+        NOK: 300,
+        FORBIDDEN: 301,
+        NOTFOUD: 302,
+        NOTSENT: 303
+    }
+};
+
+/**
+@namespace Anonymous
 @description Call session
 */
 var CACall = function (){
