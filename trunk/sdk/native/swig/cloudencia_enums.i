@@ -11,11 +11,13 @@ CADebugLevel_t;
 
 // ca_common.h
 typedef enum CASignalingEventType_e {
-	CASignalingEventType_NetConnected,
+		CASignalingEventType_NetConnected,
 	CASignalingEventType_NetReady,
 	CASignalingEventType_NetData, // "passthrough" data: https://code.google.com/p/sincity/issues/detail?id=2
 	CASignalingEventType_NetDisconnected,
 	CASignalingEventType_NetError,
+
+	CASignalingEventType_ResultTransac,
 
 	CASignalingEventType_Error,
 

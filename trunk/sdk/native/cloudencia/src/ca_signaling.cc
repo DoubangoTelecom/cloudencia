@@ -193,19 +193,19 @@ bool CASignaling::disConnect()
 * @param pcData
 * @param nDataSize
 * @param dataType
-* @retval <b>true</b> if no error; otherwise <b>false</b>.
+* @retval Result.
 */
-bool CASignaling::sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType /*= kContentTypeText*/)
+CAObjWrapper<CAResultTransac* > CASignaling::sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType /*= kContentTypeText*/)
 {
 	CAAutoLock<CASignaling> autoLock(this);
 	
 	if (strTo.empty() || !pcData || !nDataSize) {
 		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Invalid argument");
-		return false;
+		return NULL;
 	}
 	if (!isReady()) {
 		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Not ready yet");
-		return false;
+		return NULL;
 	}
 	CAObjWrapper<CAMsgChat* > oMsg = new CAMsgChat(
 		m_strCredUserId,
@@ -219,7 +219,10 @@ bool CASignaling::sendIM(std::string strTo, const void* pcData, size_t nDataSize
 	CA_ASSERT(oMsg);
 	std::string jsonContent = oMsg->toJson();
 	CA_ASSERT(!jsonContent.empty());
-	return sendData(jsonContent.c_str(), jsonContent.length());
+	if (sendData(jsonContent.c_str(), jsonContent.length()) == true) {
+		return new CAResultTransac(kSuccessCodeSent, oMsg->getCallId(), oMsg->getTransacId());
+	}
+	return new CAResultTransac(kErrorCodeNotSent, oMsg->getCallId(), oMsg->getTransacId());
 }
 
 /**@ingroup _Group_CPP_Signaling
@@ -498,9 +501,22 @@ bool CASignaling::raiseEvent(CASignalingEventType_t eType, std::string strDescri
 
     if (m_oSignCallback) {
         CAObjWrapper<CASignalingEvent*> e = new CASignalingEvent(eType, strDescription, pcDataPtr, nDataSize);
+		CA_ASSERT(e);
         return m_oSignCallback->onEventNet(e);
     }
     return true;
+}
+
+bool CASignaling::raiseEventResultTransac(CAObjWrapper<CAResultTransac* > oResult)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+
+	if (m_oSignCallback) {
+		CAObjWrapper<CASignalingResultTransacEvent* > e = new CASignalingResultTransacEvent(oResult);
+		CA_ASSERT(e);
+		return m_oSignCallback->onEventResultTransac(e);
+	}
+	return true;
 }
 
 /*
@@ -766,6 +782,21 @@ CASignalingEvent::CASignalingEvent(CASignalingEventType_t eType, std::string str
 CASignalingEvent::~CASignalingEvent()
 {
     TSK_FREE(m_pDataPtr);
+}
+
+//
+//	CASignalingResultTransacEvent
+//
+
+CASignalingResultTransacEvent::CASignalingResultTransacEvent(CAObjWrapper<CAResultTransac* > oResult)
+	: CASignalingEvent(CASignalingEventType_ResultTransac, "Transacation result event")
+	, m_oResult(oResult)
+{
+
+}
+CASignalingResultTransacEvent::~CASignalingResultTransacEvent()
+{
+
 }
 
 //

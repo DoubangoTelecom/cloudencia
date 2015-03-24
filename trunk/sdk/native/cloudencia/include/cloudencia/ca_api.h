@@ -24,6 +24,7 @@
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_engine.h"
 #include "cloudencia/ca_mutex.h"
+#include "cloudencia/ca_result.h"
 #include "cloudencia/ca_thread.h"
 #include "cloudencia/ca_session_call.h"
 #include "cloudencia/ca_signaling.h"
