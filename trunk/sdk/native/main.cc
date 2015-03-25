@@ -20,6 +20,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <map>
 #if !CA_UNDER_WINDOWS_CE
 #include <fcntl.h>
 #endif /* !CA_UNDER_WINDOWS_CE */
@@ -46,6 +47,7 @@ static CAObjWrapper<CASessionCall*>callSession;
 static CAObjWrapper<CASignaling*>signalSession;
 static CAObjWrapper<CASignalingCallEvent*>pendingOffer;
 static CAObjWrapper<CAThread*>threadConsoleReader;
+static std::map<std::string/*CallId*/, std::map<std::string/*TransacId*/, CAObjWrapper<CAResultTransac* > > >chatMessages; // ((chatMessages[CallId])[TransacId]) == CAResultTransac
 
 #if CA_UNDER_WINDOWS
 #define WM_CA_ATTACH_DISPLAYS	MAKE_HRESULT(SEVERITY_SUCCESS, FACILITY_ITF, 0x0201)
@@ -142,9 +144,13 @@ public:
     }
     
 	virtual bool onEventResultTransac(const CAObjWrapper<CASignalingResultTransacEvent* >& e) {
-		CAObjWrapper<CAResultTransac* >& oResult = e->getResult();
+		const CAObjWrapper<CAResultTransac* >& oResult = e->getResult();
 		CA_ASSERT(oResult);
 		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "onEventResultTransac(code = %u, callId = %s, transacId = %s)", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
+		// map result to sent chat messages
+		if (chatMessages.find(oResult->getCallId()) != chatMessages.end() && chatMessages[oResult->getCallId()].find(oResult->getTransacId()) != chatMessages[oResult->getCallId()].end()) {
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "response code %u can be mapped to a chat message :)", oResult->getCode());
+		}
 		return true;
 	}
 
@@ -425,6 +431,7 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
 			CA_ASSERT((oResult = signalSession->sendIM(strRemoteId, strIMContent.c_str(), strIMContent.length())));
 			if (oResult->isOk()) {
 				CA_DEBUG_INFO_EX(kCAMobuleNameTest, "Chat message sent: code = %u, callId = %s, transacId = %s", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
+				chatMessages[oResult->getCallId()][oResult->getTransacId()] = oResult;
 			}
 			else {
 				CA_DEBUG_ERROR_EX(kCAMobuleNameTest, "Failed to send chat message");

@@ -424,6 +424,9 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
 				raiseEvent(CASignalingEventType_NetReady, "Ready");
 			}
 		}
+		else {
+			raiseEventResultTransac(new CAResultTransac(oMsgSuccess->getCode(), oMsgSuccess->getCallId(), oMsgSuccess->getTransacId()));
+		}
 	}
     else if (oMsg->getType() == CAMsgType_AuthConn) {
     }
@@ -540,7 +543,9 @@ Generates random string.
 */
 std::string CASignaling::randomString()
 {
-    return CAUtils::randomString(m_oNetTransport->getLocalIP(), "@", CAUtils::itoa(m_oNetTransport->getLocalPort()), "@");
+	tsk_istr_t now;
+	tsk_itoa(tsk_time_now(), &now);
+	return CAUtils::randomString(m_oNetTransport->getLocalIP(), "@", now, "@", CAUtils::itoa(m_oNetTransport->getLocalPort()));
 }
 
 /*

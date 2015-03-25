@@ -65,9 +65,9 @@ var CA_MSG_TYPE = {
     AUTHCONN: "authConn",
     CHAT: "chat",
     OFFER: "offer",
-    ANSWER: "answer",
-    PRANSWER: "pranswer",
-    HANGUP: "hangup",
+    ANSWER: "answer", // Call-Event
+    PRANSWER: "pranswer", // Call-Event
+    HANGUP: "hangup", // Call-Event
 };
 /**
 @namespace Anonymous
@@ -362,8 +362,7 @@ var CAWebRtcEvents = {
                 CAUtils.raiseCallEvent(This, "error", "ICE gathering done but signaling transport not connected");
                 return;
             }
-            var msg =
-            {
+            var msg = {
                 from: call.from,
                 to: call.to,
                 cid: call.cid,
@@ -614,24 +613,39 @@ var CAUtils = {
 var CASignaling = {
     connectionAuthenticated: false,
     msgAuthConnection: null,
-    authConnection: function () {
+    sendAuthConnection: function () {
         if (CAEngine.connected) {
             CASignaling.msgAuthConnection = {
                 type: CA_MSG_TYPE.AUTHCONN,
                 from: CAEngine.config.user_id,
-                cid: CAUtils.stringRandomUuid(),
-                tid: CAUtils.stringRandomUuid(),
+                cid: CASignaling.stringRandomId(),
+                tid: CASignaling.stringRandomId(),
                 authToken: CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password)
             };
             var JSONText = JSON.stringify(CASignaling.msgAuthConnection);
             CAUtils.sendData(JSONText);
         }
     },
+    sendResponse: function(request, type, code) {
+        var JSONText = JSON.stringify({
+            type: type,
+            code: code,
+            from: CAEngine.config.user_id,
+            to: request.from,
+            cid: request.cid,
+            tid: request.tid,
+            authToken: CASignaling.currnetAuthToken()
+        });
+        CAUtils.sendData(JSONText);
+    },
     currnetAuthToken: function() {
-        return authConnection ? authConnection.authToken : CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password);
+        return CASignaling.msgAuthConnection ? CASignaling.msgAuthConnection.authToken : CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password);
     },
     isResponseFor: function(resp, req) {
         return req && req && req.cid === req.cid && req.tid === req.tid;
+    },
+    stringRandomId: function () {
+        return ((new Date()).getTime() + "@" + CAUtils.stringRandomUuid());
     }
 };
 
@@ -661,7 +675,7 @@ CAEngine.connect = function(url) {
         CAEngine.connected = true;
         CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.CONNECTED, (e || {}).data);
         // authenticate the newly connected connection
-        CASignaling.authConnection();
+        CASignaling.sendAuthConnection();
     }
     CAEngine.socket.onclose = function (e) {
         console.info("signaling::onclose");
@@ -686,10 +700,13 @@ CAEngine.connect = function(url) {
                 if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
                     CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.ERROR, msg.reason);
                 }
-            }
-            else if (msg.type === CA_MSG_TYPE.OFFER || msg.type === CA_MSG_TYPE.ANSWER || msg.type == CA_MSG_TYPE.PRANSWER || msg.type == CA_MSG_TYPE.HANGUP) {
-                CAUtils.raiseCallEvent(null, msg.type, msg.type, msg);
-            }
+           }
+           else if (msg.type == CA_MSG_TYPE.CHAT) {
+               CASignaling.sendResponse(msg, CA_MSG_TYPE.SUCCESS, CA_RESPONSE_CODE.SUCCESS.DELIVERED);
+           }
+           else if (msg.type === CA_MSG_TYPE.OFFER || msg.type === CA_MSG_TYPE.ANSWER || msg.type == CA_MSG_TYPE.PRANSWER || msg.type == CA_MSG_TYPE.HANGUP) {
+               CAUtils.raiseCallEvent(null, msg.type, msg.type, msg);
+           }
         }
     }
     return true;
