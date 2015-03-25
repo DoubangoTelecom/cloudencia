@@ -1,26 +1,12 @@
 package models;
 
 import play.libs.Json;
+import utils.Consts;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JsonMsg {
-	public static final String FIELD_TYPE = "type";
-	public static final String FIELD_FROM = "from";
-	public static final String FIELD_TO = "to";
-	public static final String FIELD_CID = "cid";
-	public static final String FIELD_TID = "tid";
-	public static final String FIELD_AUTH_TOKEN = "authToken";
-	public static final String FIELD_REASON = "reason";
-	public static final String FIELD_CODE = "code";
-	
-	public static final String FIELD_TYPE_ERROR = "error";
-	public static final String FIELD_TYPE_SUCCESS = "success";
-	public static final String FIELD_TYPE_PROVISIONAL = "provisional";
-	public static final String FIELD_TYPE_AUTH_CONN = "authConn";
-	public static final String FIELD_TYPE_CHAT = "chat";
-	
 	public enum TYPE
 	{
 		UNKNOWN,
@@ -62,32 +48,42 @@ public class JsonMsg {
 		return mAuthToken;
 	}
 	
-	public ObjectNode asObjectNode() {
+	public ObjectNode asObjectNode(boolean hideAuthToken) {
 		ObjectNode result = Json.newObject();
 		if (mType != null) {
-			result.put(FIELD_TYPE, typeToString(mType));
+			result.put(Consts.JSON_FIELD_TYPE, typeToString(mType));
 		}
 		if (mFrom != null) {
-			result.put(FIELD_FROM, mFrom);
+			result.put(Consts.JSON_FIELD_FROM, mFrom);
 		}
 		if (mTo != null) {
-			result.put(FIELD_TO, mTo);
+			result.put(Consts.JSON_FIELD_TO, mTo);
 		}
 		if (mCallId != null) {
-			result.put(FIELD_CID, mCallId);
+			result.put(Consts.JSON_FIELD_CID, mCallId);
 		}
 		if (mTransacId != null) {
-			result.put(FIELD_TID, mTransacId);
+			result.put(Consts.JSON_FIELD_TID, mTransacId);
 		}
-		if (mAuthToken != null) {
-			result.put(FIELD_AUTH_TOKEN, mAuthToken);
+		if (!hideAuthToken) {
+			if (mAuthToken != null) {
+				result.put(Consts.JSON_FIELD_AUTH_TOKEN, mAuthToken);
+			}
 		}
 		return result;
 	}
 	
-	public String asText() {
-		final ObjectNode obj = asObjectNode();
+	public ObjectNode asObjectNode() {
+		return asObjectNode(false);
+	}
+	
+	public String asText(boolean hideAuthToken) {
+		final ObjectNode obj = asObjectNode(hideAuthToken);
 		return obj.toString();
+	}
+	
+	public String asText() {
+		return asText(false);
 	}
 	
 	public void copyRequestToResponse(final JsonMsg request) {
@@ -101,11 +97,11 @@ public class JsonMsg {
 	
 	public static String typeToString(final TYPE type) {
 		switch (type) {
-		case ERROR: return FIELD_TYPE_ERROR;
-		case SUCCESS: return FIELD_TYPE_SUCCESS;
-		case PROVISIONAL: return FIELD_TYPE_PROVISIONAL;
-		case AUTH_CONN: return FIELD_TYPE_AUTH_CONN;
-		case CHAT: return FIELD_TYPE_CHAT;
+		case ERROR: return Consts.JSON_FIELD_TYPE_ERROR;
+		case SUCCESS: return Consts.JSON_FIELD_TYPE_SUCCESS;
+		case PROVISIONAL: return Consts.JSON_FIELD_TYPE_PROVISIONAL;
+		case AUTH_CONN: return Consts.JSON_FIELD_TYPE_AUTH_CONN;
+		case CHAT: return Consts.JSON_FIELD_TYPE_CHAT;
 		default: return "unknown";
 		}
 	}
@@ -114,19 +110,19 @@ public class JsonMsg {
 		if (type == null || type.isEmpty()) {
 			return TYPE.UNKNOWN;
 		}
-		if (FIELD_TYPE_ERROR.equals(type)) {
+		if (Consts.JSON_FIELD_TYPE_ERROR.equals(type)) {
 			return TYPE.ERROR;
 		}
-		if (FIELD_TYPE_SUCCESS.equals(type)) {
+		if (Consts.JSON_FIELD_TYPE_SUCCESS.equals(type)) {
 			return TYPE.SUCCESS;
 		}
-		if (FIELD_TYPE_PROVISIONAL.equals(type)) {
+		if (Consts.JSON_FIELD_TYPE_PROVISIONAL.equals(type)) {
 			return TYPE.PROVISIONAL;
 		}
-		if (FIELD_TYPE_AUTH_CONN.equals(type)) {
+		if (Consts.JSON_FIELD_TYPE_AUTH_CONN.equals(type)) {
 			return TYPE.AUTH_CONN;
 		}
-		if (FIELD_TYPE_CHAT.equals(type)) {
+		if (Consts.JSON_FIELD_TYPE_CHAT.equals(type)) {
 			return TYPE.CHAT;
 		}
 		return TYPE.UNKNOWN;
@@ -144,7 +140,7 @@ public class JsonMsg {
 		if (json == null) {
 			return TYPE.UNKNOWN;
 		}
-		final JsonNode _type = json.get(FIELD_TYPE);
+		final JsonNode _type = json.get(Consts.JSON_FIELD_TYPE);
 		if (_type == null || !_type.isTextual() || _type.toString().isEmpty()) {
 			return TYPE.UNKNOWN;
 		}
@@ -159,7 +155,7 @@ public class JsonMsg {
 		if (json == null) {
 			return null;
 		}
-		final JsonNode _type = json.get(FIELD_TYPE);
+		final JsonNode _type = json.get(Consts.JSON_FIELD_TYPE);
 		if (_type == null || !_type.isTextual() || _type.toString().isEmpty()) {
 			return null;
 		}
@@ -167,19 +163,25 @@ public class JsonMsg {
 		if (type == TYPE.UNKNOWN) {
 			return null;
 		}
-		final JsonNode from = json.get(FIELD_FROM);
+		final JsonNode from = json.get(Consts.JSON_FIELD_FROM);
 		if (from == null || !from.isTextual() || from.toString().isEmpty()) {
 			return null;
 		}
-		final JsonNode cid = json.get(FIELD_CID);
+		final JsonNode to = json.get(Consts.JSON_FIELD_TO);
+		if (to == null || !to.isTextual() || to.toString().isEmpty()) {
+			if (type == TYPE.CHAT) { // requires "To field"
+				return null;
+			}
+		}
+		final JsonNode cid = json.get(Consts.JSON_FIELD_CID);
 		if (cid == null || !cid.isTextual() || cid.toString().isEmpty()) {
 			return null;
 		}
-		final JsonNode tid = json.get(FIELD_TID);
+		final JsonNode tid = json.get(Consts.JSON_FIELD_TID);
 		if (tid == null || !tid.isTextual() || tid.toString().isEmpty()) {
 			return null;
 		}
-		final JsonNode authToken = json.get(FIELD_AUTH_TOKEN);
+		final JsonNode authToken = json.get(Consts.JSON_FIELD_AUTH_TOKEN);
 		if (authToken == null || !authToken.isTextual() || authToken.toString().isEmpty()) {
 			return null;
 		}
@@ -187,20 +189,10 @@ public class JsonMsg {
 		JsonMsg jsonMessage = new JsonMsg();
 		jsonMessage.mType = type;
 		jsonMessage.mFrom = from.asText();
+		jsonMessage.mTo = (to == null) ? null : to.asText();
 		jsonMessage.mCallId = cid.asText();
 		jsonMessage.mTransacId = tid.asText();
 		jsonMessage.mAuthToken = authToken.asText();
-		
-		switch(type) {
-		case CHAT:
-			final JsonNode to = json.get(FIELD_TO);
-			if (to == null || !to.isTextual() || to.toString().isEmpty()) {
-				return null;
-			}
-			jsonMessage.mTo = to.asText();
-			break;
-			default: break;
-		}
 		
 		return jsonMessage;
 	}
@@ -232,15 +224,19 @@ public class JsonMsg {
 			return new Error(reason).asText();
 		}
 		
-		public String asText() {
-			final ObjectNode obj = asObjectNode();
+		public String asText(boolean hideAuthToken) {
+			final ObjectNode obj = asObjectNode(hideAuthToken);
 			if (mReason != null) {
-				obj.put(FIELD_REASON, mReason);
+				obj.put(Consts.JSON_FIELD_REASON, mReason);
 			}
 			if (mCode != 0) {
-				obj.put(JsonMsg.FIELD_CODE, mCode);
+				obj.put(Consts.JSON_FIELD_CODE, mCode);
 			}
 			return obj.toString();
+		}
+		
+		public String asText() {
+			return asText(false);
 		}
 	}
 	

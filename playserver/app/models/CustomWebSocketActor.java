@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import models.JsonMsg.TYPE;
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
+import utils.Consts;
 import utils.Tools;
 import akka.actor.ActorRef;
 import akka.actor.Cancellable;
@@ -89,14 +90,14 @@ public class CustomWebSocketActor extends UntypedActor {
 				final BasicResult result = authenticateConn(jsonMessage.getFrom(), jsonMessage.getAuthToken());
 				if (result.isNok()) {
 					// authentication = NOK
-					final JsonMsg.Error error = new JsonMsg.Error((short)403, result.getReason());
+					final JsonMsg.Error error = new JsonMsg.Error(Consts.CODE_ERROR_FORBIDDEN, result.getReason());
 					error.copyRequestToResponse(jsonMessage);
 					mOut.tell(error.asText(), self());
 					disconnect();
 				}
 				else {
 					// authentication = OK
-					final JsonMsg.Success success = new JsonMsg.Success((short)200, result.getReason());
+					final JsonMsg.Success success = new JsonMsg.Success(Consts.CODE_SUCCESS_OK, result.getReason());
 					success.copyRequestToResponse(jsonMessage);
 					mOut.tell(success.asText(), self());
 				}
@@ -104,7 +105,7 @@ public class CustomWebSocketActor extends UntypedActor {
 			else if (jsonMessage.getType() == TYPE.CHAT) {
 				final BasicResult result = forwardData(jsonMessage.getTo(), message);
 				if (result.isNok()) {
-					final JsonMsg.Error error = new JsonMsg.Error((short)300, result.getReason());
+					final JsonMsg.Error error = new JsonMsg.Error(Consts.CODE_ERROR_NOTSENT, result.getReason());
 					error.copyRequestToResponse(jsonMessage);
 					mOut.tell(error.asText(), self());
 				}
@@ -113,6 +114,17 @@ public class CustomWebSocketActor extends UntypedActor {
 					success.copyRequestToResponse(jsonMessage);
 					mOut.tell(success.asText(), self());
 				}
+			}
+			else if (jsonMessage.getType() == TYPE.SUCCESS) {
+				// FIXME: store in database and send when remote party is connected
+				final BasicResult result = forwardData(jsonMessage.getTo(), message);
+				if (result.isNok()) {
+				}
+				else {
+				}
+			}
+			else if (jsonMessage.getType() == TYPE.ERROR) {
+				
 			}
 		}
 		else {
@@ -181,11 +193,11 @@ public class CustomWebSocketActor extends UntypedActor {
 	}
 	
 	public BasicResult forwardMessage(final JsonMsg jsonMessage) {
-		return forwardData(jsonMessage.asText());
+		return forwardData(jsonMessage.asText(true));
 	}
 	
 	private BasicResult forwardMessage(final String dstEmail, final JsonMsg jsonMessage) {
-		return forwardData(dstEmail, jsonMessage);
+		return forwardData(dstEmail, jsonMessage.asText(true));
 	}
 	
 	public static HashMap<Long/*actorId*/, CustomWebSocketActor> getActors(String email) {

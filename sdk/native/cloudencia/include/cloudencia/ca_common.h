@@ -248,7 +248,7 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 
 #define kErrorCodeNOk					300
 #define kErrorCodeForbidden				301
-#define kErrorCodeNotFoud				302
+#define kErrorCodeNotFound				302
 #define kErrorCodeNotSent				303
 
 template <typename T>
