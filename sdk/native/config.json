@@ -1,9 +1,9 @@
 {
 	"debug_level": 4,
 	"connection_url": "ws://192.168.0.44:9000/WebSocket",
-    "local_id": "dd@yahoo.fr",
-    "local_password": "1840",
-	"remote_id": "bobo@yahoo.fr",
+    "local_id": "bob@yahoo.fr",
+    "local_password": "5733",
+	"remote_id": "alice@yahoo.fr",
 	"ssl_file_pub": "SSL_Pub.pem",
 	"ssl_file_priv": "SSL_Priv.pem",
 	"ssl_file_ca": "SSL_CA.pem",

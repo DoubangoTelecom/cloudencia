@@ -87,7 +87,12 @@ public class User extends Model {
 	}
 	
 	public static User findByEmail(String email) {
-		return find.where().like("email", "%"+email+"%").findUnique();
+		return find.where().eq("email", email).findUnique();
+		//return find.where().like("email", "%"+email+"%").findUnique();
+	}
+	
+	public static boolean exists(String email) {
+		return (findByEmail(email) != null);
 	}
 	
 	public static List<User> findByDeveloper(long developerId) {

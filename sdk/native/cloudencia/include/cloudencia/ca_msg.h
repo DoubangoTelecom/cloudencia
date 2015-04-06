@@ -30,6 +30,14 @@ namespace CAJson {
 	class Value;
 }
 
+typedef struct CATicket {
+	std::string type;  // kMsgFieldType
+	uint64_t id; // kMsgFieldId
+	CATicket() : type(""), id(kTicketNumberInvalid) { }
+	bool isValid() { return  id != kTicketNumberInvalid  && !type.empty(); }
+}
+CATicket;
+
 //
 //	CAMsg
 //
@@ -65,6 +73,9 @@ public:
 	CA_INLINE CAObjWrapper<CAContent* >& getContent() {
 		return m_oContent;
 	}
+	CA_INLINE const CATicket* getTicket() {
+		return &m_Ticket;
+	}
 
 private:
 	CAMsgType_t m_eType;
@@ -74,6 +85,7 @@ private:
 	std::string m_strFrom;
 	std::string m_strTo;
 	std::string m_strAuthToken;
+	CATicket m_Ticket;
 	CAObjWrapper<CAContent* > m_oContent;
 };
 

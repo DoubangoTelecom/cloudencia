@@ -67,6 +67,6 @@ public class Developer extends Model{
 	}
 	
 	public static Developer findByEmail(String email) {
-		return find.where().like("email", "%"+email+"%").findUnique();
+		return find.where().eq("email", email).findUnique();
 	}
 }

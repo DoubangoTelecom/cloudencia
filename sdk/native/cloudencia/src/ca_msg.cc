@@ -71,6 +71,12 @@ bool CAMsg::toJson(CAJson::Value* jsonValue)
 	if (!m_strTransacId.empty()) {
 		root[kMsgFieldTransactionId] = m_strTransacId;
 	}
+	if (m_Ticket.isValid()) {
+		CAJson::Value ticket;
+		ticket[kMsgFieldId] = m_Ticket.id;
+		ticket[kMsgFieldType] = std::string(m_Ticket.type);
+		root[kMsgFieldTicket] = ticket;
+	}
 	if (m_oContent) {
 		CAJson::Value content;
 		if (!m_oContent->toJson(&content)) {
@@ -116,7 +122,7 @@ CAObjWrapper<CAMsg* > CAMsg::parse(const CAJson::Value* jsonValue)
 	std::string strFrom = (!root[kMsgFieldFrom].isNull() && root[kMsgFieldFrom].isString()) ? root[kMsgFieldFrom].asString() : "";
 	std::string strTo = (!root[kMsgFieldTo].isNull() && root[kMsgFieldTo].isString()) ? root[kMsgFieldTo].asString() : "";
 	std::string strAuthToken = (!root[kMsgFieldAuthToken].isNull() && root[kMsgFieldAuthToken].isString()) ? root[kMsgFieldAuthToken].asString() : "";
-
+	
 	if (!root[kMsgFieldContent].isNull() && root[kMsgFieldContent].isObject()) {
 		oContent = CAContent::parse(&root[kMsgFieldContent]);
 	}
@@ -144,8 +150,15 @@ CAObjWrapper<CAMsg* > CAMsg::parse(const CAJson::Value* jsonValue)
 		oMsg = new CAMsg(strType, strFrom, strAuthToken, strCallId, strTransacId, strTo);
 	}
 
-	if (oMsg && oContent) {
+	if (oMsg) {
+		// Content
 		oMsg->setContent(oContent);
+		// Ticket
+		if (!root[kMsgFieldTicket].isNull() && root[kMsgFieldTicket].isObject()) {
+			const CAJson::Value& ticketValue = root[kMsgFieldTicket];
+			oMsg->m_Ticket.id = (!ticketValue[kMsgFieldId].isNull() && ticketValue[kMsgFieldId].isIntegral()) ? ticketValue[kMsgFieldId].asUInt64() : kTicketNumberInvalid;
+			oMsg->m_Ticket.type = (!ticketValue[kMsgFieldType].isNull() && ticketValue[kMsgFieldType].isString()) ? ticketValue[kMsgFieldType].asString() : "";
+		}
 	}
 
 	return oMsg;
