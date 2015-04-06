@@ -3,7 +3,8 @@ package models;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import models.JsonMsg.TYPE;
+import models.Enums.ChatMessageStatus;
+import play.Logger;
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
 import utils.Consts;
@@ -39,6 +40,7 @@ public class CustomWebSocketActor extends UntypedActor {
 
 	@Override
 	public void preStart() throws Exception {
+		logDbg("New incomming WebSocket connection");
 		mConnected = true;
 		// Disconnect the socket if not authenticated after 3000ms
 		// FIXME: the 3000ms must come from the application config
@@ -71,63 +73,94 @@ public class CustomWebSocketActor extends UntypedActor {
 
 	@Override
 	public void onReceive(Object message) throws Exception {
+		logDbg("New incomming WebSocket message: " + message);
 		if (message instanceof String) {
-			final JsonMsg jsonMessage = JsonMsg.parse(message.toString());
-			if (jsonMessage == null) {
+			final JsonMsg.PartiallyParsed jsonMsgPP = JsonMsg.PartiallyParsed.parse(message.toString());
+			if (jsonMsgPP == null) {
+				logErr("Failed to parse JSON content: " + message);
 				mOut.tell(JsonMsg.Error.asText("Failed to parse JSON content: " + message), self());
 				disconnect();
 				return;
 			}
-			if (!mConnAuthenticated && jsonMessage.getType() != JsonMsg.TYPE.AUTH_CONN) {
+			if (!mConnAuthenticated && jsonMsgPP.getHdrType() != JsonMsg.Hdr.TYPE.AUTH_CONN) {
+				logErr("First message must be connection authentication but we found: " + message);
 				mOut.tell(JsonMsg.Error.asText("First message must be connection authentication but we found: " + message), self());
 				disconnect();
 				return;
 			}
-			if (jsonMessage.getType() == TYPE.AUTH_CONN) {
+			if (jsonMsgPP.getHdrType() == JsonMsg.Hdr.TYPE.AUTH_CONN) {
 				if (mConnAuth != null && !mConnAuth.isCancelled()) {
 					mConnAuth.cancel();
 				}
-				final BasicResult result = authenticateConn(jsonMessage.getFrom(), jsonMessage.getAuthToken());
+				final BasicResult result = authenticateConn(jsonMsgPP.getHdr().getFrom(), jsonMsgPP.getHdr().getAuthToken());
 				if (result.isNok()) {
 					// authentication = NOK
+					logErr("Autentication failed. Message = " + message + ", reason = " + result.getReason());
 					final JsonMsg.Error error = new JsonMsg.Error(Consts.CODE_ERROR_FORBIDDEN, result.getReason());
-					error.copyRequestToResponse(jsonMessage);
+					error.copyRequestToResponse(jsonMsgPP);
 					mOut.tell(error.asText(), self());
 					disconnect();
 				}
 				else {
 					// authentication = OK
+					logDbg("*** Autentication ok ***");
 					final JsonMsg.Success success = new JsonMsg.Success(Consts.CODE_SUCCESS_OK, result.getReason());
-					success.copyRequestToResponse(jsonMessage);
+					success.copyRequestToResponse(jsonMsgPP);
 					mOut.tell(success.asText(), self());
 				}
 			}
-			else if (jsonMessage.getType() == TYPE.CHAT) {
-				final BasicResult result = forwardData(jsonMessage.getTo(), message);
+			else if (jsonMsgPP.getHdrType() == JsonMsg.Hdr.TYPE.CHAT) {
+				final BasicResult result = forwardMsgPP(jsonMsgPP);
 				if (result.isNok()) {
 					final JsonMsg.Error error = new JsonMsg.Error(Consts.CODE_ERROR_NOTSENT, result.getReason());
-					error.copyRequestToResponse(jsonMessage);
+					error.copyRequestToResponse(jsonMsgPP);
 					mOut.tell(error.asText(), self());
 				}
 				else {
 					final JsonMsg.Success success = new JsonMsg.Success((short)200, result.getReason());
-					success.copyRequestToResponse(jsonMessage);
+					success.copyRequestToResponse(jsonMsgPP);
 					mOut.tell(success.asText(), self());
 				}
 			}
-			else if (jsonMessage.getType() == TYPE.SUCCESS) {
-				// FIXME: store in database and send when remote party is connected
-				final BasicResult result = forwardData(jsonMessage.getTo(), message);
+			else if (jsonMsgPP.getHdrType() == JsonMsg.Hdr.TYPE.SUCCESS || jsonMsgPP.getHdrType() == JsonMsg.Hdr.TYPE.ERROR) {
+				boolean isError = (jsonMsgPP.getHdrType() == JsonMsg.Hdr.TYPE.ERROR);
+				final BasicResult result = forwardMsgPP(jsonMsgPP);
 				if (result.isNok()) {
+					// FIXME: do something
 				}
 				else {
+					final Ticket ticket = jsonMsgPP.getHdr().getTicket();
+					if (ticket == null) {
+						logWarn("No ticket in answer:" + message);
+					}
+					else {
+						if (ticket.isTypeChat()) {
+							if (isError) {
+								
+							}
+							else {
+								final short code = jsonMsgPP.get(Consts.JSON_FIELD_CODE, (short)0);
+								if (code != 0) {
+									final ChatMessage chatMsg = ChatMessage.findById(ticket.getId());
+									if (chatMsg != null) {
+										if (code == Consts.CODE_SUCCESS_DELIVERED) {
+											chatMsg.setStatus(ChatMessageStatus.Delivered);
+											ChatMessage.update(chatMsg);
+										}
+										else if (code == Consts.CODE_SUCCESS_SEEN) {
+											chatMsg.setStatus(ChatMessageStatus.Seen);
+											ChatMessage.update(chatMsg);
+										}
+									}
+								}
+							}
+						}
+					}
 				}
-			}
-			else if (jsonMessage.getType() == TYPE.ERROR) {
-				
 			}
 		}
 		else {
+			logErr("Invalid content type: " + message);
 			mOut.tell(JsonMsg.Error.asText("Invalid content type: " + message), self());
 			disconnect();
 			return;
@@ -136,6 +169,7 @@ public class CustomWebSocketActor extends UntypedActor {
 	
 	@Override
 	public void postStop() throws Exception {
+		logDbg("Disconnecting WebSocket connection");
 		mConnected = false;
 		// stop timers
 		if (mConnAuth != null && !mConnAuth.isCancelled()) {
@@ -151,6 +185,7 @@ public class CustomWebSocketActor extends UntypedActor {
 		mEmail = null;
 		mConnAuthenticated = false;
 		super.postStop();
+		logDbg("WebSocket connection disconnected");
 	}
 	
 	public boolean isConnAuthenticated() {
@@ -175,15 +210,33 @@ public class CustomWebSocketActor extends UntypedActor {
 		return BasicResult.ok;
 	}
 	
-	public BasicResult forwardData(final String dstEmail, final Object data) {
+	public BasicResult forwardMsgPP(final String dstEmail, final JsonMsg.PartiallyParsed jsonMsgPP) {
+		final User dstUser = User.findByEmail(dstEmail);
+		if (dstUser == null) {
+			return new BasicResult.BasicError("User with email address = " + dstEmail + " not found");
+		}
+		// Store the message
+		if (jsonMsgPP.getHdrType() == JsonMsg.Hdr.TYPE.CHAT) {
+			final ChatMessage chatMsg = ChatMessage.build(jsonMsgPP);
+			if (chatMsg != null) {
+				if (!ChatMessage.create(chatMsg)) {
+					return new BasicResult.BasicError("Failed to store chat message");
+				}
+			}
+			else {
+				return new BasicResult.BasicError("Failed to build chat message");
+			}
+			jsonMsgPP.addTicket(new Ticket.Chat(chatMsg.getId()));
+		}
+		
 		final HashMap<Long/*actorId*/, CustomWebSocketActor> dstActors = getActors(dstEmail);
 		if (dstActors == null || dstActors.isEmpty()) {
-			// FIXME: store message
+			// FIXME: push notifications and emails
 		}
 		else {
 			BasicResult ret;
 			for (HashMap.Entry<Long, CustomWebSocketActor> entry : dstActors.entrySet()) {
-				ret = entry.getValue().forwardData(data);
+				ret = entry.getValue().forwardData(jsonMsgPP.getDataWithoutAuthToken());
 				if (ret.isNok()) {
 					return ret;
 				}
@@ -192,12 +245,8 @@ public class CustomWebSocketActor extends UntypedActor {
 		return BasicResult.ok;
 	}
 	
-	public BasicResult forwardMessage(final JsonMsg jsonMessage) {
-		return forwardData(jsonMessage.asText(true));
-	}
-	
-	private BasicResult forwardMessage(final String dstEmail, final JsonMsg jsonMessage) {
-		return forwardData(dstEmail, jsonMessage.asText(true));
+	public BasicResult forwardMsgPP(final JsonMsg.PartiallyParsed jsonMsgPP) {
+		return forwardMsgPP(jsonMsgPP.getHdr().getTo(), jsonMsgPP);
 	}
 	
 	public static HashMap<Long/*actorId*/, CustomWebSocketActor> getActors(String email) {
@@ -213,6 +262,7 @@ public class CustomWebSocketActor extends UntypedActor {
 					actors.put(actor.mEmail, new HashMap<Long/*actorId*/, CustomWebSocketActor>());
 				}
 				actors.get(actor.mEmail).put(actor.mId, actor);
+				actor.logDbg("New actor added for email = " + actor.mEmail);
 			}
 		}
 	}
@@ -252,5 +302,21 @@ public class CustomWebSocketActor extends UntypedActor {
 	
 	private void disconnect() {
 		self().tell(PoisonPill.getInstance(), self());
+	}
+	
+	private String logBuidMessage(String msg) {
+		return "[Class=CustomWebSocketActor, Id = " + mId + "] - " + msg;
+	}
+	
+	private void logDbg(String msg) {
+		Logger.debug(logBuidMessage(msg));
+	}
+	
+	private void logErr(String msg) {
+		Logger.error(logBuidMessage(msg));
+	}
+	
+	private void logWarn(String msg) {
+		Logger.warn(logBuidMessage(msg));
 	}
 }

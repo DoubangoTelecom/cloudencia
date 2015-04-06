@@ -31,12 +31,14 @@
         	<tr>
                 <td><label class="label label-primary">Friendly name</label></td>
                 <td><label class="label label-primary">Email</label></td>
+                <td><label class="label label-primary">Phone number</label></td>
                 <td><label class="label label-primary">Password</label></td>
         	</tr>        	
 			@for(user <- users) {
 			  <tr>			  	
 			  	<td><label>@user.friendlyName</label></td>
                 <td><label>@user.email</label></td>
+                <td><label>@user.phoneNumber</label></td>
                 <td><label>@user.password</label></td>
               </tr>
 			}

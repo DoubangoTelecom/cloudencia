@@ -212,6 +212,7 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kCAMobuleNameFakeDisplay		"Fake display"
 #define kCAMobuleNameWEC7				"WEC7"
 
+#define kMsgFieldId						"long" // uint64_t
 #define kMsgFieldType					"type" // string
 #define kMsgFieldFrom					"from" // string
 #define kMsgFieldTo						"to" // string
@@ -221,6 +222,7 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kMsgFieldCode					"code" // short
 #define kMsgFieldReason					"reason" // string
 #define kMsgFieldContent				"content" // object
+#define kMsgFieldTicket					"ticket" // struct CATicket
 
 #define kMsgTypeUnknown					"unknown"
 #define kMsgTypeError					"error"
@@ -237,6 +239,8 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kContentTypeText				"data/text"
 #define kContentTypeHtml				"data/html"
 #define kContentTypeBase64				"data/base64" // will need subtype
+
+#define kTicketNumberInvalid			0
 
 #define kProvisionalCodeTrying			100
 #define kProvisionalCodeRinging			101

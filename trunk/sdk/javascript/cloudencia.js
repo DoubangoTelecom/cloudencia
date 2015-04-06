@@ -328,6 +328,7 @@ CACall.build = function(dest, config) {
         newCall.to = dest.from;
         newCall.cid = dest.cid;
         newCall.tid = dest.tid;
+        newCall.ticket = dest.ticket;
     }
     if (newCall && config) {
         newCall.setConfig(config);
@@ -634,6 +635,7 @@ var CASignaling = {
             to: request.from,
             cid: request.cid,
             tid: request.tid,
+            ticket: request.ticket,
             authToken: CASignaling.currnetAuthToken()
         });
         CAUtils.sendData(JSONText);
