@@ -255,6 +255,11 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kErrorCodeNotFound				302
 #define kErrorCodeNotSent				303
 
+#define kPrefixCallIdAuth				"@auth@"
+#define kPrefixCallIdChat				"@chat@"
+#define kPrefixCallIdCall				"@call@"
+#define kPrefixCallIdPresence			"@presence@"
+
 template <typename T>
 class CAAutoLock
 {
