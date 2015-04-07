@@ -215,7 +215,7 @@ private:
 	bool raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
 	bool raiseEventResultTransac(CAObjWrapper<CAResultTransac* > oResult);
 	bool canSendData();
-	std::string randomString();
+	std::string randomString(std::string strPrefix);
 
 	bool authConnection();
 

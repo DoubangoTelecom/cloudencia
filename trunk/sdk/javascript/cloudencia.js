@@ -43,11 +43,17 @@ var CAEngine = {
         "user_password": null,
     },
     /** @private */connected: false,
+    /** @private */ready: false,
 
     /* ===================================
     CONSTATNTS 
     ===================================== */
     WEBSOCKET_PROTOCOL: "cloudencia-signaling",
+
+    PREFIX_CALLID_AUTH: "@auth@",
+    PREFIX_CALLID_CHAT: "@chat@",
+    PREFIX_CALLID_CALL: "@call@",
+    PREFIX_CALLID_PRESENCE: "@presence@",
 
     EVENT_TYPE_SIGNALING: "signaling",
     EVENT_TYPE_CALL: "call",
@@ -78,6 +84,18 @@ var CA_SDP_TYPE = {
     ANSWER: "answer",
     PRANSWER: "pranswer",
 };
+
+/**
+@namespace Anonymous
+@description Content types
+*/
+var CA_CONTENT_TYPE = {
+    UNKNOWN: "data/unknown",
+    TEXT: "data/text",
+    HTML: "data/html",
+    BASE64: "data/base64", // will need subtype
+};
+
 /**
 @namespace Anonymous
 @description Events types
@@ -95,7 +113,7 @@ var CA_EVENT_TYPE = {
 
     },
     CHAT: {
-
+        RESULT_TRANSAC: "chat-result-transac"
     },
 };
 
@@ -488,6 +506,12 @@ var CAUtils = {
             */
         return CAMD5.hexdigest(impi + ':' + realm + ':' + password);
     },
+    buildResult: function (code) {
+        return { code: code }; // "CAResult"
+    },
+    buildResultTransac: function(code, cid, tid) {
+        return { code: code, cid: cid, tid: tid }; // CAResultTransac
+    },
     attachStream: function(call, stream, local) {
         var htmlElementVideo = local ? (call.config.video_local_elt || CAEngine.config.video_local_elt) : (call.config.video_remote_elt || CAEngine.config.video_remote_elt);
         var htmlElementAudio = local ? (call.config.localAudio || CAEngine.config.localAudio) : (call.config.audio_remote_elt || CAEngine.config.audio_remote_elt);
@@ -619,8 +643,8 @@ var CASignaling = {
             CASignaling.msgAuthConnection = {
                 type: CA_MSG_TYPE.AUTHCONN,
                 from: CAEngine.config.user_id,
-                cid: CASignaling.stringRandomId(),
-                tid: CASignaling.stringRandomId(),
+                cid: CASignaling.stringRandomId(CAEngine.PREFIX_CALLID_AUTH),
+                tid: CASignaling.stringRandomId(CAEngine.PREFIX_CALLID_AUTH),
                 authToken: CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password)
             };
             var JSONText = JSON.stringify(CASignaling.msgAuthConnection);
@@ -640,14 +664,34 @@ var CASignaling = {
         });
         CAUtils.sendData(JSONText);
     },
+    sendIM: function (to/*String: email*/, content/*Any data supporting toString()*/, contentType/*String: optional*/, contentSubType/*String: optional*/) {
+        // returns CAResultTransac
+        if (!CAEngine.socket || !CAEngine.ready) {
+            throw new Error("not ready");
+        }
+        if (!to || !content) {
+            throw new Error("Invalid input");
+        }
+        var JSONObj = {
+            type: CA_MSG_TYPE.CHAT,
+            from: CAEngine.config.user_id,
+            to: to,
+            cid: CASignaling.stringRandomId(CAEngine.PREFIX_CALLID_CHAT),
+            tid: CASignaling.stringRandomId(CAEngine.PREFIX_CALLID_CHAT),
+            content: { data: content, type: contentType ? contentType : CA_CONTENT_TYPE.TEXT, subType: contentSubType },
+            authToken: CASignaling.currnetAuthToken()
+        };
+        CAUtils.sendData(JSON.stringify(JSONObj));
+        return CAUtils.buildResultTransac(CA_RESPONSE_CODE.SUCCESS.SENT, JSONObj.cid, JSONObj.tid);
+    },
     currnetAuthToken: function() {
         return CASignaling.msgAuthConnection ? CASignaling.msgAuthConnection.authToken : CAUtils.buildAuthToken(CAEngine.config.user_id, CAEngine.config.user_password);
     },
     isResponseFor: function(resp, req) {
-        return req && req && req.cid === req.cid && req.tid === req.tid;
+        return req && resp && req.cid === resp.cid && req.tid === resp.tid;
     },
-    stringRandomId: function () {
-        return ((new Date()).getTime() + "@" + CAUtils.stringRandomUuid());
+    stringRandomId: function (prefix) {
+        return (prefix + (new Date()).getTime() + "@" + CAUtils.stringRandomUuid());
     }
 };
 
@@ -677,11 +721,13 @@ CAEngine.connect = function(url) {
         CAEngine.connected = true;
         CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.CONNECTED, (e || {}).data);
         // authenticate the newly connected connection
+        CAEngine.ready = false;
         CASignaling.sendAuthConnection();
     }
     CAEngine.socket.onclose = function (e) {
         console.info("signaling::onclose");
         CAEngine.connected = false;
+        CAEngine.ready = false;
         CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.DISCONNECTED, (e || {}).data);
         CAEngine.socket = null;        
     }
@@ -695,6 +741,7 @@ CAEngine.connect = function(url) {
         if (msg) {
             if (msg.type == CA_MSG_TYPE.SUCCESS) {
                 if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
+                    CAEngine.ready = true;
                     CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.READY);
                 }
             }
@@ -725,6 +772,18 @@ CAEngine.disconnect = function() {
     }
     return true;
 }
+
+/**
+@param {String} to
+@param {Object} content
+@param {String} [contentType]
+@param {String} [contentSubType]
+@returns {CAResultTransac}
+*/
+CAEngine.sendIM = function (to, content, contentType, contentSubType) {
+    return CASignaling.sendIM(to, content, contentType, contentSubType);
+}
+
 
 /**
 JSON message from the server.
@@ -782,4 +841,20 @@ Call configuration object.
 @property {HTMLVideoElement} [video_local_elt] <a href="https://developer.mozilla.org/en-US/docs/DOM/HTMLVideoElement">HTMLVideoElement<a> where to display the local video stream.
 @property {HTMLVideoElement} [video_remote_elt] <a href="https://developer.mozilla.org/en-US/docs/DOM/HTMLVideoElement">HTMLVideoElement<a> where to display the remote video stream.<br />
 Example: { audio_send: true, audio_recv: true, video_send: false, video_recv: true }
+*/
+
+/**
+Result.
+@namespace Anonymous
+@name CAResult
+@property {Short} code
+*/
+
+/**
+Transaction result.
+@namespace Anonymous
+@name CAResultTransac
+@extends CAResult
+@property {String} cid
+@property {String} tid
 */

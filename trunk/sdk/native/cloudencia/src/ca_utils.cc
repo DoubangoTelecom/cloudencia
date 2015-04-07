@@ -29,13 +29,13 @@
 #include "tsk_uuid.h"
 #include "tsk_plugin.h"
 
-std::string CAUtils::randomString(std::string token1 /*= ""*/, std::string token2 /*= ""*/, std::string token3 /*= ""*/, std::string token4 /*= ""*/, std::string token5 /*= ""*/, std::string token6 /*= ""*/)
+std::string CAUtils::randomString(std::string token1 /*= ""*/, std::string token2 /*= ""*/, std::string token3 /*= ""*/, std::string token4 /*= ""*/, std::string token5 /*= ""*/, std::string token6 /*= ""*/, std::string token7 /*= ""*/)
 {
     tsk_uuidstring_t result;
     if (tsk_uuidgenerate(&result) != 0) {
-		return token1 + token2 + token3 + token4 + token5 + token6 + std::string("ERROR");
+		return token1 + token2 + token3 + token4 + token5 + token6 + token7 + std::string("ERROR");
     }
-	return token1 + token2 + token3 + token4 + token5 + token6 + std::string(result);
+	return token1 + token2 + token3 + token4 + token5 + token6 + token7 + std::string(result);
 }
 
 std::string CAUtils::itoa(int64_t i)

@@ -210,8 +210,8 @@ CAObjWrapper<CAResultTransac* > CASignaling::sendIM(std::string strTo, const voi
 	CAObjWrapper<CAMsgChat* > oMsg = new CAMsgChat(
 		m_strCredUserId,
 		m_strAuthToken,
-		randomString(),
-		randomString(),
+		randomString(kPrefixCallIdChat),
+		randomString(kPrefixCallIdChat),
 		strTo,
 		dataType,
 		pcData,
@@ -541,11 +541,11 @@ bool CASignaling::canSendData()
 /*
 Generates random string.
 */
-std::string CASignaling::randomString()
+std::string CASignaling::randomString(std::string strPrefix)
 {
 	tsk_istr_t now;
 	tsk_itoa(tsk_time_now(), &now);
-	return CAUtils::randomString(m_oNetTransport->getLocalIP(), "@", now, "@", CAUtils::itoa(m_oNetTransport->getLocalPort()));
+	return CAUtils::randomString(strPrefix, m_oNetTransport->getLocalIP(), "@", now, "@", CAUtils::itoa(m_oNetTransport->getLocalPort()));
 }
 
 /*
@@ -566,8 +566,8 @@ bool CASignaling::authConnection()
     m_oMsgAuthConn = new CAMsgAuthConn(
         m_strCredUserId, // from
         m_strAuthToken, // authToken
-        randomString(), // callId
-        randomString() // transactionId
+		randomString(kPrefixCallIdAuth), // callId
+		randomString(kPrefixCallIdAuth) // transactionId
     );
     CA_ASSERT(m_oMsgAuthConn);
     std::string jsonContent = m_oMsgAuthConn->toJson();
