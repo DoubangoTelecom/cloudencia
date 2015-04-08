@@ -17,6 +17,7 @@
 * along with DOUBANGO.
 */
 #include "cloudencia/ca_msg.h"
+#include "cloudencia/ca_utils.h"
 #include "cloudencia/jsoncpp/ca_json.h"
 
 #include <assert.h>
@@ -232,9 +233,22 @@ CAMsgAnswer::CAMsgAnswer(std::string strType, std::string strReason /*= ""*/, st
 
 CAMsgAnswer::~CAMsgAnswer() { }
 
-bool CAMsgAnswer::isFor(CAObjWrapper<CAMsg* > oMsg)
+bool CAMsgAnswer::isFor(CAObjWrapper<CAMsg* > oMsg)const
 {
 	return oMsg && oMsg->getCallId() == getCallId() && oMsg->getTransacId() == getTransacId();
+}
+
+enum CAMsgType_e CAMsgAnswer::getOriginRequestType()const
+{
+	return CAUtils::requestTypeFromCallId(getCallId());
+}
+
+bool CAMsgAnswer::isForChat()const {
+	return getOriginRequestType() == CAMsgType_Chat;
+}
+
+bool CAMsgAnswer::isForAuthConn()const {
+	return getOriginRequestType() == CAMsgType_AuthConn;
 }
 
 //

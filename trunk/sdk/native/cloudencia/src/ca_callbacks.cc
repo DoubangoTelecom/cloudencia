@@ -20,7 +20,7 @@
 
 #define CA_NOCALLBACK_LOG_AND_RETURN() CA_DEBUG_INFO_EX(kCAMobuleNameCallbacks, "No callback registered for '%s'", __FUNCTION__); return true
 
-bool CACallbackNet::raiseStateChanged(const CAObjWrapper<CACallbackNet* >&oThis, enum CANetState_e newState, std::string description /*= ""*/)
+bool CACallbackNet::raiseStateChanged(const CAObjWrapper<CACallbackNet* >&oThis, enum CANetState_e newState, const std::string& description /*= ""*/)
 {
 	if (oThis) {
 		return oThis->onStateChanged(newState, description);
@@ -32,6 +32,46 @@ bool CACallbackNet::raisePassthroughData(const CAObjWrapper<CACallbackNet* >&oTh
 {
 	if (oThis) {
 		return oThis->onPassthroughData(pcDataPtr, nDataSize);
+	}
+	CA_NOCALLBACK_LOG_AND_RETURN();
+}
+
+bool CACallbackChat::raiseError(const CAObjWrapper<CACallbackChat* >&oThis, const CAObjWrapper<CAMsgError* > &msg)
+{
+	if (oThis) {
+		return oThis->onError(msg);
+	}
+	CA_NOCALLBACK_LOG_AND_RETURN();
+}
+
+bool CACallbackChat::raiseSuccess(const CAObjWrapper<CACallbackChat* >&oThis, const CAObjWrapper<CAMsgSuccess* > &msg)
+{
+	if (oThis) {
+		return oThis->onSuccess(msg);
+	}
+	CA_NOCALLBACK_LOG_AND_RETURN();
+}
+
+bool CACallbackChat::raiseProvisional(const CAObjWrapper<CACallbackChat* >&oThis, const CAObjWrapper<CAMsgProvisional* > &msg)
+{
+	if (oThis) {
+		return oThis->onProvisional(msg);
+	}
+	CA_NOCALLBACK_LOG_AND_RETURN();
+}
+
+bool CACallbackChat::raiseChatMessage(const CAObjWrapper<CACallbackChat* >&oThis, const CAObjWrapper<CAMsgChat* > &msg)
+{
+	if (oThis) {
+		return oThis->onChatMessage(msg);
+	}
+	CA_NOCALLBACK_LOG_AND_RETURN();
+}
+
+bool CACallbackAuthConn::raiseAnswer(const CAObjWrapper<CACallbackAuthConn* >&oThis, CACode code, const std::string& description/* = ""*/)
+{
+	if (oThis) {
+		return oThis->onAnswer(code, description);
 	}
 	CA_NOCALLBACK_LOG_AND_RETURN();
 }

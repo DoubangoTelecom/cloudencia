@@ -40,7 +40,7 @@
             return;
         }
         taChat.value += "[ME] " + txtChat.value + "\n";
-        var retTransac /*CAResultTransac*/ = CAEngine.sendIM(txtRemoteId.value, txtChat.value, CA_CONTENT_TYPE.TEXT);
+        var retTransac /*CAResultTransac*/ = CAEngine.sendChatMessage(txtRemoteId.value, txtChat.value, CA_CONTENT_TYPE.TEXT);
         if (codeIsOk(retTransac.code)) {
             txtChat.value = "";
             txtInfo.innerHTML = "<font color='green'>IM sent, code = " + retTransac.code + "</font>";

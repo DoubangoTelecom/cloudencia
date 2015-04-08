@@ -107,7 +107,7 @@ public:
 	virtual ~CACallbackNetDummy() {
 		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CACallbackNetDummy destroyed ***");
 	}
-	virtual bool onStateChanged(enum CANetState_e newState, std::string description = "")const {
+	virtual bool onStateChanged(enum CANetState_e newState, const std::string& description = "")const {
 		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "CACallbackNetDummy::onStateChanged(%d, %s)", newState, description.c_str());
 		switch (newState)
 		{
@@ -138,6 +138,65 @@ public:
 		return new CACallbackNetDummy();
 	}
 };
+
+
+class CACallbackChatDummy : public CACallbackChat
+{
+public:
+	virtual ~CACallbackChatDummy() {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CACallbackChatDummy destroyed ***");
+	}
+	virtual bool onError(const CAObjWrapper<CAMsgError* > &msg)const {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- CACallbackChatDummy::onError(code = %hd, callId = %s, transacId = %s) ---", msg->getCode(), msg->getCallId().c_str(), msg->getTransacId().c_str());
+		if (chatMessages.find(msg->getCallId()) != chatMessages.end() && chatMessages[msg->getCallId()].find(msg->getTransacId()) != chatMessages[msg->getCallId()].end()) {
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "error response code %u can be mapped to a chat message :)", msg->getCode());
+		}
+		return true;
+	}
+	virtual bool onSuccess(const CAObjWrapper<CAMsgSuccess* > &msg)const {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- CACallbackChatDummy::onSuccess(code = %hd, callId = %s, transacId = %s) ---", msg->getCode(), msg->getCallId().c_str(), msg->getTransacId().c_str());
+		if (chatMessages.find(msg->getCallId()) != chatMessages.end() && chatMessages[msg->getCallId()].find(msg->getTransacId()) != chatMessages[msg->getCallId()].end()) {
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "success response code %u can be mapped to a chat message :)", msg->getCode());
+		}
+		return true;
+	}
+	virtual bool onProvisional(const CAObjWrapper<CAMsgProvisional* > &msg)const {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- CACallbackChatDummy::onProvisional(code = %hd, callId = %s, transacId = %s) ---", msg->getCode(), msg->getCallId().c_str(), msg->getTransacId().c_str());
+		if (chatMessages.find(msg->getCallId()) != chatMessages.end() && chatMessages[msg->getCallId()].find(msg->getTransacId()) != chatMessages[msg->getCallId()].end()) {
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "provisional response code %u can be mapped to a chat message :)", msg->getCode());
+		}
+		return true;
+	}
+	virtual bool onChatMessage(const CAObjWrapper<CAMsgChat* > &msg)const {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- CACallbackChatDummy::onChatMessage(callId = %s, transacId = %s) ---", msg->getCallId().c_str(), msg->getTransacId().c_str());
+		return true;
+	}
+	static CAObjWrapper<CACallbackChat*> newObj() {
+		return new CACallbackChatDummy();
+	}
+};
+
+class CACallbackAuthConnDummy : public CACallbackAuthConn
+{
+public:
+	virtual ~CACallbackAuthConnDummy() {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CACallbackAuthConnDummy destroyed ***");
+	}
+	virtual bool onAnswer(CACode code, const std::string& description = "")const {
+		if (CAUtils::isCodeError(code)) {
+			CA_DEBUG_ERROR_EX(kCAMobuleNameTest, "--- CACallbackAuthConnDummy::onAnswer(%hd, %s) ---", code, description.c_str());
+			// the server will disconnect the socket if if fails to authenticate the socket. This callback is provided for debugging purposes
+		}
+		else {
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- CACallbackAuthConnDummy::onAnswer(%hd, %s) ---", code, description.c_str());
+		}
+		return true;
+	}
+	static CAObjWrapper<CACallbackAuthConn*> newObj() {
+		return new CACallbackAuthConnDummy();
+	}
+};
+
 
 
 class CASignalingCallbackDummy : public CASignalingCallback
@@ -352,6 +411,8 @@ int main(int argc, char* argv[])
 
     CA_ASSERT(signalSession->setCallback(CASignalingCallbackDummy::newObj()));
 	CA_ASSERT(signalSession->setCallbackNet(CACallbackNetDummy::newObj()));
+	CA_ASSERT(signalSession->setCallbackChat(CACallbackChatDummy::newObj()));
+	CA_ASSERT(signalSession->setCallbackAuthConn(CACallbackAuthConnDummy::newObj()));
     CA_ASSERT(signalSession->connect());
 
     /* print help */
@@ -470,7 +531,7 @@ static void* CA_STDCALL consoleReaderProc(void *arg)
 				strRemoteId = std::string(remoteId);
 			}
 			CAObjWrapper<CAResultTransac* >oResult;
-			CA_ASSERT((oResult = signalSession->sendIM(strRemoteId, strIMContent.c_str(), strIMContent.length())));
+			CA_ASSERT((oResult = signalSession->sendChatMessage(strRemoteId, strIMContent.c_str(), strIMContent.length())));
 			if (oResult->isOk()) {
 				CA_DEBUG_INFO_EX(kCAMobuleNameTest, "Chat message sent: code = %u, callId = %s, transacId = %s", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
 				chatMessages[oResult->getCallId()][oResult->getTransacId()] = oResult;

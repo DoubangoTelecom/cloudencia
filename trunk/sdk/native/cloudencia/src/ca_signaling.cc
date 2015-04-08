@@ -109,6 +109,26 @@ bool CASignaling::setCallbackNet(CAObjWrapper<CACallbackNet* > oCallback)
 }
 
 /**@ingroup _Group_CPP_Signaling
+*/
+bool CASignaling::setCallbackChat(CAObjWrapper<CACallbackChat* > oCallback)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+
+	m_oCallbackChat = oCallback;
+	return true;
+}
+
+/**@ingroup _Group_CPP_Signaling
+*/
+bool CASignaling::setCallbackAuthConn(CAObjWrapper<CACallbackAuthConn* > oCallback)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+
+	m_oCallbackAuthConn = oCallback;
+	return true;
+}
+
+/**@ingroup _Group_CPP_Signaling
 * Sets the callback object.
 * @param callback Callback object.
 * @retval <b>true</b> if no error; otherwise <b>false</b>.
@@ -205,7 +225,7 @@ bool CASignaling::disConnect()
 * @param dataType
 * @retval Result.
 */
-CAObjWrapper<CAResultTransac* > CASignaling::sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType /*= kContentTypeText*/)
+CAObjWrapper<CAResultTransac* > CASignaling::sendChatMessage(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType /*= kContentTypeText*/)
 {
 	CAAutoLock<CASignaling> autoLock(this);
 	
@@ -417,87 +437,48 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
     if (oMsg->getType() == CAMsgType_Error) {
         CAObjWrapper<CAMsgError* >oMsgError = dynamic_cast<CAMsgError* >(*oMsg);
         CA_ASSERT(oMsgError);
-        return raiseEvent(CASignalingEventType_Error, oMsgError->getReason());
+		if (oMsgError->isForChat()) {
+			CACallbackChat::raiseError(m_oCallbackChat, oMsgError);
+		}
+		else if (oMsgError->isForAuthConn()) {
+			if (oMsgError->isFor(*m_oMsgAuthConn)) {
+				CACallbackAuthConn::raiseAnswer(m_oCallbackAuthConn, oMsgError->getCode(), oMsgError->getReason());
+			}
+		}
     }
 	else if (oMsg->getType() == CAMsgType_Provisional) {
 		CAObjWrapper<CAMsgProvisional* >oMsgProvisional = dynamic_cast<CAMsgProvisional* >(*oMsg);
 		CA_ASSERT(oMsgProvisional);
-		
+		if (oMsgProvisional->isForChat()) {
+			CACallbackChat::raiseProvisional(m_oCallbackChat, oMsgProvisional);
+		}
+		else if (oMsgProvisional->isForAuthConn()) {
+			if (oMsgProvisional->isFor(*m_oMsgAuthConn)) {
+				CACallbackAuthConn::raiseAnswer(m_oCallbackAuthConn, oMsgProvisional->getCode(), oMsgProvisional->getReason());
+			}
+		}
 	}
 	else if (oMsg->getType() == CAMsgType_Success) {
 		CAObjWrapper<CAMsgSuccess* >oMsgSuccess = dynamic_cast<CAMsgSuccess* >(*oMsg);
 		CA_ASSERT(oMsgSuccess);
-		
-		if (oMsgSuccess->isFor(*m_oMsgAuthConn)) {
-			if (!m_bConnAuthenticated) {
-				m_bConnAuthenticated = true;
-				CACallbackNet::raiseStateChanged(m_oCallbackNet, CANetState_Ready, "Ready");
+		if (oMsgSuccess->isForChat()) {
+			CACallbackChat::raiseSuccess(m_oCallbackChat, oMsgSuccess);
+		}
+		else if (oMsgSuccess->isForAuthConn()) {
+			if (oMsgSuccess->isFor(*m_oMsgAuthConn)) {
+				CACallbackAuthConn::raiseAnswer(m_oCallbackAuthConn, oMsgSuccess->getCode(), oMsgSuccess->getReason());
+				if (!m_bConnAuthenticated) {
+					m_bConnAuthenticated = true;
+					CACallbackNet::raiseStateChanged(m_oCallbackNet, CANetState_Ready, "Ready");
+				}
 			}
 		}
-		else {
-			raiseEventResultTransac(new CAResultTransac(oMsgSuccess->getCode(), oMsgSuccess->getCallId(), oMsgSuccess->getTransacId()));
-		}
 	}
-    else if (oMsg->getType() == CAMsgType_AuthConn) {
+    else if (oMsg->getType() == CAMsgType_Chat) {
+		CAObjWrapper<CAMsgChat* >oMsgChat = dynamic_cast<CAMsgChat* >(*oMsg);
+		CA_ASSERT(oMsgChat);
+		CACallbackChat::raiseChatMessage(m_oCallbackChat, oMsgChat);
     }
-
-#if 0 // FIXME
-    CAJson::Value root;
-    CAJson::Reader reader;
-
-    // Parse JSON content
-    bool parsingSuccessful = reader.parse((const char*)pcData, (((const char*)pcData) + nDataSize), root);
-    if (!parsingSuccessful) {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Failed to parse JSON content: %.*s", nDataSize, pcData);
-        return false;
-    }
-
-    CA_JSON_GET(root, passthrough, "passthrough", isBool, true);
-
-    if (passthrough.isBool() && passthrough.asBool() == true) {
-        if (m_oSignCallback) {
-            return raiseEvent(CASignalingEventType_NetData, "'passthrough' JSON data", (const void*)pcData, nDataSize);
-        }
-        return false;
-    }
-
-    CA_JSON_GET(root, type, "type", isString, false);
-    CA_JSON_GET(root, cid, "cid", isString, false);
-    CA_JSON_GET(root, tid, "tid", isString, false);
-    CA_JSON_GET(root, from, "from", isString, false);
-    CA_JSON_GET(root, to, "to", isString, false);
-
-    if (to.asString() != CAEngine::s_strCredUserId) {
-        if (from.asString() == CAEngine::s_strCredUserId) {
-            CA_DEBUG_INFO_EX(kCAMobuleNameSignaling, "Ignoring loopback message with type='%s', call-id='%s', to='%s'", type.asCString(), cid.asCString(), to.asCString());
-        }
-        else {
-            CA_DEBUG_INFO_EX(kCAMobuleNameSignaling, "Failed to match destination id: '%s'<>'%s'", to.asCString(), CAEngine::s_strCredUserId.c_str());
-        }
-        return false;
-    }
-
-    bool bIsCallEventRequiringSdp = (type.asString().compare("offer") == 0 || type.asString().compare("answer") == 0 || type.asString().compare("pranswer") == 0);
-    if (bIsCallEventRequiringSdp || type.asString().compare("hangup") == 0) {
-        if (m_oSignCallback) {
-            CAObjWrapper<CASignalingCallEvent*> oCallEvent = new CASignalingCallEvent(type.asString());
-            if (bIsCallEventRequiringSdp) {
-                CA_JSON_GET(root, sdp, "sdp", isString, false);
-                oCallEvent->m_strSdp = sdp.asString();
-            }
-            oCallEvent->m_strType = type.asString();
-            oCallEvent->m_strCallId = cid.asString();
-            oCallEvent->m_strTransacId = tid.asString();
-            oCallEvent->m_strFrom = from.asString();
-            oCallEvent->m_strTo = to.asString();
-            return m_oSignCallback->onEventCall(oCallEvent);
-        }
-    }
-    else {
-        CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Message with type='%s' not supported yet", type.asString().c_str());
-        return false;
-    }
-#endif
 
     return true;
 }

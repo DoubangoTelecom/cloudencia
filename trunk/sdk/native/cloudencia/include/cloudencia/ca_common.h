@@ -42,6 +42,8 @@
 #define kSchemeWSS "wss"
 #define kSchemeWS "ws"
 
+typedef short CACode;
+
 typedef int32_t CANetFd;
 #define CANetFd_IsValid(self)	((self) > 0)
 #define kCANetFdInvalid			-1

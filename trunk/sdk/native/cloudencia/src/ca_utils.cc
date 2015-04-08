@@ -73,7 +73,7 @@ std::string CAUtils::buildHa1(std::string strLogin, std::string strPassword, std
     return std::string(md5);
 }
 
-enum CAMsgType_e CAUtils::requestTypeFromCallId(std::string strCallId)
+enum CAMsgType_e CAUtils::requestTypeFromCallId(const std::string& strCallId)
 {
 	static const size_t kPrefixCallIdAuthSize = tsk_strlen(kPrefixCallIdAuth);
 	static const size_t kPrefixCallIdChatSize = tsk_strlen(kPrefixCallIdChat);
@@ -95,6 +95,14 @@ enum CAMsgType_e CAUtils::requestTypeFromResultTransac(const CAObjWrapper<CAResu
 {
 	if (oResult) {
 		return requestTypeFromCallId(oResult->getCallId());
+	}
+	return CAMsgType_Unknown;
+}
+
+enum CAMsgType_e CAUtils::requestTypeFromMsg(const CAObjWrapper<CAMsg* >& oMsg)
+{
+	if (oMsg) {
+		return requestTypeFromCallId(oMsg->getCallId());
 	}
 	return CAMsgType_Unknown;
 }
