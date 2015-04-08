@@ -85,6 +85,18 @@ bool CAMsg::toJson(CAJson::Value* jsonValue)
 		}
 		root[kMsgFieldContent] = content;
 	}
+
+	if (isAnswer()) {
+		const CAMsgAnswer* pcAnswer = dynamic_cast<const CAMsgAnswer*>(this);
+		if (pcAnswer) {
+			if (!pcAnswer->getReason().empty()) {
+				root[kMsgFieldReason] = pcAnswer->getReason();
+			}
+			if (pcAnswer->getCode() != 0) {
+				root[kMsgFieldCode] = pcAnswer->getCode();
+			}
+		}
+	}
 	return true;
 }
 

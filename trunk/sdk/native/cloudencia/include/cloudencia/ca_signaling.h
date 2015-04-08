@@ -77,6 +77,7 @@ public:
 	bool connect();
 	bool disConnect();
 	CAObjWrapper<CAResultTransac* > sendChatMessage(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType = kContentTypeText);
+	bool sendChatMessageStatusSeen(const CAObjWrapper<CAMsgChat* > &msg);
 
 	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
 
@@ -94,6 +95,7 @@ private:
 	std::string randomString(std::string strPrefix);
 
 	bool authConnection();
+	bool sendChatMessageStatus(const CAObjWrapper<CAMsgChat* > &msg, CACode code, const std::string& reason);
 
 	void lock();
 	void unlock();

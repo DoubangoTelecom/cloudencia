@@ -184,7 +184,7 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kCAMobuleNameCallbacks			"Callbacks"
 #define kCAMobuleNameWEC7				"WEC7"
 
-#define kMsgFieldId						"long" // uint64_t
+#define kMsgFieldId						"id" // uint64_t
 #define kMsgFieldType					"type" // string
 #define kMsgFieldFrom					"from" // string
 #define kMsgFieldTo						"to" // string
