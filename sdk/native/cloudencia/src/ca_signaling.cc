@@ -243,6 +243,15 @@ CAObjWrapper<CAResultTransac* > CASignaling::sendChatMessage(std::string strTo, 
 }
 
 /**@ingroup _Group_CPP_Signaling
+*/
+bool CASignaling::sendChatMessageStatusSeen(const CAObjWrapper<CAMsgChat* > &msg)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+
+	return sendChatMessageStatus(msg, kSuccessCodeSeen, "seen");
+}
+
+/**@ingroup _Group_CPP_Signaling
 * Creates new signaling session object.
 * @param pcConnectionUri A valid request URI (e.g. <b>ws://localhost:9000/wsStringStaticMulti?roomId=0</b>).
 * @param strCredUserId The user login (email address). This is required and must not be empty.
@@ -464,6 +473,8 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
     else if (oMsg->getType() == CAMsgType_Chat) {
 		CAObjWrapper<CAMsgChat* >oMsgChat = dynamic_cast<CAMsgChat* >(*oMsg);
 		CA_ASSERT(oMsgChat);
+		// alert remote party that the message ha
+		CA_ASSERT(sendChatMessageStatus(oMsgChat, kSuccessCodeDelivered, "delivered"));
 		CACallbackChat::raiseChatMessage(m_oCallbackChat, oMsgChat);
     }
 
@@ -521,6 +532,28 @@ bool CASignaling::authConnection()
     std::string jsonContent = m_oMsgAuthConn->toJson();
     CA_ASSERT(!jsonContent.empty());
     return sendData(jsonContent.c_str(), jsonContent.length());
+}
+
+bool CASignaling::sendChatMessageStatus(const CAObjWrapper<CAMsgChat* > &msg, CACode code, const std::string& reason)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+	if (!msg) {
+		CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Invalid argument");
+		return false;
+	}
+	CAObjWrapper<CAMsgSuccess* > oMsg = new CAMsgSuccess(
+		code,
+		reason,
+		m_strCredUserId,
+		m_strAuthToken,
+		msg->getCallId(),
+		msg->getTransacId(),
+		msg->getFrom());
+	CA_ASSERT(oMsg);
+	oMsg->m_Ticket = msg->m_Ticket;
+	std::string jsonContent = oMsg->toJson();
+	CA_ASSERT(!jsonContent.empty());
+	return sendData(jsonContent.c_str(), jsonContent.length());
 }
 
 //

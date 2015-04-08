@@ -168,6 +168,8 @@ public:
 	}
 	virtual bool onChatMessage(const CAObjWrapper<CAMsgChat* > &msg)const {
 		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- CACallbackChatDummy::onChatMessage(callId = %s, transacId = %s) ---", msg->getCallId().c_str(), msg->getTransacId().c_str());
+		// mark the message as seen
+		CA_ASSERT(signalSession->sendChatMessageStatusSeen(msg));
 		return true;
 	}
 	static CAObjWrapper<CACallbackChat*> newObj() {

@@ -65,12 +65,19 @@ public:
 	CA_INLINE std::string getTransacId()const {
 		return m_strTransacId;
 	}
+	CA_INLINE std::string getTo()const {
+		return m_strTo;
+	}
+	CA_INLINE std::string getFrom()const {
+		return m_strFrom;
+	}
 	CA_INLINE const CAObjWrapper<CAContent* >& getContent()const {
 		return m_oContent;
 	}
 	CA_INLINE const CATicket* getTicket()const {
 		return &m_Ticket;
 	}
+	CA_INLINE bool isAnswer()const { return (m_eType == CAMsgType_Error || m_eType == CAMsgType_Success || m_eType == CAMsgType_Provisional); }
 
 protected:
 	bool toJson(CAJson::Value* jsonValue);
@@ -150,6 +157,7 @@ public:
 //
 
 class CLOUDENCIA_API CAMsgSuccess : public CAMsgAnswer {
+	friend class CASignaling;
 	friend class CAMsg;
 protected:
 	CAMsgSuccess(std::string strReason = "", std::string strFrom = "", std::string strAuthToken = "", std::string strCallId = "", std::string strTransacId = "", std::string strTo = "");
