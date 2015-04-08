@@ -101,6 +101,44 @@ public:
     }
 };
 
+class CACallbackNetDummy : public CACallbackNet
+{
+public:
+	virtual ~CACallbackNetDummy() {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CACallbackNetDummy destroyed ***");
+	}
+	virtual bool onStateChanged(enum CANetState_e newState, std::string description = "")const {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "CACallbackNetDummy::onStateChanged(%d, %s)", newState, description.c_str());
+		switch (newState)
+		{
+		case CANetState_Ready: {
+			connected = true;
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- Signaling module ready ---");
+			break;
+		}
+		case CANetState_Connected: {
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- Signaling module connected ---");
+			break;
+		}
+		case CANetState_Disconnected: case CANetState_Error: {
+			connected = false;
+			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- Signaling module disconnected ---");
+			break;
+		}
+		default:
+			break;
+		}
+		return true;
+	}
+	virtual bool onPassthroughData(const void* pcDataPtr, size_t nDataSize)const {
+		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "--- Signaling module passthrough DATA:%.*s ---", nDataSize, (const char*)pcDataPtr);
+		return true;
+	}
+	static CAObjWrapper<CACallbackNet*> newObj() {
+		return new CACallbackNetDummy();
+	}
+};
+
 
 class CASignalingCallbackDummy : public CASignalingCallback
 {
@@ -117,6 +155,7 @@ public:
 	}
 
 	virtual bool onEventNet(const CAObjWrapper<CASignalingEvent* >& e) {
+		CA_ASSERT(false);
         //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
         switch (e->getType()) {
         case CASignalingEventType_NetReady: {
@@ -148,8 +187,10 @@ public:
 		CA_ASSERT(oResult);
 		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "onEventResultTransac(code = %u, callId = %s, transacId = %s)", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
 		// map result to sent chat messages
-		if (chatMessages.find(oResult->getCallId()) != chatMessages.end() && chatMessages[oResult->getCallId()].find(oResult->getTransacId()) != chatMessages[oResult->getCallId()].end()) {
-			CA_DEBUG_INFO_EX(kCAMobuleNameTest, "response code %u can be mapped to a chat message :)", oResult->getCode());
+		if (CAUtils::requestTypeFromResultTransac(oResult) == CAMsgType_Chat) {
+			if (chatMessages.find(oResult->getCallId()) != chatMessages.end() && chatMessages[oResult->getCallId()].find(oResult->getTransacId()) != chatMessages[oResult->getCallId()].end()) {
+				CA_DEBUG_INFO_EX(kCAMobuleNameTest, "response code %u can be mapped to a chat message :)", oResult->getCode());
+			}
 		}
 		return true;
 	}
@@ -310,6 +351,7 @@ int main(int argc, char* argv[])
     CA_ASSERT(signalSession);
 
     CA_ASSERT(signalSession->setCallback(CASignalingCallbackDummy::newObj()));
+	CA_ASSERT(signalSession->setCallbackNet(CACallbackNetDummy::newObj()));
     CA_ASSERT(signalSession->connect());
 
     /* print help */

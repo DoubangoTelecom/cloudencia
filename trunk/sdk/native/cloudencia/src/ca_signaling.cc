@@ -99,6 +99,16 @@ void CASignaling::unlock()
 }
 
 /**@ingroup _Group_CPP_Signaling
+*/
+bool CASignaling::setCallbackNet(CAObjWrapper<CACallbackNet* > oCallback)
+{
+	CAAutoLock<CASignaling> autoLock(this);
+
+	m_oCallbackNet = oCallback;
+	return true;
+}
+
+/**@ingroup _Group_CPP_Signaling
 * Sets the callback object.
 * @param callback Callback object.
 * @retval <b>true</b> if no error; otherwise <b>false</b>.
@@ -421,7 +431,7 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
 		if (oMsgSuccess->isFor(*m_oMsgAuthConn)) {
 			if (!m_bConnAuthenticated) {
 				m_bConnAuthenticated = true;
-				raiseEvent(CASignalingEventType_NetReady, "Ready");
+				CACallbackNet::raiseStateChanged(m_oCallbackNet, CANetState_Ready, "Ready");
 			}
 		}
 		else {
@@ -617,23 +627,23 @@ bool CASignalingTransportCallback::onData(CAObjWrapper<CANetPeer*> oPeer, size_t
                     if (thttp_message_parse(&ragel_state, &p_msg, tsk_false) != 0) {
                         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Failed to parse HTTP message: %.*s", endOfMessage, pcData);
                         TSK_OBJECT_SAFE_FREE(p_msg);
-                        return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetError, "WebSocket handshaking: Failed to parse HTTP message");
+						return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Error, "WebSocket handshaking: Failed to parse HTTP message");
                     }
                     if (!THTTP_MESSAGE_IS_RESPONSE(p_msg)) {
                         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Incoming HTTP message not a response: %.*s", endOfMessage, pcData);
                         TSK_OBJECT_SAFE_FREE(p_msg);
-                        return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetError, "WebSocket handshaking: Incoming HTTP message not a response");
+						return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Error, "WebSocket handshaking: Incoming HTTP message not a response");
                     }
                     if (p_msg->line.response.status_code > 299) {
                         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Incoming HTTP response is an error: %.*s", endOfMessage, pcData);
                         TSK_OBJECT_SAFE_FREE(p_msg);
-                        return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetError, "WebSocket handshaking: Incoming HTTP response is an error");
+						return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Error, "WebSocket handshaking: Incoming HTTP response is an error");
                     }
                     // Get Accept header
                     if (!(http_hdr_accept = (const thttp_header_Sec_WebSocket_Accept_t*)thttp_message_get_header(p_msg, thttp_htype_Sec_WebSocket_Accept))) {
                         CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "No 'Sec-WebSocket-Accept' header: %.*s", endOfMessage, pcData);
                         TSK_OBJECT_SAFE_FREE(p_msg);
-                        return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetError, "WebSocket handshaking: No 'Sec-WebSocket-Accept' header");
+						return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Error, "WebSocket handshaking: No 'Sec-WebSocket-Accept' header");
                     }
                     // Authenticate the response
                     {
@@ -642,7 +652,7 @@ bool CASignalingTransportCallback::onData(CAObjWrapper<CANetPeer*> oPeer, size_t
                         if (!tsk_striequals(http_hdr_accept->value, resp)) {
                             CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Authentication failed: %.*s", endOfMessage, pcData);
                             TSK_OBJECT_SAFE_FREE(p_msg);
-                            return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetError, "WebSocket handshaking: Authentication failed");
+							return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Error, "WebSocket handshaking: Authentication failed");
                         }
                     }
                     TSK_OBJECT_SAFE_FREE(p_msg);
@@ -652,7 +662,7 @@ bool CASignalingTransportCallback::onData(CAObjWrapper<CANetPeer*> oPeer, size_t
                     if (!m_pcCASignaling->m_bConnAuthenticated) {
                         return const_cast<CASignaling*>(m_pcCASignaling)->authConnection();
                     }
-                    return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetReady, "WebSocket handshaking: done");
+					return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Ready, "WebSocket handshaking: done");
                 }
             }
         }
@@ -670,7 +680,7 @@ bool CASignalingTransportCallback::onData(CAObjWrapper<CANetPeer*> oPeer, size_t
 
             if (pcData[0] & 0x40 || pcData[0] & 0x20 || pcData[0] & 0x10) {
                 CA_DEBUG_ERROR_EX(kCAMobuleNameSignaling, "Unknown extension: %d", (pcData[0] >> 4) & 0x07);
-                return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetReady, "WebSocket data: Unknown extension");
+				return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Error, "WebSocket data: Unknown extension");
             }
 
             pay_len = pcData[1] & 0x7F;
@@ -748,7 +758,7 @@ bool CASignalingTransportCallback::onConnectionStateChanged(CAObjWrapper<CANetPe
     if ((oPeer->getFd() == m_pcCASignaling->m_Fd || m_pcCASignaling->m_Fd == kCANetFdInvalid) && oPeer->isConnected()) {
         const CAWsTransport* pcTransport = dynamic_cast<const CAWsTransport*>(*m_pcCASignaling->m_oNetTransport);
         CA_ASSERT(pcTransport != NULL);
-        const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetConnected, "Connected");
+		CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Connected, "Connected");
         if ((m_pcCASignaling->m_oConnectionUrl->getType() == CAUrlType_WS || m_pcCASignaling->m_oConnectionUrl->getType() == CAUrlType_WSS)) {
             if (!m_pcCASignaling->m_bWsHandshakingDone) {
                 return const_cast<CAWsTransport*>(pcTransport)->handshaking(oPeer, const_cast<CASignaling*>(m_pcCASignaling)->m_oConnectionUrl);
@@ -757,13 +767,13 @@ bool CASignalingTransportCallback::onConnectionStateChanged(CAObjWrapper<CANetPe
         if (!m_pcCASignaling->m_bConnAuthenticated) {
             return const_cast<CASignaling*>(m_pcCASignaling)->authConnection();
         }
-        return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetReady, "Ready");
+		return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Ready, "Ready");
     }
     else if (m_pcCASignaling->m_Fd == oPeer->getFd() && !oPeer->isConnected()) {
         const_cast<CASignaling*>(m_pcCASignaling)->m_Fd = kCANetFdInvalid;
         const_cast<CASignaling*>(m_pcCASignaling)->m_bWsHandshakingDone = false;
         const_cast<CASignaling*>(m_pcCASignaling)->m_bConnAuthenticated = false;
-        return const_cast<CASignaling*>(m_pcCASignaling)->raiseEvent(CASignalingEventType_NetDisconnected, "Disconnected");
+		return CACallbackNet::raiseStateChanged(m_pcCASignaling->m_oCallbackNet, CANetState_Disconnected, "Disconnected");
     }
 
     return true;
