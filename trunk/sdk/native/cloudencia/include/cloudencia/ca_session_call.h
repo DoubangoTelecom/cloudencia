@@ -62,8 +62,10 @@ public:
 #endif
 
 	virtual bool call(CAMediaType_t eMediaType, std::string strDestUserId);
+#if 0 // FIXME
 	virtual bool acceptEvent(const CAObjWrapper<CASignalingCallEvent* >& e);
 	static bool rejectEvent(CAObjWrapper<CASignaling* > oSignaling, const CAObjWrapper<CASignalingCallEvent* >& e);
+#endif
 
 	virtual bool setMute(bool bMuted, CAMediaType_t eMediaType = CAMediaType_All);
 	virtual bool hangup();
@@ -83,7 +85,9 @@ public:
 	}
 
 	static CAObjWrapper<CASessionCall* > newObj(CAObjWrapper<CASignaling* > signalingSession);
+#if 0 //FIXME
 	static CAObjWrapper<CASessionCall* > newObj(CAObjWrapper<CASignaling* > signalingSession, CAObjWrapper<CASignalingCallEvent* >& offer);
+#endif
 
 private:
 	void lock();

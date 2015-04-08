@@ -208,7 +208,7 @@ bool CASessionCall::call(CAMediaType_t eMediaType, std::string strDestUserId)
 
     return true;
 }
-
+#if 0 // FIXME
 /**@ingroup _Group_CPP_SessionCall
 * Accepts an incoming event receive through the signaling layer. If this is an <b>offer</b> then, the incoming call will be accepted. To reject the event use @ref rejectEvent().
 * @param e The event to accept.
@@ -353,6 +353,7 @@ bool CASessionCall::rejectEvent(CAObjWrapper<CASignaling*> signalingSession, con
 
     return true;
 }
+#endif
 
 /**@ingroup _Group_CPP_SessionCall
 * Mutes or unmutes the call.
@@ -1101,6 +1102,7 @@ CAObjWrapper<CASessionCall*> CASessionCall::newObj(CAObjWrapper<CASignaling*> si
     return oCall;
 }
 
+#if 0 // FIXME
 /**@ingroup _Group_CPP_SessionCall
 * Creates a new call session from an offer. This kind of session must be created to accept an offer. Use @ref rejectEvent() to reject the offer.
 * @param signalingSession The signaling session to use.
@@ -1126,3 +1128,4 @@ CAObjWrapper<CASessionCall*> CASessionCall::newObj(CAObjWrapper<CASignaling*> si
     return oCall;
 }
 
+#endif
