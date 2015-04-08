@@ -70,22 +70,6 @@ typedef enum CADebugLevel_e {
 }
 CADebugLevel_t;
 
-// @SWIG
-typedef enum CASignalingEventType_e {
-	CASignalingEventType_NetConnected,
-	CASignalingEventType_NetReady,
-	CASignalingEventType_NetData, // "passthrough" data: https://code.google.com/p/sincity/issues/detail?id=2
-	CASignalingEventType_NetDisconnected,
-	CASignalingEventType_NetError,
-
-	CASignalingEventType_ResultTransac,
-
-	CASignalingEventType_Error,
-
-	CASignalingEventType_Call
-}
-CASignalingEventType_t;
-
 typedef enum CANetState_e
 {
 	CANetState_Connected,
@@ -94,17 +78,6 @@ typedef enum CANetState_e
 	CANetState_Error
 }
 CANetState_t;
-
-#if 0
-typedef enum CASessionState_e {
-	CASessionState_None,
-	CASessionState_Connecting,
-	CASessionState_Connected,
-	CASessionState_Terminated
-}
-CASessionState_t;
-#endif
-
 
 // @SWIG
 typedef enum CAMediaType_e {
@@ -117,19 +90,6 @@ typedef enum CAMediaType_e {
 	CAMediaType_All = 0xFF,
 }
 CAMediaType_t;
-
-typedef enum CACallAction_e {
-	CACallAction_None,
-	CACallAction_Make,
-	CACallAction_Accept
-}
-CACallAction_t;
-
-typedef enum CACallState_e {
-	CACallState_None,
-	CACallState_IceGathering,
-}
-CACallState_t;
 
 // @SWIG
 typedef enum CAIceState_e {

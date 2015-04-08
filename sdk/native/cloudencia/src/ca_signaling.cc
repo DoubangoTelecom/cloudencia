@@ -129,19 +129,6 @@ bool CASignaling::setCallbackAuthConn(CAObjWrapper<CACallbackAuthConn* > oCallba
 }
 
 /**@ingroup _Group_CPP_Signaling
-* Sets the callback object.
-* @param callback Callback object.
-* @retval <b>true</b> if no error; otherwise <b>false</b>.
-*/
-bool CASignaling::setCallback(CAObjWrapper<CASignalingCallback*> callback)
-{
-    CAAutoLock<CASignaling> autoLock(this);
-
-    m_oSignCallback = callback;
-    return true;
-}
-
-/**@ingroup _Group_CPP_Signaling
 * Checks whether the signaling session is connected to the network. Being connected doesn't mean the handshaking is done.
 * Use @ref isReady() to check if the session is ready to send/receive data.
 * @retval <b>true</b> if connected; otherwise <b>false</b>.
@@ -484,36 +471,6 @@ bool CASignaling::handleData(const char* pcData, tsk_size_t nDataSize)
 }
 
 /*
-* Raises an event.
-* @param eType
-* @param strDescription
-* @retval <b>true</b> if no error; otherwise <b>false</b>.
-*/
-bool CASignaling::raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr /*= NULL*/, size_t nDataSize /*= 0*/)
-{
-    CAAutoLock<CASignaling> autoLock(this);
-
-    if (m_oSignCallback) {
-        CAObjWrapper<CASignalingEvent*> e = new CASignalingEvent(eType, strDescription, pcDataPtr, nDataSize);
-		CA_ASSERT(e);
-        return m_oSignCallback->onEventNet(e);
-    }
-    return true;
-}
-
-bool CASignaling::raiseEventResultTransac(CAObjWrapper<CAResultTransac* > oResult)
-{
-	CAAutoLock<CASignaling> autoLock(this);
-
-	if (m_oSignCallback) {
-		CAObjWrapper<CASignalingResultTransacEvent* > e = new CASignalingResultTransacEvent(oResult);
-		CA_ASSERT(e);
-		return m_oSignCallback->onEventResultTransac(e);
-	}
-	return true;
-}
-
-/*
 Checks we can send data.
 */
 bool CASignaling::canSendData()
@@ -760,52 +717,3 @@ bool CASignalingTransportCallback::onConnectionStateChanged(CAObjWrapper<CANetPe
     return true;
 }
 
-//
-// CASignalingEvent
-//
-
-CASignalingEvent::CASignalingEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr /*= NULL*/, size_t nDataSize /*= 0*/)
-    : m_eType(eType), m_strDescription(strDescription), m_pDataPtr(NULL), m_nDataSize(0)
-{
-    if (pcDataPtr && nDataSize) {
-        if ((m_pDataPtr = tsk_malloc(nDataSize))) {
-            memcpy(m_pDataPtr, pcDataPtr, nDataSize);
-            m_nDataSize = nDataSize;
-        }
-    }
-}
-
-CASignalingEvent::~CASignalingEvent()
-{
-    TSK_FREE(m_pDataPtr);
-}
-
-//
-//	CASignalingResultTransacEvent
-//
-
-CASignalingResultTransacEvent::CASignalingResultTransacEvent(CAObjWrapper<CAResultTransac* > oResult)
-	: CASignalingEvent(CASignalingEventType_ResultTransac, "Transacation result event")
-	, m_oResult(oResult)
-{
-
-}
-CASignalingResultTransacEvent::~CASignalingResultTransacEvent()
-{
-
-}
-
-//
-//	CACallEvent
-//
-
-CASignalingCallEvent::CASignalingCallEvent(std::string strDescription)
-    : CASignalingEvent(CASignalingEventType_Call, strDescription)
-{
-
-}
-
-CASignalingCallEvent::~CASignalingCallEvent()
-{
-
-}

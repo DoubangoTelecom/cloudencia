@@ -45,7 +45,6 @@
 static CAJson::Value jsonConfig;
 static CAObjWrapper<CASessionCall*>callSession;
 static CAObjWrapper<CASignaling*>signalSession;
-static CAObjWrapper<CASignalingCallEvent*>pendingOffer;
 static CAObjWrapper<CAThread*>threadConsoleReader;
 static std::map<std::string/*CallId*/, std::map<std::string/*TransacId*/, CAObjWrapper<CAResultTransac* > > >chatMessages; // ((chatMessages[CallId])[TransacId]) == CAResultTransac
 
@@ -197,111 +196,6 @@ public:
 	}
 };
 
-
-
-class CASignalingCallbackDummy : public CASignalingCallback
-{
-protected:
-    CASignalingCallbackDummy() {
-
-    }
-public:
-    virtual ~CASignalingCallbackDummy() {
-        CA_DEBUG_INFO_EX(kCAMobuleNameTest, "*** CASignalingCallbackDummy destroyed ***");
-    }
-	virtual CA_INLINE const char* getObjectId() {
-		return "CASignalingCallbackDummy";
-	}
-
-	virtual bool onEventNet(const CAObjWrapper<CASignalingEvent* >& e) {
-		CA_ASSERT(false);
-        //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
-        switch (e->getType()) {
-        case CASignalingEventType_NetReady: {
-            connected = true;
-            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module connected ***");
-            break;
-        }
-        case CASignalingEventType_Error: {
-            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module error: %s ***", e->getDescription().c_str());
-            break;
-        }
-        case CASignalingEventType_NetDisconnected:
-        case CASignalingEventType_NetError: {
-            connected = false;
-            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module disconnected ***");
-            break;
-        }
-        case CASignalingEventType_NetData: {
-            CA_DEBUG_INFO_EX(kCAMobuleNameTest, "***Signaling module passthrough DATA:%.*s ***", e->getDataSize(), (const char*)e->getDataPtr());
-            break;
-        }
-        }
-
-        return true;
-    }
-    
-	virtual bool onEventResultTransac(const CAObjWrapper<CASignalingResultTransacEvent* >& e) {
-		const CAObjWrapper<CAResultTransac* >& oResult = e->getResult();
-		CA_ASSERT(oResult);
-		CA_DEBUG_INFO_EX(kCAMobuleNameTest, "onEventResultTransac(code = %u, callId = %s, transacId = %s)", oResult->getCode(), oResult->getCallId().c_str(), oResult->getTransacId().c_str());
-		// map result to sent chat messages
-		if (CAUtils::requestTypeFromResultTransac(oResult) == CAMsgType_Chat) {
-			if (chatMessages.find(oResult->getCallId()) != chatMessages.end() && chatMessages[oResult->getCallId()].find(oResult->getTransacId()) != chatMessages[oResult->getCallId()].end()) {
-				CA_DEBUG_INFO_EX(kCAMobuleNameTest, "response code %u can be mapped to a chat message :)", oResult->getCode());
-			}
-		}
-		return true;
-	}
-
-	virtual bool onEventCall(const CAObjWrapper<CASignalingCallEvent* >& e) {
-        //!\Deadlock issue: You must not call any function from 'CASignaling' class unless you fork a new thread.
-        if (callSession) {
-            if (callSession->getCallId() != e->getCallId()) {
-                CA_DEBUG_ERROR("Call id mismatch: '%s'<>'%s'", callSession->getCallId().c_str(), e->getCallId().c_str());
-                return CASessionCall::rejectEvent(signalSession, e);
-            }
-            bool ret = callSession->acceptEvent(e);
-            if (e->getType() == "hangup") {
-#if 1
-                callSession = NULL;
-                CA_DEBUG_INFO("+++Call ended +++");
-#else		// auto-call
-                CA_DEBUG_INFO("+++ call('%s',%d) +++", "002", CAMediaType_ScreenCast);
-                CA_ASSERT(callSession = CASessionCall::newObj(signalSession));
-                CA_ASSERT(callSession->setIceCallback(CASessionCallIceCallbackDummy::newObj()));
-                CA_ASSERT(callSession->call(CAMediaType_ScreenCast, "002"));
-                CA_ASSERT(attachDisplays());
-#endif
-            }
-            return ret;
-        }
-        else {
-            if (e->getType() == "offer") {
-                if (callSession || pendingOffer) { // already in call?
-                    return CASessionCall::rejectEvent(signalSession, e);
-                }
-                pendingOffer = e;
-                CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++Incoming call: 'accept'/'reject'? +++");
-            }
-            if (e->getType() == "hangup") {
-                if (pendingOffer && pendingOffer->getCallId() == e->getCallId()) {
-                    pendingOffer = NULL;
-                    CA_DEBUG_INFO_EX(kCAMobuleNameTest, "+++ pending call cancelled +++");
-                }
-            }
-
-            // Silently ignore any other event type
-        }
-
-        return true;
-    }
-
-    static CAObjWrapper<CASignalingCallback*> newObj() {
-        return new CASignalingCallbackDummy();
-    }
-};
-
 #if defined(_WIN32_WCE) || defined(UNDER_CE)
 int _tmain(int argc, _TCHAR* argv[])
 #else
@@ -409,7 +303,6 @@ int main(int argc, char* argv[])
     signalSession = CASignaling::newObj(jsonConfig["connection_url"].asString(), jsonConfig["local_id"].asString(), jsonConfig["local_password"].asString());
     CA_ASSERT(signalSession);
 
-    CA_ASSERT(signalSession->setCallback(CASignalingCallbackDummy::newObj()));
 	CA_ASSERT(signalSession->setCallbackNet(CACallbackNetDummy::newObj()));
 	CA_ASSERT(signalSession->setCallbackChat(CACallbackChatDummy::newObj()));
 	CA_ASSERT(signalSession->setCallbackAuthConn(CACallbackAuthConnDummy::newObj()));

@@ -34,133 +34,6 @@
 class CASignaling;
 class CACallbackNet;
 
-/**@ingroup _Group_CPP_Signaling
-* Signaling event.
-*/
-class CLOUDENCIA_API CASignalingEvent : public CAObj
-{
-	friend class CASignaling;
-public:
-	CASignalingEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
-	virtual ~CASignalingEvent();
-	virtual CA_INLINE const char* getObjectId() {
-		return "CASignalingEvent";
-	}
-
-	/**< The event type */
-	virtual CA_INLINE CASignalingEventType_t getType()const {
-		return m_eType;
-	}
-	/**< The event description */
-	virtual CA_INLINE std::string getDescription()const {
-		return m_strDescription;
-	}
-	/**< The event data pointer */
-	virtual CA_INLINE const void* getDataPtr()const {
-		return m_pDataPtr;
-	}
-	virtual CA_INLINE size_t getDataSize()const {
-		return m_nDataSize;
-	}
-
-private:
-	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
-	CASignalingEventType_t m_eType;
-	std::string m_strDescription;
-	void* m_pDataPtr;
-	size_t m_nDataSize;
-	CA_DISABLE_WARNINGS_END()
-};
-
-/**@ingroup _Group_CPP_Signaling
-* Signaling event for transactions.
-*/
-class CLOUDENCIA_API CASignalingResultTransacEvent : public CASignalingEvent
-{
-	friend class CASignaling;
-public:
-	CASignalingResultTransacEvent(CAObjWrapper<CAResultTransac* > oResult);
-	virtual ~CASignalingResultTransacEvent();
-	virtual CA_INLINE const char* getObjectId() {
-		return "CASignalingResultTransacEvent";
-	}
-	CA_INLINE CAObjWrapper<CAResultTransac* >& getResult() {
-		return m_oResult;
-	}
-private:
-	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
-	CAObjWrapper<CAResultTransac* > m_oResult;
-	CA_DISABLE_WARNINGS_END()
-};
-
-
-/**@ingroup _Group_CPP_Signaling
-* Signaling event for call sessions.
-*/
-class CLOUDENCIA_API CASignalingCallEvent : public CASignalingEvent
-{
-	friend class CASignaling;
-public:
-	CASignalingCallEvent(std::string strDescription);
-	virtual ~CASignalingCallEvent();
-	virtual CA_INLINE const char* getObjectId() {
-		return "CASignalingCallEvent";
-	}
-
-	/**< The event type. e.g. "offer", "answer", "hangup"... */
-	CA_INLINE std::string getType() {
-		return m_strType;
-	}
-	/**< The source identifier */
-	CA_INLINE std::string getFrom() {
-		return m_strFrom;
-	}
-	/**< The destination identifier */
-	CA_INLINE std::string getTo() {
-		return m_strTo;
-	}
-	/**< The call identifier */
-	CA_INLINE std::string getCallId() {
-		return m_strCallId;
-	}
-	/**< The transaction identifier */
-	CA_INLINE std::string getTransacId() {
-		return m_strTransacId;
-	}
-	/**< The session description. Could be NULL. */
-	CA_INLINE std::string getSdp() {
-		return m_strSdp;
-	}
-
-private:
-	CA_DISABLE_WARNINGS_BEGIN(4251 4267)
-	std::string m_strFrom;
-	std::string m_strTo;
-	std::string m_strSdp;
-	std::string m_strType;
-	std::string m_strCallId;
-	std::string m_strTransacId;
-	CA_DISABLE_WARNINGS_END()
-};
-
-/**@ingroup _Group_CPP_Signaling
-* Callback class for the signaling session. You must override this call.
-*/
-class CLOUDENCIA_API CASignalingCallback : public CAObj
-{
-protected:
-	CASignalingCallback() {}
-public:
-	virtual ~CASignalingCallback() {}
-	/** Raised to signal events releated to the network connection states */
-	virtual bool onEventNet(const CAObjWrapper<CASignalingEvent* >& e) = 0;
-	/** Raised to signal events related to a transaction result */
-	virtual bool onEventResultTransac(const CAObjWrapper<CASignalingResultTransacEvent* >& e) = 0;
-	/** Raised to signal events related to the call states */
-	virtual bool onEventCall(const CAObjWrapper<CASignalingCallEvent* >& e) = 0;
-};
-
-
 /* Network transport used by the signaling layer.
 */
 #if !defined(SWIG)
@@ -199,7 +72,6 @@ public:
 	bool setCallbackNet(CAObjWrapper<CACallbackNet* > oCallback);
 	bool setCallbackChat(CAObjWrapper<CACallbackChat* > oCallback);
 	bool setCallbackAuthConn(CAObjWrapper<CACallbackAuthConn* > oCallback);
-	bool setCallback(CAObjWrapper<CASignalingCallback* > oCallback);
 	bool isConnected();
 	bool isReady();
 	bool connect();
@@ -218,8 +90,6 @@ public:
 private:
 	bool sendData(const void* pcData, size_t nDataSize);
 	bool handleData(const char* pcData, size_t nDataSize);
-	bool raiseEvent(CASignalingEventType_t eType, std::string strDescription, const void* pcDataPtr = NULL, size_t nDataSize = 0);
-	bool raiseEventResultTransac(CAObjWrapper<CAResultTransac* > oResult);
 	bool canSendData();
 	std::string randomString(std::string strPrefix);
 
@@ -233,7 +103,6 @@ private:
 	CAObjWrapper<CANetTransport* > m_oNetTransport;
 	CAObjWrapper<CAUrl* > m_oConnectionUrl;
 	CAObjWrapper<CASignalingTransportCallback* > m_oNetCallback;
-	CAObjWrapper<CASignalingCallback* > m_oSignCallback;
 	CAObjWrapper<CAMsgAuthConn* > m_oMsgAuthConn;
 	CAObjWrapper<CACallbackNet* > m_oCallbackNet;
 	CAObjWrapper<CACallbackChat* > m_oCallbackChat;

@@ -10,22 +10,6 @@ typedef enum CADebugLevel_e {
 CADebugLevel_t;
 
 // ca_common.h
-typedef enum CASignalingEventType_e {
-		CASignalingEventType_NetConnected,
-	CASignalingEventType_NetReady,
-	CASignalingEventType_NetData, // "passthrough" data: https://code.google.com/p/sincity/issues/detail?id=2
-	CASignalingEventType_NetDisconnected,
-	CASignalingEventType_NetError,
-
-	CASignalingEventType_ResultTransac,
-
-	CASignalingEventType_Error,
-
-	CASignalingEventType_Call
-}
-CASignalingEventType_t;
-
-// ca_common.h
 typedef enum CAMediaType_e {
 	CAMediaType_None = 0x00,
 	CAMediaType_Audio = (0x01 << 0),
