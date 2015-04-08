@@ -73,6 +73,32 @@ std::string CAUtils::buildHa1(std::string strLogin, std::string strPassword, std
     return std::string(md5);
 }
 
+enum CAMsgType_e CAUtils::requestTypeFromCallId(std::string strCallId)
+{
+	static const size_t kPrefixCallIdAuthSize = tsk_strlen(kPrefixCallIdAuth);
+	static const size_t kPrefixCallIdChatSize = tsk_strlen(kPrefixCallIdChat);
+	static const size_t kPrefixCallIdCallSize = tsk_strlen(kPrefixCallIdCall);
+
+	if (tsk_strnequals(strCallId.c_str(), kPrefixCallIdChat, kPrefixCallIdChatSize)) {
+		return CAMsgType_Chat;
+	}
+	else if (tsk_strnequals(strCallId.c_str(), kPrefixCallIdAuth, kPrefixCallIdAuthSize)) {
+		return CAMsgType_AuthConn;
+	}
+	/*else if (tsk_strnequals(strCallId.c_str(), kPrefixCallIdCall, kPrefixCallIdCallSize)) {
+		return CAMsgType_Call;
+	}*/
+	return CAMsgType_Unknown;
+}
+
+enum CAMsgType_e CAUtils::requestTypeFromResultTransac(const CAObjWrapper<CAResultTransac* >& oResult)
+{
+	if (oResult) {
+		return requestTypeFromCallId(oResult->getCallId());
+	}
+	return CAMsgType_Unknown;
+}
+
 bool CAUtils::fileExists(const char* path)
 {
 #define _file_exists(path) tsk_plugin_file_exist((path))

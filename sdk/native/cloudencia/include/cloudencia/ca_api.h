@@ -21,6 +21,7 @@
 
 #include "ca_config.h"
 
+#include "cloudencia/ca_callbacks.h"
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_engine.h"
 #include "cloudencia/ca_mutex.h"

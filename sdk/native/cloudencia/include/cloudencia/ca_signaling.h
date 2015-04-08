@@ -27,10 +27,12 @@
 #include "cloudencia/ca_mutex.h"
 #include "cloudencia/ca_msg.h"
 #include "cloudencia/ca_result.h"
+#include "cloudencia/ca_callbacks.h"
 
 #include <string>
 
 class CASignaling;
+class CACallbackNet;
 
 /**@ingroup _Group_CPP_Signaling
 * Signaling event.
@@ -185,6 +187,7 @@ class CLOUDENCIA_API CASignaling : public CAObj
 	friend class CASignalingTransportCallback;
 	friend class CAAutoLock<CASignaling >;
 	friend class CASessionCall;
+	friend class CACallbackNet;
 protected:
 	CASignaling(CAObjWrapper<CANetTransport* >& oNetTransport, CAObjWrapper<CAUrl* >& oConnectionUrl);
 public:
@@ -193,6 +196,7 @@ public:
 		return "CASignaling";
 	}
 
+	bool setCallbackNet(CAObjWrapper<CACallbackNet* > oCallback);
 	bool setCallback(CAObjWrapper<CASignalingCallback* > oCallback);
 	bool isConnected();
 	bool isReady();
@@ -229,6 +233,7 @@ private:
 	CAObjWrapper<CASignalingTransportCallback* > m_oNetCallback;
 	CAObjWrapper<CASignalingCallback* > m_oSignCallback;
 	CAObjWrapper<CAMsgAuthConn* > m_oMsgAuthConn;
+	CAObjWrapper<CACallbackNet* > m_oCallbackNet;
 	CANetFd m_Fd;
 	bool m_bWsHandshakingDone;
 	void* m_pWsSendBufPtr;

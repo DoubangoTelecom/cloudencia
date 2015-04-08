@@ -84,6 +84,15 @@ typedef enum CASignalingEventType_e {
 }
 CASignalingEventType_t;
 
+typedef enum CANetState_e
+{
+	CANetState_Connected,
+	CANetState_Ready,
+	CANetState_Disconnected,
+	CANetState_Error
+}
+CANetState_t;
+
 #if 0
 typedef enum CASessionState_e {
 	CASessionState_None,
@@ -210,6 +219,7 @@ static bool CA_INLINE CANetTransporType_isStream(CANetTransporType_t eType)
 #define kCAMobuleNameContent			"Content"
 #define kCAMobuleNameUtils				"Utils"
 #define kCAMobuleNameFakeDisplay		"Fake display"
+#define kCAMobuleNameCallbacks			"Callbacks"
 #define kCAMobuleNameWEC7				"WEC7"
 
 #define kMsgFieldId						"long" // uint64_t
