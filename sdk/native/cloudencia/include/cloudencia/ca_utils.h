@@ -22,6 +22,7 @@
 #include "ca_config.h"
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_result.h"
+#include "cloudencia/ca_msg.h"
 
 #include <string>
 
@@ -32,10 +33,14 @@ public:
 	static std::string itoa(int64_t i);
 	static std::string buildAuthToken(std::string strLogin, std::string strPassword);
 	static std::string buildHa1(std::string strLogin, std::string strPassword, std::string strRealm);
-	static enum CAMsgType_e requestTypeFromCallId(std::string strCallId);
+	static enum CAMsgType_e requestTypeFromCallId(const std::string& strCallId);
 	static enum CAMsgType_e requestTypeFromResultTransac(const CAObjWrapper<CAResultTransac* >& oResult);
+	static enum CAMsgType_e requestTypeFromMsg(const CAObjWrapper<CAMsg* >& oMsg);
     static bool fileExists(const char* path);
     static const char* currentDirectoryPath();
+	static bool isCodeProvisional(CACode code) { return code < 200; }
+	static bool isCodeSuccess(CACode code) { return code < 300 && code > 199; }
+	static bool isCodeError(CACode code) { return code > 299; }
 };
 
 #endif /* _CLOUDENCIA_UTILS_H_ */

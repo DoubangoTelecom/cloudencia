@@ -664,7 +664,7 @@ var CASignaling = {
         });
         CAUtils.sendData(JSONText);
     },
-    sendIM: function (to/*String: email*/, content/*Any data supporting toString()*/, contentType/*String: optional*/, contentSubType/*String: optional*/) {
+    sendChatMessage: function (to/*String: email*/, content/*Any data supporting toString()*/, contentType/*String: optional*/, contentSubType/*String: optional*/) {
         // returns CAResultTransac
         if (!CAEngine.socket || !CAEngine.ready) {
             throw new Error("not ready");
@@ -780,8 +780,8 @@ CAEngine.disconnect = function() {
 @param {String} [contentSubType]
 @returns {CAResultTransac}
 */
-CAEngine.sendIM = function (to, content, contentType, contentSubType) {
-    return CASignaling.sendIM(to, content, contentType, contentSubType);
+CAEngine.sendChatMessage = function (to, content, contentType, contentSubType) {
+    return CASignaling.sendChatMessage(to, content, contentType, contentSubType);
 }
 
 

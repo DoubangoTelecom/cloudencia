@@ -197,12 +197,14 @@ public:
 	}
 
 	bool setCallbackNet(CAObjWrapper<CACallbackNet* > oCallback);
+	bool setCallbackChat(CAObjWrapper<CACallbackChat* > oCallback);
+	bool setCallbackAuthConn(CAObjWrapper<CACallbackAuthConn* > oCallback);
 	bool setCallback(CAObjWrapper<CASignalingCallback* > oCallback);
 	bool isConnected();
 	bool isReady();
 	bool connect();
 	bool disConnect();
-	CAObjWrapper<CAResultTransac* > sendIM(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType = kContentTypeText);
+	CAObjWrapper<CAResultTransac* > sendChatMessage(std::string strTo, const void* pcData, size_t nDataSize, std::string dataType = kContentTypeText);
 
 	static CAObjWrapper<CASignaling* > newObj(std::string strConnectionUri, std::string strCredUserId, std::string strCredPassword, std::string pcLocalIP = "", unsigned short nLocalPort = 0);
 
@@ -234,6 +236,8 @@ private:
 	CAObjWrapper<CASignalingCallback* > m_oSignCallback;
 	CAObjWrapper<CAMsgAuthConn* > m_oMsgAuthConn;
 	CAObjWrapper<CACallbackNet* > m_oCallbackNet;
+	CAObjWrapper<CACallbackChat* > m_oCallbackChat;
+	CAObjWrapper<CACallbackAuthConn* > m_oCallbackAuthConn;
 	CANetFd m_Fd;
 	bool m_bWsHandshakingDone;
 	void* m_pWsSendBufPtr;
