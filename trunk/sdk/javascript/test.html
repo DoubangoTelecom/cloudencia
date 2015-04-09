@@ -56,6 +56,8 @@
         txtRemoteId.value = localStoragex.getItem('cloudencia.remote_id') || "bob@yahoo.fr";
         txtLocalPassword.value = localStoragex.getItem('cloudencia.user_password');
 
+        txtChat.onkeyup = function (e) { if (e.keyCode == 13) btnSend.click(); }
+
         document.addEventListener(CAEngine.EVENT_TYPE_SIGNALING, function (/* e.detail = CAEventSignaling */e) {
             switch (e.detail.type) {
                 case CA_EVENT_TYPE.SIGNALING.CONNECTING:
@@ -75,6 +77,16 @@
                     btnSend.disabled = true;
                     taChat.disabled = txtChat.disabled = btnSend.disabled;
                     txtInfo.innerHTML = "<font color='red'>" + e.detail.type + " (" + (e.detail.description || ".") + ")</font>";
+                    break;
+            }
+        });
+        document.addEventListener(CAEngine.EVENT_TYPE_CHAT, function (/* e.detail = CAEventSignaling, e.detail.description = CAAnswer/CAChatMessage */e) {
+            switch (e.detail.type) {
+                case CA_EVENT_TYPE.CHAT.ANSWER:
+                    txtInfo.innerHTML = "<font color=" + (codeIsOk(e.detail.description.code) ? 'green' : 'red') + ">Chat message answer: (" + e.detail.description.code + ")</font>";
+                    break;
+                case CA_EVENT_TYPE.CHAT.MESSAGE:
+                    taChat.value += "[" + e.detail.description.from + "] " + e.detail.description.content + "\n";
                     break;
             }
         });
