@@ -113,7 +113,8 @@ var CA_EVENT_TYPE = {
 
     },
     CHAT: {
-        RESULT_TRANSAC: "chat-result-transac"
+        ANSWER: "chat-answer",
+        MESSAGE: "chat-message"
     },
 };
 
@@ -477,6 +478,13 @@ var CAUtils = {
             return sdp;
         }
     },
+    requestTypeFromCallId: function(cid) {
+        if (cid) {
+            if (cid.indexOf(CAEngine.PREFIX_CALLID_CHAT) == 0) return CA_MSG_TYPE.CHAT;
+            else if (cid.indexOf(CAEngine.PREFIX_CALLID_AUTH) == 0) return CA_MSG_TYPE.AUTHCONN;
+        }
+        return CA_MSG_TYPE.UNKNOWN;
+    },
     buildPeerConnConfig: function() {
         return {
             iceServers: CAEngine.config.iceServers
@@ -511,6 +519,20 @@ var CAUtils = {
     },
     buildResultTransac: function(code, cid, tid) {
         return { code: code, cid: cid, tid: tid }; // CAResultTransac
+    },
+    buildAnswer: function(jsonMsg) {
+        return { code: jsonMsg.code, cid: jsonMsg.cid, tid: jsonMsg.tid, ticketId: (jsonMsg.ticket ? jsonMsg.ticket.id : 0) }; // CAAnswer
+    },
+    buildChatMessage: function(jsonMsg) {
+        return { 
+            from: jsonMsg.from, 
+            cid: jsonMsg.cid, 
+            tid: jsonMsg.tid, 
+            contentType: (jsonMsg.content ? jsonMsg.content.type : CA_CONTENT_TYPE.TEXT),
+            contentSubType: (jsonMsg.content ? jsonMsg.content.subType : undefined),
+            content: (jsonMsg.content ? jsonMsg.content.data : undefined),
+            ticketId: (jsonMsg.ticket ? jsonMsg.ticket.id : 0) 
+        }; // CAChatMessage
     },
     attachStream: function(call, stream, local) {
         var htmlElementVideo = local ? (call.config.video_local_elt || CAEngine.config.video_local_elt) : (call.config.video_remote_elt || CAEngine.config.video_remote_elt);
@@ -612,13 +634,19 @@ var CAUtils = {
             }
         );
     },
-    raiseSignalingEvent: function (type, description) {
+    raiseEvent: function (name, type, description) {
         if (document != null) {
-            // second argument for CustomEvent is CAEventSignaling object
-            document.dispatchEvent(new CustomEvent(CAEngine.EVENT_TYPE_SIGNALING, { 'detail': { type: type, description: description } }));
+            document.dispatchEvent(new CustomEvent(name, { 'detail': { type: type, description: description } }));
         }
     },
-    raiseCallEvent: function(call, type, description, msg) {
+    raiseSignalingEvent: function (type, description) {
+        CAUtils.raiseEvent(CAEngine.EVENT_TYPE_SIGNALING, type, description);
+    },
+    raiseChatEvent: function (type, description) {
+        CAUtils.raiseEvent(CAEngine.EVENT_TYPE_CHAT, type, description);
+    },
+    raiseCallEvent: function (call, type, description, msg) {
+        throw new Error("not implented");
         if (CAEngine.oncall) {
             CAEngine.oncall({ "type": type, "call": call, "description": description, "msg": msg });
         }
@@ -690,6 +718,15 @@ var CASignaling = {
     isResponseFor: function(resp, req) {
         return req && resp && req.cid === resp.cid && req.tid === resp.tid;
     },
+    isResponse : function(resp) {
+        return resp && (resp.type == CA_MSG_TYPE.SUCCESS || resp.type == CA_MSG_TYPE.ERROR || resp.type == CA_MSG_TYPE.PROVISIONAL);
+    },
+    isResponseForChat: function(resp) {
+        return CASignaling.isResponse(resp) && (CAUtils.requestTypeFromCallId(resp.cid) == CA_MSG_TYPE.CHAT);
+    },
+    isResponseForAuthConn: function(resp) {
+        return CASignaling.isResponse(resp) && (CAUtils.requestTypeFromCallId(resp.cid) == CA_MSG_TYPE.AUTHCONN);
+    },
     stringRandomId: function (prefix) {
         return (prefix + (new Date()).getTime() + "@" + CAUtils.stringRandomUuid());
     }
@@ -739,19 +776,33 @@ CAEngine.connect = function(url) {
         console.info("signaling::onmessage: " + e.data);
         var msg = JSON.parse(e.data);
         if (msg) {
-            if (msg.type == CA_MSG_TYPE.SUCCESS) {
+            if (msg.type == CA_MSG_TYPE.PROVISIONAL) {
+                if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
+                }
+                else if (CASignaling.isResponseForChat(msg)) {
+                    CAUtils.raiseChatEvent(CA_EVENT_TYPE.CHAT.ANSWER, CAUtils.buildAnswer(msg));
+                }
+            }
+            else if (msg.type == CA_MSG_TYPE.SUCCESS) {
                 if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
                     CAEngine.ready = true;
                     CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.READY);
+                }
+                else if (CASignaling.isResponseForChat(msg)) {
+                    CAUtils.raiseChatEvent(CA_EVENT_TYPE.CHAT.ANSWER, CAUtils.buildAnswer(msg));
                 }
             }
            else if (msg.type == CA_MSG_TYPE.ERROR) {
                 if (CASignaling.isResponseFor(msg, CASignaling.msgAuthConnection)) {
                     CAUtils.raiseSignalingEvent(CA_EVENT_TYPE.SIGNALING.ERROR, msg.reason);
                 }
+                else if (CASignaling.isResponseForChat(msg)) {
+                    CAUtils.raiseChatEvent(CA_EVENT_TYPE.CHAT.ANSWER, CAUtils.buildAnswer(msg));
+                }
            }
            else if (msg.type == CA_MSG_TYPE.CHAT) {
                CASignaling.sendResponse(msg, CA_MSG_TYPE.SUCCESS, CA_RESPONSE_CODE.SUCCESS.DELIVERED);
+               CAUtils.raiseChatEvent(CA_EVENT_TYPE.CHAT.MESSAGE, CAUtils.buildChatMessage(msg));
            }
            else if (msg.type === CA_MSG_TYPE.OFFER || msg.type === CA_MSG_TYPE.ANSWER || msg.type == CA_MSG_TYPE.PRANSWER || msg.type == CA_MSG_TYPE.HANGUP) {
                CAUtils.raiseCallEvent(null, msg.type, msg.type, msg);
@@ -857,4 +908,27 @@ Transaction result.
 @extends CAResult
 @property {String} cid
 @property {String} tid
+*/
+
+/**
+Answer.
+@namespace Anonymous
+@name CAAnswer
+@property {Short} code
+@property {String} cid
+@property {String} tid
+@property {Long} ticketId
+*/
+
+/**
+Incoming chat message.
+@namespace Anonymous
+@name CAChatMessage
+@property {String} from
+@property {String} cid
+@property {String} tid
+@property {String} contentType
+@property {String} contentSubType
+@property {Object} content
+@property {Long} ticketId
 */
