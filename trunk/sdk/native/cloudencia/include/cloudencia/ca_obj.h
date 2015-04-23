@@ -35,7 +35,7 @@ public:
 public:
 	virtual CA_INLINE const char* getObjectId() = 0;
 #if !defined(SWIG)
-	CA_INLINE int getRefCount() const {
+	CA_INLINE long getRefCount() const {
 		return m_nRefCount;
 	}
 	void operator=(const CAObj &) {}
@@ -43,11 +43,11 @@ public:
 
 
 public:
-	CA_INLINE int takeRef() { /*const*/
+	CA_INLINE long takeRef() { /*const*/
 		ca_atomic_inc(&m_nRefCount);
 		return m_nRefCount;
 	}
-	CA_INLINE int releaseRef() { /*const*/
+	CA_INLINE long releaseRef() { /*const*/
 		if (m_nRefCount) { // must never be equal to zero
 			ca_atomic_dec(&m_nRefCount);
 		}
@@ -89,8 +89,8 @@ public:
 #endif
 
 protected:
-	int takeRef();
-	int releaseRef();
+	long takeRef();
+	long releaseRef();
 
 	CAObjType getWrappedObject() const;
 	void wrapObject(CAObjType obj);
@@ -124,7 +124,7 @@ CAObjWrapper<CAObjType>::~CAObjWrapper()
 
 
 template<class CAObjType>
-int CAObjWrapper<CAObjType>::takeRef()
+long CAObjWrapper<CAObjType>::takeRef()
 {
 	if (m_WrappedObject /*&& m_WrappedObject->getRefCount() At startup*/) {
 		return m_WrappedObject->takeRef();
@@ -133,7 +133,7 @@ int CAObjWrapper<CAObjType>::takeRef()
 }
 
 template<class CAObjType>
-int CAObjWrapper<CAObjType>::releaseRef()
+long CAObjWrapper<CAObjType>::releaseRef()
 {
 	if (m_WrappedObject && m_WrappedObject->getRefCount()) {
 		if (m_WrappedObject->releaseRef() == 0) {
