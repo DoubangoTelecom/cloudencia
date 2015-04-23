@@ -20,6 +20,7 @@
 #define _CLOUDENCIA_OBJECT_H_
 
 #include "ca_config.h"
+#include "cloudencia/ca_debug.h"
 
 #define CAObjSafeRelease(pObject)	(pObject) = NULL
 #define CAObjSafeFree				CAObjSafeRelease

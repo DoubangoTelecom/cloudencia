@@ -18,11 +18,11 @@
 */
 #include "cloudencia/ca_parser_url.h"
 #include "cloudencia/ca_url.h"
+#include "cloudencia/ca_debug.h"
 
 #include "tsk_ragel_state.h"
 #include "tsk_string.h"
 #include "tsk_memory.h"
-#include "tsk_debug.h"
 
 %%{
 	machine ca_machine_parser_url;
@@ -80,7 +80,7 @@
 	
 }%%
 
-CAObjWrapper<CAUrl*> ca_url_parse(const char *urlstring, tsk_size_t length)
+CAObjWrapper<CAUrl*> ca_url_parse(const char *urlstring, size_t length)
 {
 	CAObjWrapper<CAUrl*> oUrl;
 	tsk_bool_t have_port = tsk_false;

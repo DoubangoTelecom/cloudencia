@@ -113,7 +113,7 @@ private:
 	bool m_bWsHandshakingDone;
 	void* m_pWsSendBufPtr;
 	bool m_bConnAuthenticated;
-	tsk_size_t m_nWsSendBuffSize;
+	size_t m_nWsSendBuffSize;
 	CAObjWrapper<CAMutex* > m_oMutex;
 	std::string m_strCredUserId;
 	std::string m_strCredPassword;

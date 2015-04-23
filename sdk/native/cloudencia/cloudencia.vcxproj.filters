@@ -84,6 +84,9 @@
     <ClInclude Include="include\cloudencia\ca_callbacks.h">
       <Filter>include\cloudencia</Filter>
     </ClInclude>
+    <ClInclude Include="include\cloudencia\ca_debug.h">
+      <Filter>include\cloudencia</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ca_mutex.cc">

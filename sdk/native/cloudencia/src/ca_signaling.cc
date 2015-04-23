@@ -21,6 +21,7 @@
 #include "cloudencia/ca_engine.h"
 #include "cloudencia/ca_utils.h"
 #include "cloudencia/ca_parser_url.h"
+#include "cloudencia/ca_debug.h"
 #include "cloudencia/jsoncpp/ca_json.h"
 
 #include "tinyhttp.h"
@@ -319,7 +320,7 @@ bail:
 * @param _nDataSize Size (in bytes) of the data to send.
 * @retval <b>true</b> if no error; otherwise <b>false</b>.
 */
-bool CASignaling::sendData(const void* _pcData, tsk_size_t _nDataSize)
+bool CASignaling::sendData(const void* _pcData, size_t _nDataSize)
 {
 	CAAutoLock<CASignaling> autoLock(this);
 
