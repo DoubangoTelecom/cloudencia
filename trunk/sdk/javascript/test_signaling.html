@@ -2,56 +2,57 @@
 <head>
     <title>Cloudencia (Test Signaling)</title>
     <script src="cloudencia.js" type="text/javascript"> </script>
-</head>
 
-<script type="text/javascript">
-    localStoragex = window.localStorage || { setItem: function (k, v) { }, getItem: function (k) { return undefined; } };
 
-    function save() {
-        localStoragex.setItem('cloudencia.conn_url', txtConnUrl.value);
-        localStoragex.setItem('cloudencia.user_id', txtLocalId.value);
-        localStoragex.setItem('cloudencia.user_password', txtLocalPassword.value);
-    }
+    <script type="text/javascript">
+        localStoragex = window.localStorage || { setItem: function (k, v) { }, getItem: function (k) { return undefined; } };
 
-    function connect() {
-        save();
+        function save() {
+            localStoragex.setItem('cloudencia.conn_url', txtConnUrl.value);
+            localStoragex.setItem('cloudencia.user_id', txtLocalId.value);
+            localStoragex.setItem('cloudencia.user_password', txtLocalPassword.value);
+        }
 
-        CAEngine.init(/* CAConfigEngine */{
+        function connect() {
+            save();
+
+            CAEngine.init(/* CAConfigEngine */{
                 "user_id": txtLocalId.value,
                 "user_password": txtLocalPassword.value,
             });
-        CAEngine.connect(txtConnUrl.value);
-    }
+            CAEngine.connect(txtConnUrl.value);
+        }
 
-    function disconnect() {
-        CAEngine.disconnect();
-    }
+        function disconnect() {
+            CAEngine.disconnect();
+        }
 
-    window.onload = function() {
-        txtConnUrl.value = localStoragex.getItem('cloudencia.conn_url') || "ws://192.168.0.44:9000/WebSocket";
-        txtLocalId.value = localStoragex.getItem('cloudencia.user_id') || "cloudencia@doubango.org";
-        txtLocalPassword.value = localStoragex.getItem('cloudencia.user_password');
+        window.onload = function () {
+            txtConnUrl.value = localStoragex.getItem('cloudencia.conn_url') || "ws://192.168.0.44:9000/WebSocket";
+            txtLocalId.value = localStoragex.getItem('cloudencia.user_id') || "cloudencia@doubango.org";
+            txtLocalPassword.value = localStoragex.getItem('cloudencia.user_password');
 
-        document.addEventListener(CAEngine.EVENT_TYPE_SIGNALING, function (/* e.detail = CAEventSignaling */e) {
-            switch (e.detail.type) {
-                case CA_EVENT_TYPE.SIGNALING.CONNECTING:
-                case CA_EVENT_TYPE.SIGNALING.CONNECTED:
-                case CA_EVENT_TYPE.SIGNALING.READY:
-                    btnConnect.disabled = true;
-                    btnDisConnect.disabled = false;
-                    txtInfo.innerHTML = "<font color='green'>" + e.detail.type + " ("+ (e.detail.description || ".") +")</font>";
-                    break;
-                case CA_EVENT_TYPE.SIGNALING.DISCONNECTING:
-                case CA_EVENT_TYPE.SIGNALING.DISCONNECTED:
-                case CA_EVENT_TYPE.SIGNALING.ERROR:
-                    btnConnect.disabled = false;
-                    btnDisConnect.disabled = true;
-                    txtInfo.innerHTML = "<font color='red'>" + e.detail.type + " (" + (e.detail.description || ".") + ")</font>";
-                    break;
-            }
-        });
-    }
-</script>
+            document.addEventListener(CAEngine.EVENT_TYPE_SIGNALING, function (/* e.detail = CAEventSignaling */e) {
+                switch (e.detail.type) {
+                    case CA_EVENT_TYPE.SIGNALING.CONNECTING:
+                    case CA_EVENT_TYPE.SIGNALING.CONNECTED:
+                    case CA_EVENT_TYPE.SIGNALING.READY:
+                        btnConnect.disabled = true;
+                        btnDisConnect.disabled = false;
+                        txtInfo.innerHTML = "<font color='green'>" + e.detail.type + " (" + (e.detail.description || ".") + ")</font>";
+                        break;
+                    case CA_EVENT_TYPE.SIGNALING.DISCONNECTING:
+                    case CA_EVENT_TYPE.SIGNALING.DISCONNECTED:
+                    case CA_EVENT_TYPE.SIGNALING.ERROR:
+                        btnConnect.disabled = false;
+                        btnDisConnect.disabled = true;
+                        txtInfo.innerHTML = "<font color='red'>" + e.detail.type + " (" + (e.detail.description || ".") + ")</font>";
+                        break;
+                }
+            });
+        }
+    </script>
+</head>
 
 <body>
     <table width="90%">

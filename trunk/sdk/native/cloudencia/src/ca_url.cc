@@ -17,6 +17,7 @@
 * along with DOUBANGO.
 */
 #include "cloudencia/CA_url.h"
+#include "cloudencia/ca_debug.h"
 
 #include "tsk_string.h"
 

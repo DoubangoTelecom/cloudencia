@@ -17,6 +17,7 @@
 * along with DOUBANGO.
 */
 #include "cloudencia/ca_utils.h"
+#include "cloudencia/ca_debug.h"
 
 #if CA_UNDER_WINDOWS
 #	include "tinydav/tdav_win32.h"

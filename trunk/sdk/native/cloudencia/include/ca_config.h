@@ -57,7 +57,7 @@
 
 
 // Disable some well-known warnings
-#ifdef _MCA_VER
+#if defined(_MSC_VER)
 #if !defined(_CRT_SECURE_NO_WARNINGS)
 #		define _CRT_SECURE_NO_WARNINGS
 #	endif /* _CRT_SECURE_NO_WARNINGS */
@@ -112,17 +112,6 @@
 #	define CA_DEPRECATED(func) func
 #endif
 
-#include "tsk_debug.h"
-#define CA_DEBUG_INFO(FMT, ...) TSK_DEBUG_INFO("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
-#define CA_DEBUG_WARN(FMT, ...) TSK_DEBUG_WARN("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
-#define CA_DEBUG_ERROR(FMT, ...) TSK_DEBUG_ERROR("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
-#define CA_DEBUG_FATAL(FMT, ...) TSK_DEBUG_FATAL("[CLOUDENCIA] " FMT, ##__VA_ARGS__)
-
-#define CA_DEBUG_INFO_EX(MODULE, FMT, ...) CA_DEBUG_INFO("[" MODULE "] " FMT, ##__VA_ARGS__)
-#define CA_DEBUG_WARN_EX(MODULE, FMT, ...) CA_DEBUG_WARN("[" MODULE "] " FMT, ##__VA_ARGS__)
-#define CA_DEBUG_ERROR_EX(MODULE, FMT, ...) CA_DEBUG_ERROR("[" MODULE "] " FMT, ##__VA_ARGS__)
-#define CA_DEBUG_FATAL_EX(MODULE, FMT, ...) CA_DEBUG_FATAL("[" MODULE "] " FMT, ##__VA_ARGS__)
-
 #if CA_UNDER_WINDOWS
 #	define _WINSOCKAPI_
 #	include <windows.h>
@@ -131,6 +120,11 @@
 #endif
 
 #include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdarg.h>
+#include <stdio.h>
 
 #if HAVE_CONFIG_H
 #include <config.h>

@@ -24,6 +24,7 @@
     <ClInclude Include="include\cloudencia\ca_callbacks.h" />
     <ClInclude Include="include\cloudencia\ca_common.h" />
     <ClInclude Include="include\cloudencia\ca_content.h" />
+    <ClInclude Include="include\cloudencia\ca_debug.h" />
     <ClInclude Include="include\cloudencia\ca_engine.h" />
     <ClInclude Include="include\cloudencia\ca_msg.h" />
     <ClInclude Include="include\cloudencia\ca_mutex.h" />

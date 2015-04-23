@@ -17,6 +17,7 @@
 * along with DOUBANGO.
 */
 #include "cloudencia/ca_callbacks.h"
+#include "cloudencia/ca_debug.h"
 
 #define CA_NOCALLBACK_LOG_AND_RETURN() CA_DEBUG_INFO_EX(kCAMobuleNameCallbacks, "No callback registered for '%s'", __FUNCTION__); return true
 

@@ -24,7 +24,7 @@
 #include "cloudencia/ca_common.h"
 #include "cloudencia/ca_url.h"
 
-CAObjWrapper<CAUrl*> ca_url_parse(const char *urlstring, tsk_size_t length);
+CAObjWrapper<CAUrl*> ca_url_parse(const char *urlstring, size_t length);
 
 
 #endif /* _CLOUDENCIA_PARSER_URL_H_ */
