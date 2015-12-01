@@ -93,7 +93,7 @@
 #ifdef __GNUC__
 #	define ca_atomic_inc(_ptr_) __sync_fetch_and_add((_ptr_), 1)
 #	define ca_atomic_dec(_ptr_) __sync_fetch_and_sub((_ptr_), 1)
-#elif defined (_MCA_VER)
+#elif defined (_MSC_VER)
 #	define ca_atomic_inc(_ptr_) InterlockedIncrement((_ptr_))
 #	define ca_atomic_dec(_ptr_) InterlockedDecrement((_ptr_))
 #else
