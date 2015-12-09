@@ -37,13 +37,19 @@
 #	endif
 #	if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP || WINAPI_FAMILY == WINAPI_FAMILY_APP)
 #		define CA_UNDER_WINDOWS_RT		1
+#		if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+#			define CA_UNDER_WINDOWS_PHONE		1
+#		endif
 #	endif
+#   define CA_UNDER_WINDOWS_DESKTOP (CA_UNDER_WINDOWS && !CA_UNDER_WINDOWS_CE && !CA_UNDER_WINDOWS_RT && !CA_UNDER_WINDOWS_PHONE)
 #else
 #	define CA_STDCALL
 #endif
 // OSX or iOS
 #if defined(__APPLE__)
 #	define CA_UNDER_APPLE				1
+#   include <TargetConditionals.h>
+#   include <Availability.h>
 #endif
 #if TARGET_OS_MAC
 #	define CA_UNDER_MAC					1
@@ -102,7 +108,7 @@
 #endif
 
 
-/* define "TNET_DEPRECATED(func)" macro */
+/* define "CA_DEPRECATED(func)" macro */
 #if defined(__GNUC__)
 #	define CA_DEPRECATED(func) __attribute__ ((deprecated)) func
 #elif defined(_MCA_VER)
@@ -127,7 +133,21 @@
 #include <stdio.h>
 
 #if HAVE_CONFIG_H
-#include <config.h>
+#	include <config.h>
+#elif defined(__APPLE__)
+#	define HAVE_GETIFADDRS			1
+#	define HAVE_IFADDRS_H			1
+#	define HAVE_DNS_H				1
+#	define HAVE_NET_ROUTE_H			1
+#	define HAVE_NET_IF_DL_H			1
+#	define HAVE_STRUCT_RT_METRICS	1
+#	define HAVE_STRUCT_SOCKADDR_DL	1
+#	define HAVE_SYS_PARAM_H			1
+#	define TNET_HAVE_SS_LEN			1
+#	define TNET_HAVE_SA_LEN			0
+#   if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 50000)
+#       define HAVE_GSSAPI_H		1
+#   endif
 #endif
 
 #endif /* _CLOUDENCIA_CONFIG_H_ */
